@@ -6,22 +6,21 @@
 
 package trabalho5.view;
 
-import java.sql.SQLException;
-import trabalho5.database.Event;
 import trabalho5.database.DbConnection;
 
 /**
  *
  * @author Rodrigo
  */
-public class InsertEvent extends javax.swing.JFrame {
-
-    protected DbConnection db;
+public class UpdateEvent extends javax.swing.JFrame {
     
+    protected DbConnection db;
+
     /**
-     * Creates new form InsertEvent
+     * Creates new form UpdateEvent
+     * @param db
      */
-    public InsertEvent(DbConnection db) {
+    public UpdateEvent(DbConnection db) {
         this.db = db;
         initComponents();
     }
@@ -44,8 +43,8 @@ public class InsertEvent extends javax.swing.JFrame {
         jTextField2 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Cadastrar Evento");
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Atualizar Evento");
 
         jLabel1.setForeground(new java.awt.Color(255, 0, 0));
         jLabel1.setText("Nome do Evento*");
@@ -58,12 +57,7 @@ public class InsertEvent extends javax.swing.JFrame {
 
         jLabel3.setText("Website");
 
-        jButton1.setText("Cadastrar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        jButton1.setText("Atualizar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -73,20 +67,20 @@ public class InsertEvent extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
+                        .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField2))
+                        .addComponent(jTextField1))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1)))
+                        .addComponent(jTextField2)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(167, 167, 167)
+                .addGap(169, 169, 169)
                 .addComponent(jButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -97,11 +91,11 @@ public class InsertEvent extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(11, 11, 11)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
@@ -113,25 +107,6 @@ public class InsertEvent extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String nomeEv = jTextField1.getText();
-        String descricaoEv = jTextArea1.getText();
-        String websiteEv = jTextField2.getText();
-        // campos obrigatórios não preenchidos
-        if (nomeEv.isEmpty()) {
-            new Error(this, true, "Campos obrigatórios não preenchidos.").setVisible(true);
-        } else {
-            // insere o evento
-            Event ev = new Event(nomeEv, descricaoEv, websiteEv, 0);
-            try {
-                ev.insert(this.db);
-            } catch (SQLException e) {
-                new Error(this, true, e.getMessage()).setVisible(true);
-            }
-            this.dispose();
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
