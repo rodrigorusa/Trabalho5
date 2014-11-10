@@ -7,6 +7,11 @@
 package trabalho5.view;
 
 import trabalho5.database.DbConnection;
+import trabalho5.database.Event;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -15,15 +20,34 @@ import trabalho5.database.DbConnection;
 public class SearchEvent extends javax.swing.JFrame {
 
     protected DbConnection db;
+    private int type;
     
     /**
      * Creates new form SearchEvent
      * 
      * @param db
+     * @param type
      */
-    public SearchEvent(DbConnection db) {
+    public SearchEvent(DbConnection db, int type) {
         this.db = db;
+        this.type = type;
         initComponents();
+        // Imprime todos os eventos (SELECT ALL)
+        DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
+        try {
+            ResultSet rs = Event.findAll(db);
+            Event e = Event.next(rs);
+            while (e != null) {
+                // adiciona uma linha na tabela
+                model.addRow(new Object[]{e.getCodEv(), e.getNomeEv(), e.getDescricaoEv(), e.getWebsiteEv(), 
+                    e.getTotalArtigosApresentadosEv()});
+                e = Event.next(rs);
+            }
+        } catch(SQLException e) {
+            Message msg = new Message(this, true, e.getMessage());
+            msg.setTitle("Erro");
+            msg.setVisible(true);
+        }
     }
 
     /**
@@ -38,22 +62,22 @@ public class SearchEvent extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Buscar Evento");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null}
+
             },
             new String [] {
-                "Evento", "Descrição", "Website", "Artigos Apresentados"
+                "Código do Evento", "Evento", "Descrição", "Website", "Total Artigos"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -62,6 +86,11 @@ public class SearchEvent extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(jTable1);
@@ -86,6 +115,30 @@ public class SearchEvent extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    /**
+     * Inicia a tela de atualização de evento
+     */
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // Pega o evento selecionado
+        int i = this.jTable1.getSelectedRow();
+        Event e = new Event((int) this.jTable1.getValueAt(i, 0), (String) this.jTable1.getValueAt(i, 1), 
+            (String) this.jTable1.getValueAt(i, 2), (String) this.jTable1.getValueAt(i, 3), (int) this.jTable1.getValueAt(i, 4));
+        // atualização de evento
+        if (this.type == CRUDType.UPDATE) {
+            // inicia a interface de atualização
+            UpdateEvent updateEvent = new UpdateEvent(this.db, e);
+            updateEvent.setVisible(true);
+            this.dispose();
+        }
+        // remoção de evento
+        if (this.type == CRUDType.REMOVE) {
+            // inicia a interface de remoção
+            RemoveEvent removeEvent = new RemoveEvent(this.db, e);
+            removeEvent.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;

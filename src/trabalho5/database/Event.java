@@ -15,6 +15,7 @@ import java.sql.ResultSet;
  */
 public class Event {
     
+    int codEv;
     String nomeEv = null;
     String descricaoEv = null;
     String websiteEv = null;
@@ -25,6 +26,18 @@ public class Event {
         this.descricaoEv = descricaoEv;
         this.websiteEv = websiteEv;
         this.totalArtigosApresentadosEv = totalArtigosApresentadosEv;
+    }
+    
+    public Event(int codEv, String nomeEv, String descricaoEv, String websiteEv, int totalArtigosApresentadosEv) {
+        this.codEv = codEv;
+        this.nomeEv = nomeEv;
+        this.descricaoEv = descricaoEv;
+        this.websiteEv = websiteEv;
+        this.totalArtigosApresentadosEv = totalArtigosApresentadosEv;
+    }
+    
+    public void setCodEv(int codEv) {
+        this.codEv = codEv;
     }
     
     public void setNomeEv(String nomeEv) {
@@ -38,7 +51,15 @@ public class Event {
     public void setWebsiteEv(String websiteEv) {
         this.websiteEv = websiteEv;
     }
+    
+    public void setTotalArtigosApresentadosEv(int totalArtigosApresentadosEv) {
+        this.totalArtigosApresentadosEv = totalArtigosApresentadosEv;
+    }
 
+    public int getCodEv() {
+        return this.codEv;
+    }
+    
     public String getNomeEv() {
         return this.nomeEv;
     }
@@ -51,6 +72,10 @@ public class Event {
         return this.websiteEv;
     }
     
+    public int getTotalArtigosApresentadosEv() {
+        return this.totalArtigosApresentadosEv;
+    }
+    
     /**
      * 
      * Insere evento no banco de dados
@@ -58,9 +83,36 @@ public class Event {
      * @param db
      * @throws SQLException
      */
-    public void insert(DbConnection db) throws SQLException{
+    public void insert(DbConnection db) throws SQLException {
         String sql = "INSERT INTO evento VALUES (seq_evento.NEXTVAL, '"+this.nomeEv+"', '"+this.descricaoEv+"', "
                 + "'"+this.websiteEv+"', 0)";
+        System.out.println(sql);
+        db.execute(sql);
+    }
+    
+    /**
+     * 
+     * Atualiza evento no banco de dados
+     * 
+     * @param db
+     * @throws SQLException
+     */
+    public void update(DbConnection db) throws SQLException {
+        String sql = "UPDATE evento SET nomeEv = '"+this.nomeEv+"', descricaoEv = '"+this.descricaoEv+"', "
+                + "websiteEv = '"+this.websiteEv+"' WHERE codEv = '"+this.codEv+"'";
+        System.out.println(sql);
+        db.execute(sql);
+    }
+    
+    /**
+     * 
+     * Remove evento no banco de dados
+     * 
+     * @param db
+     * @throws SQLException
+     */
+    public void remove(DbConnection db) throws SQLException {
+        String sql = "DELETE FROM evento WHERE codEv = '"+this.codEv+"'";
         System.out.println(sql);
         db.execute(sql);
     }
@@ -74,7 +126,7 @@ public class Event {
      * @throws SQLException
      */
     public static ResultSet findAll(DbConnection db) throws SQLException {
-        String sql = "SELECT nomeEv, descricaoEv, websiteEv, totalArtigosApresentadosEv FROM evento";
+        String sql = "SELECT codEv, nomeEv, descricaoEv, websiteEv, totalArtigosApresentadosEv FROM evento";
         System.out.println(sql);
         return db.query(sql);
     }
@@ -90,7 +142,7 @@ public class Event {
     public static Event next(ResultSet rs) throws SQLException {
         Event event = null;
         if (rs.next()) {
-            event = new Event(rs.getString("nomeEv"), rs.getString("descricaoEv"), rs.getString("websiteEv"), 
+            event = new Event(rs.getInt("codEv"), rs.getString("nomeEv"), rs.getString("descricaoEv"), rs.getString("websiteEv"), 
                     rs.getInt("totalArtigosApresentadosEv"));
         }
         return event;

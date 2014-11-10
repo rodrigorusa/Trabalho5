@@ -33,8 +33,10 @@ public class Main {
         try {
             db = new DbConnection();
             System.out.println("Conectado com sucesso.");
-        } catch (Exception e) {
-            System.out.println(e);
+        } catch (ClassNotFoundException e1) {
+            System.out.println("Não foi possível carregar o driver.");
+        } catch (SQLException e2) {
+            System.out.println("Falha ao conectar-se ao banco de dados.");
         }
         
         /**

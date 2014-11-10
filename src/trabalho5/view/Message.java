@@ -10,18 +10,18 @@ package trabalho5.view;
  *
  * @author Rodrigo
  */
-public class Error extends javax.swing.JDialog {
+public class Message extends javax.swing.JDialog {
 
     /**
      * Creates new form Error
      * @param parent
      * @param modal
-     * @param error
+     * @param message
      */
-    public Error(java.awt.Frame parent, boolean modal, String error) {
+    public Message(java.awt.Frame parent, boolean modal, String message) {
         super(parent, modal);
         initComponents();
-        this.jLabel1.setText(error);
+        this.jLabel1.setText(message);
     }
 
     /**
@@ -37,7 +37,7 @@ public class Error extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Erro");
+        setTitle("Mensagem");
 
         jButton1.setText("OK");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
