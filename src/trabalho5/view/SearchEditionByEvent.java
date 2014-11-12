@@ -6,30 +6,46 @@
 
 package trabalho5.view;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import trabalho5.database.DbConnection;
 import trabalho5.database.Event;
-
-import java.sql.SQLException;
 
 /**
  *
  * @author Rodrigo
  */
-public class RemoveEvent extends javax.swing.JFrame {
+public class SearchEditionByEvent extends javax.swing.JFrame {
 
     protected DbConnection db;
-    private final Event event;
+    private final int type;
     
     /**
-     * Creates new form RemoveEvent
+     * Creates new form SearchEditionByEvent
      * 
      * @param db
-     * @param e
+     * @param type
      */
-    public RemoveEvent(DbConnection db, Event e) {
+    public SearchEditionByEvent(DbConnection db, int type) {
         this.db = db;
-        this.event = e;
+        this.type = type;
         initComponents();
+        
+        // busca todos os eventos
+        try {
+            ResultSet rs = Event.findAll(this.db);
+            Event e = Event.next(rs);
+            while(e != null) {
+                this.jComboBox1.addItem(e.getNomeEv());
+                e = Event.next(rs);
+            }
+            // adiciona a opção todos os eventos (SELECT ALL)
+            this.jComboBox1.addItem("Todos");
+        } catch(SQLException e) {
+            Message msg = new Message(this, true, e.getMessage());
+            msg.setTitle("Erro");
+            msg.setVisible(true);
+        }
     }
 
     /**
@@ -42,22 +58,23 @@ public class RemoveEvent extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Remover");
+        setTitle("Buscar Edição");
 
-        jLabel1.setText("Remover?");
+        jLabel1.setText("Evento");
 
-        jButton1.setText("Sim");
+        jButton1.setText("Cancelar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Não");
+        jButton2.setText("Buscar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -69,26 +86,30 @@ public class RemoveEvent extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(106, 106, 106)
-                .addComponent(jLabel1)
-                .addContainerGap(104, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 74, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2)
-                .addGap(74, 74, 74))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 224, Short.MAX_VALUE)
+                        .addComponent(jButton2)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addGap(19, 19, 19))
+                .addContainerGap())
         );
 
         pack();
@@ -96,30 +117,25 @@ public class RemoveEvent extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * Confirma remoção
+     * Cancelar
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            this.event.remove(this.db);
-            new Message(this, true, "Evento removido.").setVisible(true);
-        } catch(SQLException e) {
-            Message msg = new Message(this, true, e.getMessage());
-            msg.setTitle("Erro");
-            msg.setVisible(true);
-        }
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
-    
+
     /**
-     * Cancela remoção
+     * Buscar
      */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        SearchEdition searchEdition = new SearchEdition(this.db, this.type, (String) this.jComboBox1.getSelectedItem());
+        searchEdition.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

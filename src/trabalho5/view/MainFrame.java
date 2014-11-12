@@ -39,6 +39,10 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
@@ -62,7 +66,35 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem1);
 
+        jMenuItem5.setText("Edição");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem5);
+
         jMenuBar1.add(jMenu1);
+
+        jMenu4.setText("Buscar");
+
+        jMenuItem4.setText("Evento");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem4);
+
+        jMenuItem6.setText("Edição");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem6);
+
+        jMenuBar1.add(jMenu4);
 
         jMenu2.setText("Atualizar");
 
@@ -98,7 +130,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 434, Short.MAX_VALUE)
+            .addGap(0, 436, Short.MAX_VALUE)
         );
 
         pack();
@@ -129,7 +161,7 @@ public class MainFrame extends javax.swing.JFrame {
      * Atualizar evento
      */
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        SearchEvent searchEvent = new SearchEvent(this.db, CRUDType.UPDATE);
+        SearchEventByName searchEvent = new SearchEventByName(this.db, CRUDType.UPDATE);
         searchEvent.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
@@ -137,17 +169,45 @@ public class MainFrame extends javax.swing.JFrame {
      * Remover evento
      */
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        SearchEvent searchEvent = new SearchEvent(this.db, CRUDType.REMOVE);
+        SearchEventByName searchEvent = new SearchEventByName(this.db, CRUDType.REMOVE);
         searchEvent.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    /**
+     * Buscar evento
+     */
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        SearchEventByName searchEvent = new SearchEventByName(this.db, CRUDType.SEARCH);
+        searchEvent.setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    /**
+     * Cadastrar edição
+     */
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        InsertEdition insertEdition = new InsertEdition(this.db);
+        insertEdition.setVisible(true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    /**
+     * Buscar edição
+     */
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        SearchEditionByEvent searchEdition = new SearchEditionByEvent(this.db, CRUDType.SEARCH);
+        searchEdition.setVisible(true);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     // End of variables declaration//GEN-END:variables
 }

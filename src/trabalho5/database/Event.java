@@ -15,11 +15,11 @@ import java.sql.ResultSet;
  */
 public class Event {
     
-    int codEv;
-    String nomeEv = null;
-    String descricaoEv = null;
-    String websiteEv = null;
-    int totalArtigosApresentadosEv = 0;
+    private int codEv;
+    private String nomeEv = null;
+    private String descricaoEv = null;
+    private String websiteEv = null;
+    private int totalArtigosApresentadosEv = 0;
     
     public Event(String nomeEv, String descricaoEv, String websiteEv, int totalArtigosApresentadosEv) {
         this.nomeEv = nomeEv;
@@ -85,7 +85,7 @@ public class Event {
      */
     public void insert(DbConnection db) throws SQLException {
         String sql = "INSERT INTO evento VALUES (seq_evento.NEXTVAL, '"+this.nomeEv+"', '"+this.descricaoEv+"', "
-                + "'"+this.websiteEv+"', 0)";
+                + "'"+this.websiteEv+"', "+this.totalArtigosApresentadosEv+")";
         System.out.println(sql);
         db.execute(sql);
     }
@@ -127,6 +127,23 @@ public class Event {
      */
     public static ResultSet findAll(DbConnection db) throws SQLException {
         String sql = "SELECT codEv, nomeEv, descricaoEv, websiteEv, totalArtigosApresentadosEv FROM evento";
+        System.out.println(sql);
+        return db.query(sql);
+    }
+    
+    /**
+     * 
+     * Busca os eventos pelo nome
+     * 
+     * 
+     * @param db
+     * @param name
+     * @return 
+     * @throws SQLException 
+     */
+    public static ResultSet findByName(DbConnection db, String name) throws SQLException {
+        String sql = "SELECT codEv, nomeEv, descricaoEv, websiteEv, totalArtigosApresentadosEv FROM evento "
+                + "WHERE UPPER(nomeEv) LIKE UPPER('%"+name+"%')";
         System.out.println(sql);
         return db.query(sql);
     }
