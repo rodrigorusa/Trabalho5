@@ -145,26 +145,32 @@ public class UpdateEvent extends javax.swing.JFrame {
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // pega os valores atualizados
-        this.event.setNomeEv(this.jTextField1.getText());
-        this.event.setDescricaoEv(this.jTextArea1.getText());
-        this.event.setWebsiteEv(this.jTextField2.getText());
-        // atualiza
-        try {
-            this.event.update(this.db);
-            new Message(this, true, "Evento atualizado.").setVisible(true);
-        } catch(SQLException e) {
-            String error;
-            if (e.getErrorCode() == 1)
-                error = "Já existe evento com esse nome.";
-            else if (e.getErrorCode() == 12899)
-                error = "Tamanho de atributo excedido.";
-            else
-                error = e.getMessage();
-            Message msg = new Message(this, true, error);
+        if (this.jTextField1.getText().isEmpty()) {
+            Message msg = new Message(this, true, "Campos obrigatórios não preenchidos.");
             msg.setTitle("Erro");
             msg.setVisible(true);
+        } else {
+            this.event.setNomeEv(this.jTextField1.getText());
+            this.event.setDescricaoEv(this.jTextArea1.getText());
+            this.event.setWebsiteEv(this.jTextField2.getText());
+            // atualiza
+            try {
+                this.event.update(this.db);
+                new Message(this, true, "Evento atualizado.").setVisible(true);
+            } catch(SQLException e) {
+                String error;
+                if (e.getErrorCode() == 1)
+                    error = "Já existe evento com esse nome.";
+                else if (e.getErrorCode() == 12899)
+                    error = "Tamanho de atributo excedido.";
+                else
+                    error = e.getMessage();
+                Message msg = new Message(this, true, error);
+                msg.setTitle("Erro");
+                msg.setVisible(true);
+            }
+            this.dispose();
         }
-        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

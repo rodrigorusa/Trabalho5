@@ -127,6 +127,34 @@ public class Edition {
     
     /**
      * 
+     * Atualiza edição no banco de dados
+     * 
+     * @param db
+     * @throws SQLException
+     */
+    public void update(DbConnection db) throws SQLException {
+        String sql = "UPDATE edicao SET descricaoEd = '"+this.descricaoEd+"', dataInicioEd = '"+this.dataInicioEd+"', "
+                + "dataFimEd = '"+this.dataFimEd+"', localEd = '"+this.localEd+"', taxaEd = "+this.taxaEd+" "
+                + "WHERE codEv = '"+this.codEv+"' AND numEd = '"+this.numEd+"'";
+        System.out.println(sql);
+        db.execute(sql);
+    }
+    
+    /**
+     * 
+     * Remove edição no banco de dados
+     * 
+     * @param db
+     * @throws SQLException
+     */
+    public void remove(DbConnection db) throws SQLException {
+        String sql = "DELETE FROM edicao WHERE codEv = '"+this.codEv+"' AND numEd = '"+this.numEd+"'" ;
+        System.out.println(sql);
+        db.execute(sql);
+    }
+    
+    /**
+     * 
      * Busca todas as edições
      * 
      * @param db

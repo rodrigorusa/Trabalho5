@@ -87,12 +87,24 @@ public class SearchEdition extends javax.swing.JFrame {
                 "Código do Evento", "Número da Edição", "Descrição", "Data de Início", "Data de Fim", "Local", "Taxa", "Saldo", "Artigos Apresentados"
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Integer.class
+            };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false, false, false
             };
 
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(jTable1);
@@ -137,6 +149,32 @@ public class SearchEdition extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    /**
+     * Inicia a tela de atualização ou remoção de evento
+     */
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // Pega a edição selecionada
+        int i = this.jTable1.getSelectedRow();
+        Edition e = new Edition((int) this.jTable1.getValueAt(i, 0), (int) this.jTable1.getValueAt(i, 1), 
+            (String) this.jTable1.getValueAt(i, 2), (String) this.jTable1.getValueAt(i, 3), (String) this.jTable1.getValueAt(i, 4),
+            (String) this.jTable1.getValueAt(i, 5), (double) this.jTable1.getValueAt(i, 6), (double) this.jTable1.getValueAt(i, 7),
+            (int) this.jTable1.getValueAt(i, 8));
+        // atualização da edição
+        if (this.type == CRUDType.UPDATE) {
+            // inicia a interface de atualização
+            UpdateEdition updateEdition = new UpdateEdition(this.db, e);
+            updateEdition.setVisible(true);
+            this.dispose();
+        }
+        // remoção da edição
+        if (this.type == CRUDType.REMOVE) {
+            // inicia a interface de remoção
+            RemoveEdition removeEdition = new RemoveEdition(this.db, e);
+            removeEdition.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

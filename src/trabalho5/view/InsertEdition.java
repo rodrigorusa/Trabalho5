@@ -31,7 +31,7 @@ public class InsertEdition extends javax.swing.JFrame {
         initComponents();
         
         // taxa default
-        this.jFormattedTextField3.setText("0.00");
+        this.jFormattedTextField1.setText("0,00");
         
         // busca todos os eventos
         try {
@@ -72,16 +72,16 @@ public class InsertEdition extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jFormattedTextField3 = new javax.swing.JFormattedTextField();
         jFormattedTextField4 = new javax.swing.JFormattedTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        jFormattedTextField1 = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cadastrar Edição");
 
-        jLabel1.setForeground(new java.awt.Color(255, 51, 51));
+        jLabel1.setForeground(new java.awt.Color(255, 0, 0));
         jLabel1.setText("Evento*");
 
         jComboBox1.setToolTipText("");
@@ -110,7 +110,7 @@ public class InsertEdition extends javax.swing.JFrame {
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
-        jLabel4.setForeground(new java.awt.Color(255, 51, 51));
+        jLabel4.setForeground(new java.awt.Color(255, 0, 0));
         jLabel4.setText("Data de Início*");
 
         jLabel5.setForeground(new java.awt.Color(255, 0, 0));
@@ -122,12 +122,10 @@ public class InsertEdition extends javax.swing.JFrame {
             ex.printStackTrace();
         }
 
-        jLabel6.setForeground(new java.awt.Color(255, 0, 51));
+        jLabel6.setForeground(new java.awt.Color(255, 0, 0));
         jLabel6.setText("Local*");
 
         jLabel7.setText("Taxa");
-
-        jFormattedTextField3.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
 
         try {
             jFormattedTextField4.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
@@ -143,6 +141,8 @@ public class InsertEdition extends javax.swing.JFrame {
 
         jLabel10.setForeground(new java.awt.Color(255, 0, 0));
         jLabel10.setText("* campos obrigatórios");
+
+        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -172,9 +172,9 @@ public class InsertEdition extends javax.swing.JFrame {
                             .addComponent(jTextField2)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jFormattedTextField3, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jFormattedTextField4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
-                                    .addComponent(jFormattedTextField2, javax.swing.GroupLayout.Alignment.LEADING))
+                                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jFormattedTextField2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
+                                    .addComponent(jFormattedTextField4, javax.swing.GroupLayout.Alignment.LEADING))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel8)
@@ -220,8 +220,8 @@ public class InsertEdition extends javax.swing.JFrame {
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7))
+                    .addComponent(jLabel7)
+                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -270,13 +270,13 @@ public class InsertEdition extends javax.swing.JFrame {
                 
                 // taxa
                 double taxaEd = 0.00;
-                if (!this.jFormattedTextField3.getText().isEmpty()) {
-                    String aux = this.jFormattedTextField3.getText().replace(',', '.');
+                if (!this.jFormattedTextField1.getText().isEmpty()) {
+                    String aux = this.jFormattedTextField1.getText().replace(',', '.');
                     taxaEd = Double.valueOf(aux).doubleValue();
                 }
                 
                 // campos obrigatórios não preenchidos
-                if (dataInicioEd.isEmpty() || dataFimEd.isEmpty() || localEd.isEmpty()) {
+                if (dataInicioEd.equals("  /  /    ") || dataFimEd.equals("  /  /    ") || localEd.isEmpty()) {
                     Message msg = new Message(this, true, "Campos obrigatórios não preenchidos.");
                     msg.setTitle("Erro");
                     msg.setVisible(true);
@@ -290,15 +290,15 @@ public class InsertEdition extends javax.swing.JFrame {
             }
         } catch(SQLException e) {
             String error;
-                if (e.getErrorCode() == 1)
-                    error = "Edição de evento já cadastrada.";
-                else if (e.getErrorCode() == 12899)
-                    error = "Tamanho de atributo excedido.";
-                else
-                    error = e.getMessage();
-                Message msg = new Message(this, true, error);
-                msg.setTitle("Erro");
-                msg.setVisible(true);
+            if (e.getErrorCode() == 1)
+                error = "Edição de evento já cadastrada.";
+            else if (e.getErrorCode() == 12899)
+                error = "Tamanho de atributo excedido.";
+            else
+                error = e.getMessage();
+            Message msg = new Message(this, true, error);
+            msg.setTitle("Erro");
+            msg.setVisible(true);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -306,8 +306,8 @@ public class InsertEdition extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JFormattedTextField jFormattedTextField2;
-    private javax.swing.JFormattedTextField jFormattedTextField3;
     private javax.swing.JFormattedTextField jFormattedTextField4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

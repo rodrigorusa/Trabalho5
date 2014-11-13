@@ -7,28 +7,27 @@
 package trabalho5.view;
 
 import trabalho5.database.DbConnection;
-import trabalho5.database.Event;
-
+import trabalho5.database.Edition;
 import java.sql.SQLException;
 
 /**
  *
  * @author Rodrigo
  */
-public class RemoveEvent extends javax.swing.JFrame {
+public class RemoveEdition extends javax.swing.JFrame {
 
     protected DbConnection db;
-    private final Event event;
+    private final Edition edition;
     
     /**
-     * Creates new form RemoveEvent
+     * Creates new form RemoveEdition
      * 
      * @param db
      * @param e
      */
-    public RemoveEvent(DbConnection db, Event e) {
+    public RemoveEdition(DbConnection db, Edition e) {
         this.db = db;
-        this.event = e;
+        this.edition = e;
         initComponents();
     }
 
@@ -47,6 +46,7 @@ public class RemoveEvent extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Remover");
+        setPreferredSize(new java.awt.Dimension(274, 113));
 
         jLabel1.setText("Remover?");
 
@@ -69,16 +69,15 @@ public class RemoveEvent extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(0, 82, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton2)
-                        .addGap(82, 82, 82))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(112, 112, 112))))
+                .addContainerGap(84, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton2)
+                .addGap(86, 86, 86))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(116, 116, 116)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -87,8 +86,8 @@ public class RemoveEvent extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(jButton2)
+                    .addComponent(jButton1))
                 .addGap(19, 19, 19))
         );
 
@@ -97,12 +96,19 @@ public class RemoveEvent extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
+     * Cancela remoção
+     */
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    /**
      * Confirma remoção
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            this.event.remove(this.db);
-            new Message(this, true, "Evento removido.").setVisible(true);
+            this.edition.remove(this.db);
+            new Message(this, true, "Edição removida.").setVisible(true);
         } catch(SQLException e) {
             Message msg = new Message(this, true, e.getMessage());
             msg.setTitle("Erro");
@@ -110,13 +116,6 @@ public class RemoveEvent extends javax.swing.JFrame {
         }
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
-    
-    /**
-     * Cancela remoção
-     */
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
