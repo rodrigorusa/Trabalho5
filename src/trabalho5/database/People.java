@@ -25,9 +25,8 @@ public class People {
     private char tipoParticipante;
     private char tipoAutor;
     
-    public People(int idPe, String nomePe, String emailPe, String instituicaoPe, String telefonePe, 
-            String nacionalidadePe, String enderecoPe, char tipoOrganizador, char tipoParticipante, char tipoAutor) {
-        this.idPe = idPe;
+    public People(String nomePe, String emailPe, String instituicaoPe, String telefonePe, String nacionalidadePe, 
+            String enderecoPe, char tipoOrganizador, char tipoParticipante, char tipoAutor) {
         this.nomePe = nomePe;
         this.emailPe = emailPe;
         this.instituicaoPe = instituicaoPe;
@@ -129,16 +128,27 @@ public class People {
     public void insert(DbConnection db) throws SQLException {
         String sql = "INSERT INTO pessoa VALUES ("
                 + "seq_pessoa.NEXTVAL, "
-                + "nomePe = '"+this.nomePe+"', "
-                + "emailPe = '"+this.emailPe+"', "
-                + "instituicaoPe = '"+this.instituicaoPe+"', "
-                + "telefonePe = '"+this.telefonePe+"', "
-                + "nacionalidadePe = '"+this.nacionalidadePe+"', "
-                + "enderecoPe = '"+this.enderecoPe+"', "
-                + "tipoOrganizador = '"+this.tipoOrganizador+"', "
-                + "tipoParticipante = '"+this.tipoParticipante+"', "
-                + "tipoAutor = '"+this.tipoAutor+"' "
-                +")";
+                + "'"+this.nomePe+"', "
+                + "'"+this.emailPe+"', ";
+        
+        if (this.instituicaoPe == null)
+            sql += "null, ";
+        else
+            sql += "'"+this.instituicaoPe+"', ";
+        if (this.telefonePe == null)
+            sql += "null, ";
+        else
+            sql += "'"+this.telefonePe+"', ";
+        if (this.nacionalidadePe == null)
+            sql += "null, ";
+        else
+            sql += "'"+this.nacionalidadePe+"', ";
+        if (this.enderecoPe == null)
+            sql += "null, ";
+        else
+            sql += "'"+this.enderecoPe+"', ";
+  
+        sql += "'"+this.tipoOrganizador+"', '"+this.tipoParticipante+"', '"+this.tipoAutor+"')";
         System.out.println(sql);
         db.execute(sql);
     }

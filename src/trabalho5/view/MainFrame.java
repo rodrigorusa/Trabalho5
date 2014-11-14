@@ -244,7 +244,8 @@ public class MainFrame extends javax.swing.JFrame {
      * Cadastrar pessoa
      */
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
-        
+        InsertPeople insertPeople = new InsertPeople(this.db);
+        insertPeople.setVisible(true);
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

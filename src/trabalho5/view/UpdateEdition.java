@@ -195,7 +195,11 @@ public class UpdateEdition extends javax.swing.JFrame {
      */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // pega os valores atualizados
-        this.edition.setDescricaoEd(this.jTextArea1.getText());
+        String descricaoEd = null;
+        if (!this.jTextArea1.getText().isEmpty())
+            descricaoEd = this.jTextArea1.getText();
+        this.edition.setDescricaoEd(descricaoEd);
+        
         String localEd = this.jTextField2.getText();
         String dataInicioEd = this.jFormattedTextField1.getText();
         String dataFimEd = this.jFormattedTextField2.getText();

@@ -17,10 +17,10 @@ public class Edition {
     
     private int codEv;
     private int numEd;
-    private String descricaoEd = null;
-    private String dataInicioEd = null;
-    private String dataFimEd = null;
-    private String localEd = null;
+    private String descricaoEd;
+    private String dataInicioEd;
+    private String dataFimEd;
+    private String localEd;
     private double taxaEd;
     private double saldoFinanceiroEd = 0.00;
     private int qtdArtigosApresentadosEd = 0;
@@ -118,9 +118,21 @@ public class Edition {
      * @throws SQLException
      */
     public void insert(DbConnection db) throws SQLException {
-        String sql = "INSERT INTO edicao VALUES ("+this.codEv+", "+this.numEd+", '"+this.descricaoEd+"', "
-                + "to_date('"+this.dataInicioEd+"', 'dd/mm/yyyy'), to_date('"+this.dataFimEd+"', 'dd/mm/yyyy'), "
-                + "'"+this.localEd+"', "+this.taxaEd+", "+this.saldoFinanceiroEd+", "+this.qtdArtigosApresentadosEd+")";
+        String sql = "INSERT INTO edicao VALUES ("
+                + this.codEv+", "
+                + this.numEd+", ";
+        
+        if (this.descricaoEd == null)
+            sql += "null, ";
+        else
+            sql += "'"+this.descricaoEd+"', ";
+        
+        sql += "to_date('"+this.dataInicioEd+"', 'dd/mm/yyyy'), "
+                + "to_date('"+this.dataFimEd+"', 'dd/mm/yyyy'), "
+                + "'"+this.localEd+"', "
+                + this.taxaEd+", "
+                + this.saldoFinanceiroEd+", "
+                + this.qtdArtigosApresentadosEd+")";
         System.out.println(sql);
         db.execute(sql);
     }
@@ -133,9 +145,18 @@ public class Edition {
      * @throws SQLException
      */
     public void update(DbConnection db) throws SQLException {
-        String sql = "UPDATE edicao SET descricaoEd = '"+this.descricaoEd+"', dataInicioEd = '"+this.dataInicioEd+"', "
-                + "dataFimEd = '"+this.dataFimEd+"', localEd = '"+this.localEd+"', taxaEd = "+this.taxaEd+" "
-                + "WHERE codEv = '"+this.codEv+"' AND numEd = '"+this.numEd+"'";
+        String sql = "UPDATE edicao SET descricaoEd = ";
+                
+        if (this.descricaoEd == null)
+            sql += "null, ";
+        else
+            sql += "'"+this.descricaoEd+"', ";
+        
+       sql += "dataInicioEd = to_date('"+this.dataInicioEd+"', 'dd/mm/yyyy'), "
+               + "dataFimEd = to_date('"+this.dataFimEd+"', 'dd/mm/yyyy'), "
+               + "localEd = '"+this.localEd+"', "
+               + "taxaEd = "+this.taxaEd+" "
+               + "WHERE codEv = '"+this.codEv+"' AND numEd = '"+this.numEd+"'";
         System.out.println(sql);
         db.execute(sql);
     }

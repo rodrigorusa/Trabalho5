@@ -263,7 +263,11 @@ public class InsertEdition extends javax.swing.JFrame {
                 msg.setVisible(true);
             } else {
                 int numEd = Integer.valueOf(this.jTextField1.getText()).intValue();
-                String descricaoEd = this.jTextArea1.getText();
+                
+                String descricaoEd = null;
+                if (!this.jTextArea1.getText().isEmpty())
+                    descricaoEd = this.jTextArea1.getText();
+                
                 String dataInicioEd = this.jFormattedTextField4.getText();
                 String dataFimEd = this.jFormattedTextField2.getText();
                 String localEd = this.jTextField2.getText();

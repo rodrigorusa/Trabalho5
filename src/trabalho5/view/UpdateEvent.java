@@ -151,8 +151,17 @@ public class UpdateEvent extends javax.swing.JFrame {
             msg.setVisible(true);
         } else {
             this.event.setNomeEv(this.jTextField1.getText());
-            this.event.setDescricaoEv(this.jTextArea1.getText());
-            this.event.setWebsiteEv(this.jTextField2.getText());
+            
+            String descricaoEv = null;
+            if (!this.jTextArea1.getText().isEmpty())
+                descricaoEv = this.jTextArea1.getText();
+            this.event.setDescricaoEv(descricaoEv);
+            
+            String websiteEv = null;
+            if (!this.jTextField2.getText().isEmpty())
+                websiteEv = this.jTextField2.getText();
+            this.event.setWebsiteEv(websiteEv);
+            
             // atualiza
             try {
                 this.event.update(this.db);

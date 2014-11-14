@@ -16,9 +16,9 @@ import java.sql.ResultSet;
 public class Event {
     
     private int codEv;
-    private String nomeEv = null;
-    private String descricaoEv = null;
-    private String websiteEv = null;
+    private String nomeEv;
+    private String descricaoEv;
+    private String websiteEv;
     private int totalArtigosApresentadosEv = 0;
     
     public Event(String nomeEv, String descricaoEv, String websiteEv, int totalArtigosApresentadosEv) {
@@ -84,8 +84,20 @@ public class Event {
      * @throws SQLException
      */
     public void insert(DbConnection db) throws SQLException {
-        String sql = "INSERT INTO evento VALUES (seq_evento.NEXTVAL, '"+this.nomeEv+"', '"+this.descricaoEv+"', "
-                + "'"+this.websiteEv+"', "+this.totalArtigosApresentadosEv+")";
+        String sql = "INSERT INTO evento VALUES ("
+                + "seq_evento.NEXTVAL, "
+                + "'"+this.nomeEv+"', ";
+        
+        if (this.descricaoEv == null)
+            sql += "null, ";
+        else
+            sql += "'"+this.descricaoEv+"', ";
+        if (this.websiteEv == null)
+            sql += "null, ";
+        else
+            sql += "'"+this.websiteEv+"', ";
+        
+        sql += this.totalArtigosApresentadosEv+")";
         System.out.println(sql);
         db.execute(sql);
     }
@@ -98,8 +110,21 @@ public class Event {
      * @throws SQLException
      */
     public void update(DbConnection db) throws SQLException {
-        String sql = "UPDATE evento SET nomeEv = '"+this.nomeEv+"', descricaoEv = '"+this.descricaoEv+"', "
-                + "websiteEv = '"+this.websiteEv+"' WHERE codEv = '"+this.codEv+"'";
+        String sql = "UPDATE evento SET nomeEv = '"+this.nomeEv+"', ";
+        
+        sql += "descricaoEv = ";
+        if (this.descricaoEv == null)
+            sql += "null, ";
+        else
+            sql += "'"+this.descricaoEv+"', ";
+        
+        sql += "websiteEv = ";
+        if (this.websiteEv == null)
+            sql += "null";
+        else
+            sql += "'"+this.websiteEv+"'";
+        
+        sql += " WHERE codEv = '"+this.codEv+"'";
         System.out.println(sql);
         db.execute(sql);
     }

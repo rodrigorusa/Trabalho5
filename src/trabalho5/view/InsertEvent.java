@@ -138,8 +138,15 @@ public class InsertEvent extends javax.swing.JFrame {
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String nomeEv = jTextField1.getText();
-        String descricaoEv = jTextArea1.getText();
-        String websiteEv = jTextField2.getText();
+        
+        String descricaoEv = null;
+        if (!this.jTextArea1.getText().isEmpty())
+            descricaoEv = this.jTextArea1.getText();
+        
+        String websiteEv = null;
+        if (!this.jTextField2.getText().isEmpty())
+            websiteEv = this.jTextField2.getText();
+        
         // campos obrigatórios não preenchidos
         if (nomeEv.isEmpty()) {
             Message msg = new Message(this, true, "Campos obrigatórios não preenchidos.");
