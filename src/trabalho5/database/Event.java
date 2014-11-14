@@ -137,7 +137,7 @@ public class Event {
      * @throws SQLException
      */
     public void remove(DbConnection db) throws SQLException {
-        String sql = "DELETE FROM evento WHERE codEv = '"+this.codEv+"'";
+        String sql = "DELETE FROM evento WHERE codEv = "+this.codEv;
         System.out.println(sql);
         db.execute(sql);
     }

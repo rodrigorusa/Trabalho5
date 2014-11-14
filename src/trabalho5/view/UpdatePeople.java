@@ -8,24 +8,42 @@ package trabalho5.view;
 
 import trabalho5.database.DbConnection;
 import trabalho5.database.People;
+
 import java.sql.SQLException;
 
 /**
  *
  * @author Rodrigo
  */
-public class InsertPeople extends javax.swing.JFrame {
+public class UpdatePeople extends javax.swing.JFrame {
 
     protected DbConnection db;
+    private final People people;
     
     /**
-     * Creates new form InsertPeople
+     * Creates new form UpdatePeople
      * 
      * @param db
+     * @param p
      */
-    public InsertPeople(DbConnection db) {
+    public UpdatePeople(DbConnection db, People p) {
         this.db = db;
+        this.people = p;
         initComponents();
+        
+        // imprime os valores atuais
+        this.jTextField1.setText(people.getNomePe());
+        this.jTextField2.setText(people.getEmailPe());
+        this.jTextField3.setText(people.getInstituicaoPe());
+        this.jTextField4.setText(people.getNacionalidadePe());
+        this.jTextField5.setText(people.getEnderecoPe());
+        this.jFormattedTextField1.setText(people.getTelefonePe());
+        if (people.getTipoOrganizador() == 'S')
+            this.jRadioButton1.setSelected(true);
+        if (people.getTipoParticipante() == 'S')
+            this.jRadioButton2.setSelected(true);
+        if (people.getTipoAutor() == 'S')
+            this.jRadioButton3.setSelected(true);
     }
 
     /**
@@ -37,6 +55,14 @@ public class InsertPeople extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel5 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jFormattedTextField1 = new javax.swing.JFormattedTextField();
+        jTextField4 = new javax.swing.JTextField();
+        jTextField5 = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -44,20 +70,39 @@ public class InsertPeople extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
         jRadioButton3 = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Cadastrar Pessoa");
+        setTitle("Atualizar Pessoa");
+
+        jLabel5.setText("Nacionalidade");
+
+        jLabel7.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel7.setText("* campos obrigatórios");
+
+        try {
+            jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) ####-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        jLabel6.setText("Endereço");
+
+        jButton2.setText("Cadastrar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Cancelar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setForeground(new java.awt.Color(255, 0, 0));
         jLabel1.setText("Nome*");
@@ -68,33 +113,6 @@ public class InsertPeople extends javax.swing.JFrame {
         jLabel3.setText("Instituição");
 
         jLabel4.setText("Telefone");
-
-        try {
-            jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) ####-####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-
-        jLabel5.setText("Nacionalidade");
-
-        jLabel6.setText("Endereço");
-
-        jButton1.setText("Cancelar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jButton2.setText("Cadastrar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jLabel7.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel7.setText("* campos obrigatórios");
 
         jRadioButton1.setText("Organizador");
 
@@ -186,75 +204,82 @@ public class InsertPeople extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * Cancelar
-     */
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    /**
-     * Insere pessoa
-     */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // pega os dados
         String nomePe = this.jTextField1.getText();
         String emailPe = this.jTextField2.getText();
-        
+
         String instituicaoPe = null;
         if (!this.jTextField3.getText().isEmpty())
             instituicaoPe = this.jTextField3.getText();
-        
+
         String telefonePe = null;
         if (!this.jFormattedTextField1.getText().equals("(  )     -    "))
             telefonePe = this.jFormattedTextField1.getText();
-        
+
         String nacionalidadePe = null;
         if (!this.jTextField4.getText().isEmpty())
             nacionalidadePe = this.jTextField4.getText();
-        
+
         String enderecoPe = null;
         if (!this.jTextField5.getText().isEmpty())
             enderecoPe = this.jTextField5.getText();
-        
-        // tipos
-        char tipoOrganizador = 'N';
-        if (this.jRadioButton1.isSelected())
-            tipoOrganizador = 'S';
-        char tipoParticipante = 'N';
-        if (this.jRadioButton2.isSelected())
-            tipoParticipante = 'S';
-        char tipoAutor = 'N';
-        if (this.jRadioButton3.isSelected())
-            tipoAutor = 'S';
-        
+
         // campos obrigatórios não preenchidos
         if (nomePe.isEmpty() || emailPe.isEmpty()) {
             Message msg = new Message(this, true, "Campos obrigatórios não preenchidos.");
             msg.setTitle("Erro");
             msg.setVisible(true);
         } else {
-            // cria o objeto
-            People people = new People(nomePe, emailPe, instituicaoPe, telefonePe, nacionalidadePe, enderecoPe, 
-                    tipoOrganizador, tipoParticipante, tipoAutor);
+            // atualiza o objeto
+            this.people.setNomePe(nomePe);
+            this.people.setEmailPe(emailPe);
+            this.people.setInstituicaoPe(instituicaoPe);
+            this.people.setTelefonePe(telefonePe);
+            this.people.setNacionalidadePe(nacionalidadePe);
+            this.people.setEnderecoPe(enderecoPe);
+            
+            // tipo
+            if (this.jRadioButton1.isSelected())
+                this.people.setTipoOrganizador('S');
+            else
+                this.people.setTipoOrganizador('N');
+            
+            if (this.jRadioButton2.isSelected())
+                this.people.setTipoParticipante('S');
+            else
+                this.people.setTipoParticipante('N');
+            
+            if (this.jRadioButton3.isSelected())
+                this.people.setTipoAutor('S');
+            else
+                this.people.setTipoAutor('N');
+            
             try {
-                people.insert(this.db);
-                new Message(this, true, "Pessoa cadastrada.").setVisible(true);
+                people.update(this.db);
+                new Message(this, true, "Pessoa atualizada.").setVisible(true);
                 this.dispose();
             } catch(SQLException e) {
                 String error;
                 if (e.getErrorCode() == 1)
-                    error = "Pessoa já cadastrada.";
+                error = "Pessoa já cadastrada.";
                 else if (e.getErrorCode() == 12899)
-                    error = "Tamanho de atributo excedido.";
+                error = "Tamanho de atributo excedido.";
                 else
-                    error = e.getMessage();
+                error = e.getMessage();
                 Message msg = new Message(this, true, error);
                 msg.setTitle("Erro");
                 msg.setVisible(true);
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    /**
+     * Cancelar
+     */
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

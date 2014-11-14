@@ -169,7 +169,7 @@ public class Edition {
      * @throws SQLException
      */
     public void remove(DbConnection db) throws SQLException {
-        String sql = "DELETE FROM edicao WHERE codEv = '"+this.codEv+"' AND numEd = '"+this.numEd+"'" ;
+        String sql = "DELETE FROM edicao WHERE codEv = "+this.codEv+" AND numEd = "+this.numEd ;
         System.out.println(sql);
         db.execute(sql);
     }

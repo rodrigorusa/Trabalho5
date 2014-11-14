@@ -6,6 +6,7 @@
 
 package trabalho5.database;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -27,6 +28,20 @@ public class People {
     
     public People(String nomePe, String emailPe, String instituicaoPe, String telefonePe, String nacionalidadePe, 
             String enderecoPe, char tipoOrganizador, char tipoParticipante, char tipoAutor) {
+        this.nomePe = nomePe;
+        this.emailPe = emailPe;
+        this.instituicaoPe = instituicaoPe;
+        this.telefonePe = telefonePe;
+        this.nacionalidadePe = nacionalidadePe;
+        this.enderecoPe = enderecoPe;
+        this.tipoOrganizador = tipoOrganizador;
+        this.tipoParticipante = tipoParticipante;
+        this.tipoAutor = tipoAutor;
+    }
+    
+    public People(int idPe, String nomePe, String emailPe, String instituicaoPe, String telefonePe, String nacionalidadePe, 
+            String enderecoPe, char tipoOrganizador, char tipoParticipante, char tipoAutor) {
+        this.idPe = idPe;
         this.nomePe = nomePe;
         this.emailPe = emailPe;
         this.instituicaoPe = instituicaoPe;
@@ -151,6 +166,114 @@ public class People {
         sql += "'"+this.tipoOrganizador+"', '"+this.tipoParticipante+"', '"+this.tipoAutor+"')";
         System.out.println(sql);
         db.execute(sql);
+    }
+    
+    /**
+     * 
+     * Atualiza pessoa no banco de dados
+     * 
+     * @param db
+     * @throws SQLException
+     */
+    public void update(DbConnection db) throws SQLException {
+        String sql = "UPDATE pessoa SET nomePe = '"+this.nomePe+"', emailPe = '"+this.emailPe+"', ";
+        
+        sql += "instituicaoPe = ";
+        if (this.instituicaoPe == null)
+            sql += "null, ";
+        else
+            sql += "'"+this.instituicaoPe+"', ";
+        
+        sql += "telefonePe = ";
+        if (this.telefonePe == null)
+            sql += "null, ";
+        else
+            sql += "'"+this.telefonePe+"', ";
+        
+        sql += "nacionalidadePe = ";
+        if (this.nacionalidadePe == null)
+            sql += "null, ";
+        else
+            sql += "'"+this.nacionalidadePe+"', ";
+        
+        sql += "enderecoPe = ";
+        if (this.enderecoPe == null)
+            sql += "null, ";
+        else
+            sql += "'"+this.enderecoPe+"', ";
+        
+        sql += "tipoOrganizador = '"+this.tipoOrganizador+"', "
+                + "tipoParticipante = '"+this.tipoParticipante+"', "
+                + "tipoAutor = '"+this.tipoAutor+"' "
+                + "WHERE idPe = "+this.idPe+"";
+        
+        System.out.println(sql);
+        db.execute(sql);
+    }
+    
+     /**
+     * 
+     * Remove pessoa no banco de dados
+     * 
+     * @param db
+     * @throws SQLException
+     */
+    public void remove(DbConnection db) throws SQLException {
+        String sql = "DELETE FROM pessoa WHERE idPe = "+this.idPe;
+        System.out.println(sql);
+        db.execute(sql);
+    }
+    
+    /**
+     * 
+     * Busca todas as pessoas
+     * 
+     * @param db
+     * @return 
+     * @throws SQLException
+     */
+    public static ResultSet findAll(DbConnection db) throws SQLException {
+        String sql = "SELECT idPe, nomePe, emailPe, instituicaoPe, telefonePe, nacionalidadePe, enderecoPe, "
+                + "tipoOrganizador, tipoParticipante, tipoAutor FROM pessoa";
+        System.out.println(sql);
+        return db.query(sql);
+    }
+    
+    /**
+     * 
+     * Busca as pessoas pelo nome
+     * 
+     * 
+     * @param db
+     * @param name
+     * @return 
+     * @throws SQLException 
+     */
+    public static ResultSet findByName(DbConnection db, String name) throws SQLException {
+        String sql = "SELECT idPe, nomePe, emailPe, instituicaoPe, telefonePe, nacionalidadePe, enderecoPe, "
+                + "tipoOrganizador, tipoParticipante, tipoAutor FROM pessoa "
+                + "WHERE UPPER(nomePe) LIKE UPPER('%"+name+"%')";
+        System.out.println(sql);
+        return db.query(sql);
+    }
+    
+    /**
+     * 
+     * Retorna um a um as pessoas
+     * 
+     * @param rs
+     * @return 
+     * @throws SQLException
+     */
+    public static People next(ResultSet rs) throws SQLException {
+        People people = null;
+        if (rs.next()) {
+            people = new People(rs.getInt("idPe"), rs.getString("nomePe"), rs.getString("emailPe"), rs.getString("instituicaoPe"), 
+                    rs.getString("telefonePe"), rs.getString("nacionalidadePe"), rs.getString("enderecoPe"),
+                    rs.getString("tipoOrganizador").charAt(0), rs.getString("tipoParticipante").charAt(0), 
+                    rs.getString("tipoAutor").charAt(0));
+        }
+        return people;
     }
     
 }

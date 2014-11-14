@@ -44,12 +44,15 @@ public class MainFrame extends javax.swing.JFrame {
         jMenu4 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
+        jMenuItem11 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem12 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Conferência Acadêmica");
@@ -105,6 +108,14 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenu4.add(jMenuItem6);
 
+        jMenuItem10.setText("Pessoa");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem10);
+
         jMenuBar1.add(jMenu4);
 
         jMenu2.setText("Atualizar");
@@ -125,6 +136,14 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuItem8);
 
+        jMenuItem11.setText("Pessoa");
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem11);
+
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("Remover");
@@ -144,6 +163,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jMenuItem7);
+
+        jMenuItem12.setText("Pessoa");
+        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem12ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem12);
 
         jMenuBar1.add(jMenu3);
 
@@ -248,6 +275,30 @@ public class MainFrame extends javax.swing.JFrame {
         insertPeople.setVisible(true);
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
+    /**
+     * Buscar pessoa
+     */
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        SearchPeopleByName searchPeople = new SearchPeopleByName(this.db, CRUDType.SEARCH);
+        searchPeople.setVisible(true);
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
+
+    /**
+     * Atualizar pessoa
+     */
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        SearchPeopleByName searchPeople = new SearchPeopleByName(this.db, CRUDType.UPDATE);
+        searchPeople.setVisible(true);
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
+
+    /**
+     * Remover pessoa
+     */
+    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
+        SearchPeopleByName searchPeople = new SearchPeopleByName(this.db, CRUDType.REMOVE);
+        searchPeople.setVisible(true);
+    }//GEN-LAST:event_jMenuItem12ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -255,6 +306,9 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
