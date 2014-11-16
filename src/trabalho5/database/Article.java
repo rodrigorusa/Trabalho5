@@ -7,7 +7,7 @@
 package trabalho5.database;
 
 import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.ResultSet;
 
 /**
  *
@@ -123,4 +123,54 @@ public class Article {
         System.out.println(sql);
         db.execute(sql);
     }
+    
+    /**
+     * 
+     * Busca todos os artigos
+     * 
+     * @param db
+     * @return 
+     * @throws SQLException 
+     */
+    public static ResultSet findAll(DbConnection db) throws SQLException {
+        String sql = "SELECT idArt, tituloArt, to_char(dataApresArt, 'dd/mm/yyyy') AS \"dataApresArt\","
+                + " to_char(horaApresArt, 'hh24:mi') AS \"horaApresArt\", codEv, numEd, idApr FROM artigo";
+        System.out.println(sql);
+        return db.query(sql);
+    }
+    
+    /**
+     * 
+     * Busca artigos pelo nome
+     * 
+     * @param db
+     * @param name
+     * @return 
+     * @throws SQLException 
+     */
+    public static ResultSet findByName(DbConnection db, String name) throws SQLException {
+        String sql = "SELECT idArt, tituloArt, to_char(dataApresArt, 'dd/mm/yyyy') AS \"dataApresArt\","
+                + " to_char(horaApresArt, 'hh24:mi') AS \"horaApresArt\", codEv, numEd, idApr FROM artigo"
+                + " WHERE UPPER(tituloArt) LIKE UPPER('%"+name+"%')";
+        System.out.println(sql);
+        return db.query(sql);
+    }
+    
+     /**
+     * 
+     * Retorna um a um os artigos
+     * 
+     * @param rs
+     * @return 
+     * @throws SQLException
+     */
+    public static Article next(ResultSet rs) throws SQLException {
+        Article article = null;
+        if (rs.next()) {
+            article = new Article(rs.getInt("idArt"), rs.getString("tituloArt"), rs.getString("dataApresArt"),
+                    rs.getString("horaApresArt"), rs.getInt("codEv"), rs.getInt("numEd"), rs.getInt("idApr"));
+        }
+        return article;
+    }
+    
 }

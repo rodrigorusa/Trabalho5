@@ -315,11 +315,14 @@ public class InsertArticle extends javax.swing.JFrame {
                 People p = People.next(rs);
                 int idApr = p.getIdPe();
                 
+                // atualiza inscrito como apresentador
+                Registered r = Registered.findByPrimaryKey(this.db, codEv, numEd, idApr);
+                r.setTipoApresentador('S');
+                r.update(this.db);
+                
                 // insere o artigo
                 Article article = new Article(tituloArt, dataApresArt, horaApresArt, codEv, numEd, idApr);
                 article.insert(this.db);
-                
-                // TODO atualizar o inscrito
                 
                 // pega o id do artigo que acabou de ser inserido
                 rs = db.query("SELECT seq_artigo.CURRVAL FROM DUAL");

@@ -171,6 +171,25 @@ public class Registered {
         return db.query(sql);
     }
     
+     /**
+     * 
+     * Busca inscritos pela chave primária
+     * 
+     * @param db
+     * @param codEv
+     * @param numEd
+     * @param idPart
+     * @return 
+     * @throws SQLException 
+     */
+    public static Registered findByPrimaryKey(DbConnection db, int codEv, int numEd, int idPart) throws SQLException {
+        String sql = "SELECT codEv, numEd, idPart, to_char(dataInsc, 'dd/mm/yyyy') AS \"dataInsc\","
+                + " tipoApresentador FROM inscrito"
+                + " WHERE codEv = "+codEv+" AND numEd = "+numEd+" AND idPart = "+idPart;
+        System.out.println(sql);
+        return Registered.next(db.query(sql));
+    }
+    
     /**
      * 
      * Retorna um a um os inscritos

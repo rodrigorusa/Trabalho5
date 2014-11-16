@@ -48,15 +48,18 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
         jMenuItem14 = new javax.swing.JMenuItem();
+        jMenuItem17 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItem11 = new javax.swing.JMenuItem();
+        jMenuItem18 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem12 = new javax.swing.JMenuItem();
         jMenuItem15 = new javax.swing.JMenuItem();
+        jMenuItem19 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Conferência Acadêmica");
@@ -144,6 +147,14 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenu4.add(jMenuItem14);
 
+        jMenuItem17.setText("Artigo");
+        jMenuItem17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem17ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem17);
+
         jMenuBar1.add(jMenu4);
 
         jMenu2.setText("Atualizar");
@@ -171,6 +182,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jMenu2.add(jMenuItem11);
+
+        jMenuItem18.setText("Artigo");
+        jMenuItem18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem18ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem18);
 
         jMenuBar1.add(jMenu2);
 
@@ -207,6 +226,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jMenuItem15);
+
+        jMenuItem19.setText("Artigo");
+        jMenuItem19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem19ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem19);
 
         jMenuBar1.add(jMenu3);
 
@@ -367,6 +394,30 @@ public class MainFrame extends javax.swing.JFrame {
         insertArticle.setVisible(true);
     }//GEN-LAST:event_jMenuItem16ActionPerformed
 
+    /**
+     * Buscar artigo
+     */
+    private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
+        SearchArticleByName searchArticle = new SearchArticleByName(this.db, CRUDType.SEARCH);
+        searchArticle.setVisible(true);
+    }//GEN-LAST:event_jMenuItem17ActionPerformed
+
+    /**
+     * Atualizar artigo
+     */
+    private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
+        SearchArticleByName searchArticle = new SearchArticleByName(this.db, CRUDType.UPDATE);
+        searchArticle.setVisible(true);
+    }//GEN-LAST:event_jMenuItem18ActionPerformed
+
+    /**
+     * Remover artigo
+     */
+    private void jMenuItem19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem19ActionPerformed
+        SearchArticleByName searchArticle = new SearchArticleByName(this.db, CRUDType.REMOVE);
+        searchArticle.setVisible(true);
+    }//GEN-LAST:event_jMenuItem19ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -381,6 +432,9 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem15;
     private javax.swing.JMenuItem jMenuItem16;
+    private javax.swing.JMenuItem jMenuItem17;
+    private javax.swing.JMenuItem jMenuItem18;
+    private javax.swing.JMenuItem jMenuItem19;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;

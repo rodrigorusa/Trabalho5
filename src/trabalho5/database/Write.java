@@ -7,6 +7,7 @@
 package trabalho5.database;
 
 import java.sql.SQLException;
+import java.sql.ResultSet;
 
 /**
  *
@@ -50,4 +51,36 @@ public class Write {
         System.out.println(sql);
         db.execute(sql);
     }
+    
+    /**
+     * 
+     * Busca os autores pelo artigo
+     * 
+     * @param db
+     * @param idArt
+     * @return 
+     * @throws SQLException 
+     */
+    public static ResultSet findByArticle(DbConnection db, int idArt) throws SQLException {
+        String sql = "SELECT idAut, idArt FROM escreve WHERE idArt = "+idArt;
+        System.out.println(sql);
+        return db.query(sql);
+    }
+    
+    /**
+     * 
+     * Retorna um a um
+     * 
+     * @param rs
+     * @return 
+     * @throws SQLException
+     */
+    public static Write next(ResultSet rs) throws SQLException {
+        Write write = null;
+        if (rs.next()) {
+            write = new Write(rs.getInt("idAut"), rs.getInt("idArt"));
+        }
+        return write;
+    }
+    
 }
