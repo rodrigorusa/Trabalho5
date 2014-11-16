@@ -226,6 +226,22 @@ public class People {
     
     /**
      * 
+     * Busca pessoa pela chave primária
+     * 
+     * @param db
+     * @param primaryKey
+     * @return 
+     * @throws SQLException
+     */
+    public static People findByPrimaryKey(DbConnection db, int primaryKey) throws SQLException {
+        String sql = "SELECT idPe, nomePe, emailPe, instituicaoPe, telefonePe, nacionalidadePe, enderecoPe, "
+                + "tipoOrganizador, tipoParticipante, tipoAutor FROM pessoa WHERE idPe = "+primaryKey;
+        System.out.println(sql);
+        return People.next(db.query(sql));        
+    }
+    
+    /**
+     * 
      * Busca todas as pessoas
      * 
      * @param db
@@ -253,6 +269,38 @@ public class People {
         String sql = "SELECT idPe, nomePe, emailPe, instituicaoPe, telefonePe, nacionalidadePe, enderecoPe, "
                 + "tipoOrganizador, tipoParticipante, tipoAutor FROM pessoa "
                 + "WHERE UPPER(nomePe) LIKE UPPER('%"+name+"%')";
+        System.out.println(sql);
+        return db.query(sql);
+    }
+    
+    /**
+     * 
+     * Busca todos participantes
+     * 
+     * @param db
+     * @return 
+     * @throws SQLException
+     */
+    public static ResultSet findParticipants(DbConnection db) throws SQLException {
+        String sql = "SELECT idPe, nomePe, emailPe, instituicaoPe, telefonePe, nacionalidadePe, enderecoPe, "
+                + "tipoOrganizador, tipoParticipante, tipoAutor FROM pessoa WHERE tipoParticipante = 'S'"
+                + "ORDER BY nomePe";
+        System.out.println(sql);
+        return db.query(sql);
+    }
+    
+    /**
+     * 
+     * Busca todos autores
+     * 
+     * @param db
+     * @return 
+     * @throws SQLException
+     */
+    public static ResultSet findAuthors(DbConnection db) throws SQLException {
+        String sql = "SELECT idPe, nomePe, emailPe, instituicaoPe, telefonePe, nacionalidadePe, enderecoPe, "
+                + "tipoOrganizador, tipoParticipante, tipoAutor FROM pessoa WHERE tipoAutor = 'S'"
+                + "ORDER BY nomePe";
         System.out.println(sql);
         return db.query(sql);
     }

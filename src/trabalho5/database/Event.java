@@ -144,6 +144,22 @@ public class Event {
     
     /**
      * 
+     * Busca evento pela chave primária
+     * 
+     * @param db
+     * @param primaryKey
+     * @return 
+     * @throws SQLException
+     */
+    public static Event findByPrimaryKey(DbConnection db, int primaryKey) throws SQLException {
+        String sql = "SELECT codEv, nomeEv, descricaoEv, websiteEv, totalArtigosApresentadosEv FROM evento"
+                + " WHERE codEv = "+primaryKey;
+        System.out.println(sql);
+        return Event.next(db.query(sql));
+    }
+    
+    /**
+     * 
      * Busca todos os eventos
      * 
      * @param db

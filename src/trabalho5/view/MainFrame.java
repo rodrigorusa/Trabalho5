@@ -41,10 +41,13 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem13 = new javax.swing.JMenuItem();
+        jMenuItem16 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
+        jMenuItem14 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
@@ -53,6 +56,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem12 = new javax.swing.JMenuItem();
+        jMenuItem15 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Conferência Acadêmica");
@@ -88,6 +92,22 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem9);
 
+        jMenuItem13.setText("Inscrito");
+        jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem13ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem13);
+
+        jMenuItem16.setText("Artigo");
+        jMenuItem16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem16ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem16);
+
         jMenuBar1.add(jMenu1);
 
         jMenu4.setText("Buscar");
@@ -115,6 +135,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jMenu4.add(jMenuItem10);
+
+        jMenuItem14.setText("Inscrito");
+        jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem14ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem14);
 
         jMenuBar1.add(jMenu4);
 
@@ -171,6 +199,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jMenuItem12);
+
+        jMenuItem15.setText("Inscrito");
+        jMenuItem15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem15ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem15);
 
         jMenuBar1.add(jMenu3);
 
@@ -299,6 +335,38 @@ public class MainFrame extends javax.swing.JFrame {
         searchPeople.setVisible(true);
     }//GEN-LAST:event_jMenuItem12ActionPerformed
 
+    /**
+     * Cadastrar inscrito
+     */
+    private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
+        InsertRegistered insertRegistered = new InsertRegistered(this.db);
+        insertRegistered.setVisible(true);
+    }//GEN-LAST:event_jMenuItem13ActionPerformed
+
+    /**
+     * Buscar inscrito
+     */
+    private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
+        SearchRegisteredByPeople searchRegistered = new SearchRegisteredByPeople(this.db, CRUDType.SEARCH);
+        searchRegistered.setVisible(true);
+    }//GEN-LAST:event_jMenuItem14ActionPerformed
+
+    /**
+     * Remover inscrito
+     */
+    private void jMenuItem15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem15ActionPerformed
+        SearchRegisteredByPeople searchRegistered = new SearchRegisteredByPeople(this.db, CRUDType.REMOVE);
+        searchRegistered.setVisible(true);
+    }//GEN-LAST:event_jMenuItem15ActionPerformed
+
+    /**
+     *  Cadastrar artigo
+     */
+    private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
+        InsertArticle insertArticle = new InsertArticle(this.db);
+        insertArticle.setVisible(true);
+    }//GEN-LAST:event_jMenuItem16ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -309,6 +377,10 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
+    private javax.swing.JMenuItem jMenuItem13;
+    private javax.swing.JMenuItem jMenuItem14;
+    private javax.swing.JMenuItem jMenuItem15;
+    private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;

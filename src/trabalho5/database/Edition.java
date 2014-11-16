@@ -183,8 +183,8 @@ public class Edition {
      * @throws SQLException
      */
     public static ResultSet findAll(DbConnection db) throws SQLException {
-        String sql = "SELECT codEv, numEd, descricaoEd, TO_CHAR(dataInicioEd, 'DD/MM/YYYY') AS \"DataInicioEd\", "
-                + "TO_CHAR(dataFimEd, 'DD/MM/YYYY') AS \"DataFimEd\", localEd, "
+        String sql = "SELECT codEv, numEd, descricaoEd, to_char(dataInicioEd, 'DD/MM/YYYY') AS \"DataInicioEd\", "
+                + "to_char(dataFimEd, 'DD/MM/YYYY') AS \"DataFimEd\", localEd, "
                 + "taxaEd, "
                 + "saldoFinanceiroEd, "
                 + "qtdArtigosApresentadosEd FROM edicao";
@@ -203,8 +203,8 @@ public class Edition {
      * @throws SQLException 
      */
     public static ResultSet findByEvent(DbConnection db, Event ev) throws SQLException {
-        String sql = "SELECT codEv, numEd, descricaoEd, TO_CHAR(dataInicioEd, 'DD/MM/YYYY') AS \"DataInicioEd\", "
-                + "TO_CHAR(dataFimEd, 'DD/MM/YYYY') AS \"DataFimEd\", localEd, "
+        String sql = "SELECT codEv, numEd, descricaoEd, to_char(dataInicioEd, 'DD/MM/YYYY') AS \"DataInicioEd\", "
+                + "to_char(dataFimEd, 'DD/MM/YYYY') AS \"DataFimEd\", localEd, "
                 + "taxaEd, "
                 + "saldoFinanceiroEd, "
                 + "qtdArtigosApresentadosEd FROM edicao "

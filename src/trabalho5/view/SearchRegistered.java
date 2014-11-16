@@ -6,51 +6,57 @@
 
 package trabalho5.view;
 
-import javax.swing.table.DefaultTableModel;
 import trabalho5.database.DbConnection;
+import trabalho5.database.Registered;
 import trabalho5.database.People;
+import trabalho5.database.Event;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Rodrigo
  */
-public class SearchPeople extends javax.swing.JFrame {
+public class SearchRegistered extends javax.swing.JFrame {
 
     protected DbConnection db;
     private final int type;
     
     /**
-     * Creates new form SearchPeople
+     * Creates new form SearchRegistered
      * 
      * @param db
      * @param type
      * @param name
      */
-    public SearchPeople(DbConnection db, int type, String name) {
+    public SearchRegistered(DbConnection db, int type, String name) {
         this.db = db;
         this.type = type;
         initComponents();
         
-        // imprime as pessoas
+        // impriem os inscritos
         DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
         try {
             ResultSet rs;
             // SELECT ALL
             if (name.isEmpty())
-                rs = People.findAll(this.db);
-            // SELECT BY Name
-            else 
-                rs = People.findByName(this.db, name);
-            People p = People.next(rs);
-            while (p != null) {
+                rs = Registered.findAll(this.db);
+            // SELECT By Name
+            else
+                rs = Registered.findByName(this.db, name);
+            
+            Registered r = Registered.next(rs);
+            while(r != null) {
+                // pega o evento
+                Event ev = Event.findByPrimaryKey(this.db, r.getCodEv());
+                // pega a pessoa
+                People p = People.findByPrimaryKey(this.db, r.getIdPart());
                 // adiciona uma linha na tabela
-                model.addRow(new Object[]{p.getIdPe(), p.getNomePe(), p.getEmailPe(), p.getInstituicaoPe(), p.getTelefonePe(),
-                    p.getNacionalidadePe(), p.getEnderecoPe(), p.getTipoOrganizador(), p.getTipoParticipante(), 
-                    p.getTipoAutor()});
-                p = People.next(rs);
+                model.addRow(new Object[] {ev.getNomeEv(), r.getNumEd(), p.getNomePe(), r.getDataInsc(), 
+                    r.getTipoApresentador()});
+                r = Registered.next(rs);
             }
         } catch(SQLException e) {
             Message msg = new Message(this, true, e.getMessage());
@@ -73,21 +79,21 @@ public class SearchPeople extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Pessoas");
+        setTitle("Inscritos");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Id", "Nome", "Email", "Instituição", "Telefone", "Nacionalidade", "Endereço", "Organizador", "Participante", "Autor"
+                "Evento", "Edição", "Nome do Inscrito", "Data de Inscrição", "Apresentador"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -105,13 +111,9 @@ public class SearchPeople extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(5);
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(5);
             jTable1.getColumnModel().getColumn(3).setPreferredWidth(30);
-            jTable1.getColumnModel().getColumn(4).setPreferredWidth(40);
-            jTable1.getColumnModel().getColumn(5).setPreferredWidth(30);
-            jTable1.getColumnModel().getColumn(7).setPreferredWidth(25);
-            jTable1.getColumnModel().getColumn(8).setPreferredWidth(25);
-            jTable1.getColumnModel().getColumn(9).setPreferredWidth(5);
+            jTable1.getColumnModel().getColumn(4).setPreferredWidth(20);
         }
 
         jButton1.setText("Voltar");
@@ -127,21 +129,21 @@ public class SearchPeople extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 578, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(499, 499, 499)
+                .addGap(269, 269, 269)
                 .addComponent(jButton1)
-                .addContainerGap(498, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
                 .addComponent(jButton1)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -156,29 +158,32 @@ public class SearchPeople extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
-     * Inicia a tela de atualização ou remoção de pessoa
+     * Inicia a tela de remoção de inscrito
      */
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        // pega a pessoa selecionada
-        int i = this.jTable1.getSelectedRow();
-        People p = new People((int) this.jTable1.getValueAt(i, 0), (String) this.jTable1.getValueAt(i, 1),
-            (String) this.jTable1.getValueAt(i, 2), (String) this.jTable1.getValueAt(i, 3), 
-            (String) this.jTable1.getValueAt(i, 4), (String) this.jTable1.getValueAt(i, 5), 
-            (String) this.jTable1.getValueAt(i, 6), (char) this.jTable1.getValueAt(i, 7), (char) this.jTable1.getValueAt(i, 8),
-            (char) this.jTable1.getValueAt(i, 9));
-        // atualização de pessoa
-        if (this.type == CRUDType.UPDATE) {
-            // inicia a interface de atualização
-            UpdatePeople updatePeople = new UpdatePeople(this.db, p);
-            updatePeople.setVisible(true);
-            this.dispose();
-        }
-        // remoção de pessoa
-        if (this.type == CRUDType.REMOVE) {
-            // inicia a interface de remoção
-            RemovePeople removePeople = new RemovePeople(this.db, p);
-            removePeople.setVisible(true);
-            this.dispose();
+        // remoção de inscrito
+        if(this.type == CRUDType.REMOVE) {
+            // pega o inscrito selecionado
+            int i = this.jTable1.getSelectedRow();
+            try {
+                // pega o código do evento
+                ResultSet rs = Event.findByName(this.db, (String) this.jTable1.getValueAt(i, 0));
+                Event ev = Event.next(rs);
+                // pega o id do inscrito
+                rs = People.findByName(this.db, (String) this.jTable1.getValueAt(i, 2));
+                People p = People.next(rs);
+                // pega o objeto a ser removido
+                Registered r = new Registered(ev.getCodEv(), (int) this.jTable1.getValueAt(i, 1), p.getIdPe(), 
+                    (String) this.jTable1.getValueAt(i, 3), (char) this.jTable1.getValueAt(i, 4));
+                // inicia a interface de remoção
+                RemoveRegistered removeRegistered = new RemoveRegistered(this.db, r);
+                removeRegistered.setVisible(true);
+                this.dispose();
+            } catch(SQLException e) {
+                Message msg = new Message(this, true, e.getMessage());
+                msg.setTitle("Erro");
+                msg.setVisible(true);
+            }
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
