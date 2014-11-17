@@ -6,6 +6,8 @@
 
 package trabalho5.database;
 
+import trabalho5.view.MainFrame;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -133,7 +135,8 @@ public class Edition {
                 + this.taxaEd+", "
                 + this.saldoFinanceiroEd+", "
                 + this.qtdArtigosApresentadosEd+")";
-        System.out.println(sql);
+        if(MainFrame.debugg)
+            System.out.println(sql);
         db.execute(sql);
     }
     
@@ -157,7 +160,8 @@ public class Edition {
                + "localEd = '"+this.localEd+"', "
                + "taxaEd = "+this.taxaEd+" "
                + "WHERE codEv = '"+this.codEv+"' AND numEd = '"+this.numEd+"'";
-        System.out.println(sql);
+        if(MainFrame.debugg)
+            System.out.println(sql);
         db.execute(sql);
     }
     
@@ -170,7 +174,8 @@ public class Edition {
      */
     public void remove(DbConnection db) throws SQLException {
         String sql = "DELETE FROM edicao WHERE codEv = "+this.codEv+" AND numEd = "+this.numEd ;
-        System.out.println(sql);
+        if(MainFrame.debugg)
+            System.out.println(sql);
         db.execute(sql);
     }
     
@@ -188,7 +193,8 @@ public class Edition {
                 + "taxaEd, "
                 + "saldoFinanceiroEd, "
                 + "qtdArtigosApresentadosEd FROM edicao";
-        System.out.println(sql);
+        if(MainFrame.debugg)
+            System.out.println(sql);
         return db.query(sql);
     }
     
@@ -209,7 +215,8 @@ public class Edition {
                 + "saldoFinanceiroEd, "
                 + "qtdArtigosApresentadosEd FROM edicao "
                 + "WHERE codEv = "+ev.getCodEv();
-        System.out.println(sql);
+        if(MainFrame.debugg)
+            System.out.println(sql);
         return db.query(sql);
     }
     
@@ -231,7 +238,8 @@ public class Edition {
                 + "saldoFinanceiroEd, "
                 + "qtdArtigosApresentadosEd FROM edicao "
                 + "WHERE codEv = "+codEv+" AND numEd = "+numEd;
-        System.out.println(sql);
+        if(MainFrame.debugg)
+            System.out.println(sql);
         return Edition.next(db.query(sql));
     }
     

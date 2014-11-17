@@ -6,6 +6,8 @@
 
 package trabalho5.database;
 
+import trabalho5.view.MainFrame;
+
 import java.sql.SQLException;
 import java.sql.ResultSet;
 
@@ -89,7 +91,8 @@ public class Registered {
                 + this.idPart+", "
                 + "to_date(SYSDATE, 'dd/mm/yyyy'), "
                 + "'N')";
-        System.out.println(sql);
+        if(MainFrame.debugg)
+            System.out.println(sql);
         db.execute(sql);
     }
     
@@ -103,7 +106,8 @@ public class Registered {
     public void update(DbConnection db) throws SQLException {
         String sql = "UPDATE inscrito SET tipoApresentador = '"+this.tipoApresentador+"' "
                 + "WHERE codEv = "+this.codEv+" AND numEd = "+this.numEd+" AND idPart = "+this.idPart;
-        System.out.println(sql);
+        if(MainFrame.debugg)
+            System.out.println(sql);
         db.execute(sql);
     }
     
@@ -117,7 +121,8 @@ public class Registered {
     public void remove(DbConnection db) throws SQLException {
         String sql = "DELETE FROM inscrito "
                 + "WHERE codEv = "+this.codEv+" AND numEd = "+this.numEd+" AND idPart = "+this.idPart;
-        System.out.println(sql);
+        if(MainFrame.debugg)
+            System.out.println(sql);
         db.execute(sql);
     }
     
@@ -132,7 +137,8 @@ public class Registered {
     public static ResultSet findAll(DbConnection db) throws SQLException {
         String sql = "SELECT codEv, numEd, idPart, to_char(dataInsc, 'dd/mm/yyyy') AS \"dataInsc\","
                 + " tipoApresentador FROM inscrito";
-        System.out.println(sql);
+        if(MainFrame.debugg)
+            System.out.println(sql);
         return db.query(sql);
     }
     
@@ -149,7 +155,8 @@ public class Registered {
         String sql = "SELECT codEv, numEd, idPart, to_char(dataInsc, 'dd/mm/yyyy') AS \"dataInsc\","
                 + " tipoApresentador FROM inscrito JOIN pessoa ON (idPart = idPe)"
                 + " WHERE UPPER(nomePe) LIKE UPPER('%"+name+"%')";
-        System.out.println(sql);
+        if(MainFrame.debugg)
+            System.out.println(sql);
         return db.query(sql);
     }
     
@@ -167,7 +174,8 @@ public class Registered {
         String sql = "SELECT codEv, numEd, idPart, to_char(dataInsc, 'dd/mm/yyyy') AS \"dataInsc\","
                 + " tipoApresentador FROM inscrito"
                 + " WHERE codEv = "+codEv+" AND numEd = "+numEd;
-        System.out.println(sql);
+        if(MainFrame.debugg)
+            System.out.println(sql);
         return db.query(sql);
     }
     
@@ -186,7 +194,8 @@ public class Registered {
         String sql = "SELECT codEv, numEd, idPart, to_char(dataInsc, 'dd/mm/yyyy') AS \"dataInsc\","
                 + " tipoApresentador FROM inscrito"
                 + " WHERE codEv = "+codEv+" AND numEd = "+numEd+" AND idPart = "+idPart;
-        System.out.println(sql);
+        if(MainFrame.debugg)
+            System.out.println(sql);
         return Registered.next(db.query(sql));
     }
     

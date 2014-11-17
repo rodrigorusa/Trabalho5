@@ -6,6 +6,8 @@
 
 package trabalho5.database;
 
+import trabalho5.view.MainFrame;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -164,7 +166,8 @@ public class People {
             sql += "'"+this.enderecoPe+"', ";
   
         sql += "'"+this.tipoOrganizador+"', '"+this.tipoParticipante+"', '"+this.tipoAutor+"')";
-        System.out.println(sql);
+        if(MainFrame.debugg)
+            System.out.println(sql);
         db.execute(sql);
     }
     
@@ -207,7 +210,8 @@ public class People {
                 + "tipoAutor = '"+this.tipoAutor+"' "
                 + "WHERE idPe = "+this.idPe+"";
         
-        System.out.println(sql);
+        if(MainFrame.debugg)
+            System.out.println(sql);
         db.execute(sql);
     }
     
@@ -220,7 +224,8 @@ public class People {
      */
     public void remove(DbConnection db) throws SQLException {
         String sql = "DELETE FROM pessoa WHERE idPe = "+this.idPe;
-        System.out.println(sql);
+        if(MainFrame.debugg)
+            System.out.println(sql);
         db.execute(sql);
     }
     
@@ -236,7 +241,8 @@ public class People {
     public static People findByPrimaryKey(DbConnection db, int primaryKey) throws SQLException {
         String sql = "SELECT idPe, nomePe, emailPe, instituicaoPe, telefonePe, nacionalidadePe, enderecoPe, "
                 + "tipoOrganizador, tipoParticipante, tipoAutor FROM pessoa WHERE idPe = "+primaryKey;
-        System.out.println(sql);
+        if(MainFrame.debugg)
+            System.out.println(sql);
         return People.next(db.query(sql));        
     }
     
@@ -251,7 +257,8 @@ public class People {
     public static ResultSet findAll(DbConnection db) throws SQLException {
         String sql = "SELECT idPe, nomePe, emailPe, instituicaoPe, telefonePe, nacionalidadePe, enderecoPe, "
                 + "tipoOrganizador, tipoParticipante, tipoAutor FROM pessoa";
-        System.out.println(sql);
+        if(MainFrame.debugg)
+            System.out.println(sql);
         return db.query(sql);
     }
     
@@ -269,7 +276,8 @@ public class People {
         String sql = "SELECT idPe, nomePe, emailPe, instituicaoPe, telefonePe, nacionalidadePe, enderecoPe, "
                 + "tipoOrganizador, tipoParticipante, tipoAutor FROM pessoa "
                 + "WHERE UPPER(nomePe) LIKE UPPER('%"+name+"%')";
-        System.out.println(sql);
+        if(MainFrame.debugg)
+            System.out.println(sql);
         return db.query(sql);
     }
     
@@ -285,7 +293,8 @@ public class People {
         String sql = "SELECT idPe, nomePe, emailPe, instituicaoPe, telefonePe, nacionalidadePe, enderecoPe, "
                 + "tipoOrganizador, tipoParticipante, tipoAutor FROM pessoa WHERE tipoParticipante = 'S'"
                 + "ORDER BY nomePe";
-        System.out.println(sql);
+        if(MainFrame.debugg)
+            System.out.println(sql);
         return db.query(sql);
     }
     
@@ -301,7 +310,8 @@ public class People {
         String sql = "SELECT idPe, nomePe, emailPe, instituicaoPe, telefonePe, nacionalidadePe, enderecoPe, "
                 + "tipoOrganizador, tipoParticipante, tipoAutor FROM pessoa WHERE tipoAutor = 'S'"
                 + "ORDER BY nomePe";
-        System.out.println(sql);
+        if(MainFrame.debugg)
+            System.out.println(sql);
         return db.query(sql);
     }
     

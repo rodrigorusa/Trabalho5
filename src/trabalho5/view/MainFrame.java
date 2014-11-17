@@ -16,6 +16,7 @@ import java.sql.SQLException;
 public class MainFrame extends javax.swing.JFrame {
 
     protected static DbConnection db;
+    public static boolean debugg;
     
     /**
      * Creates new form MainFrame
@@ -24,6 +25,7 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public MainFrame(DbConnection db) {
         MainFrame.db = db;
+        MainFrame.debugg = true;
         initComponents();
     }
 
@@ -60,6 +62,8 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuItem12 = new javax.swing.JMenuItem();
         jMenuItem15 = new javax.swing.JMenuItem();
         jMenuItem19 = new javax.swing.JMenuItem();
+        jMenu5 = new javax.swing.JMenu();
+        jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Conferência Acadêmica");
@@ -236,6 +240,19 @@ public class MainFrame extends javax.swing.JFrame {
         jMenu3.add(jMenuItem19);
 
         jMenuBar1.add(jMenu3);
+
+        jMenu5.setText("Opções");
+
+        jCheckBoxMenuItem1.setSelected(true);
+        jCheckBoxMenuItem1.setText("Depurar");
+        jCheckBoxMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jCheckBoxMenuItem1);
+
+        jMenuBar1.add(jMenu5);
 
         setJMenuBar(jMenuBar1);
 
@@ -418,11 +435,20 @@ public class MainFrame extends javax.swing.JFrame {
         searchArticle.setVisible(true);
     }//GEN-LAST:event_jMenuItem19ActionPerformed
 
+    /**
+     * Opções
+     */
+    private void jCheckBoxMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem1ActionPerformed
+        MainFrame.debugg = this.jCheckBoxMenuItem1.getState();
+    }//GEN-LAST:event_jCheckBoxMenuItem1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;

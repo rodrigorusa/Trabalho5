@@ -6,6 +6,8 @@
 
 package trabalho5.database;
 
+import trabalho5.view.MainFrame;
+
 import java.sql.SQLException;
 import java.sql.ResultSet;
 
@@ -120,7 +122,8 @@ public class Article {
             sql += "to_date('"+this.dataApresArt+" "+this.horaApresArt+"', 'dd/mm/yyyy hh24:mi'), ";
         
         sql += this.codEv+", "+ this.numEd+", "+ this.idApr+ ")";
-        System.out.println(sql);
+        if(MainFrame.debugg)
+            System.out.println(sql);
         db.execute(sql);
     }
     
@@ -133,7 +136,8 @@ public class Article {
      */
     public void remove(DbConnection db) throws SQLException {
         String sql = "DELETE FROM artigo WHERE idArt = "+this.idArt;
-        System.out.println(sql);
+        if(MainFrame.debugg)
+            System.out.println(sql);
         db.execute(sql);
     }
     
@@ -148,7 +152,8 @@ public class Article {
     public static ResultSet findAll(DbConnection db) throws SQLException {
         String sql = "SELECT idArt, tituloArt, to_char(dataApresArt, 'dd/mm/yyyy') AS \"dataApresArt\","
                 + " to_char(horaApresArt, 'hh24:mi') AS \"horaApresArt\", codEv, numEd, idApr FROM artigo";
-        System.out.println(sql);
+        if(MainFrame.debugg)
+            System.out.println(sql);
         return db.query(sql);
     }
     
@@ -165,7 +170,8 @@ public class Article {
         String sql = "SELECT idArt, tituloArt, to_char(dataApresArt, 'dd/mm/yyyy') AS \"dataApresArt\","
                 + " to_char(horaApresArt, 'hh24:mi') AS \"horaApresArt\", codEv, numEd, idApr FROM artigo"
                 + " WHERE UPPER(tituloArt) LIKE UPPER('%"+name+"%')";
-        System.out.println(sql);
+        if(MainFrame.debugg)
+            System.out.println(sql);
         return db.query(sql);
     }
     
