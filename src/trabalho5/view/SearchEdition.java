@@ -6,12 +6,12 @@
 
 package trabalho5.view;
 
+import trabalho5.database.Edition;
+import trabalho5.database.Event;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.table.DefaultTableModel;
-import trabalho5.database.DbConnection;
-import trabalho5.database.Edition;
-import trabalho5.database.Event;
 
 /**
  *
@@ -19,18 +19,15 @@ import trabalho5.database.Event;
  */
 public class SearchEdition extends javax.swing.JFrame {
 
-    protected DbConnection db;
     private final int type;
     
     /**
      * Creates new form SearchEdition
      * 
-     * @param db
      * @param type
      * @param option
      */
-    public SearchEdition(DbConnection db, int type, String option) {
-        this.db = db;
+    public SearchEdition(int type, String option) {
         this.type = type;
         initComponents();
         
@@ -40,13 +37,13 @@ public class SearchEdition extends javax.swing.JFrame {
             ResultSet rs;
             // SELECT ALL
             if (option.equals("Todos"))
-                rs = Edition.findAll(this.db);
+                rs = Edition.findAll(MainFrame.db);
             // SELECT BY Event
             else {
                 // pega o evento selecionado
-                rs = Event.findByName(this.db, option);
+                rs = Event.findByName(MainFrame.db, option);
                 Event ev = Event.next(rs);
-                rs = Edition.findByEvent(this.db, ev);
+                rs = Edition.findByEvent(MainFrame.db, ev);
             }    
             Edition ed = Edition.next(rs);
             while (ed != null) {
@@ -163,14 +160,14 @@ public class SearchEdition extends javax.swing.JFrame {
         // atualização da edição
         if (this.type == CRUDType.UPDATE) {
             // inicia a interface de atualização
-            UpdateEdition updateEdition = new UpdateEdition(this.db, e);
+            UpdateEdition updateEdition = new UpdateEdition(e);
             updateEdition.setVisible(true);
             this.dispose();
         }
         // remoção da edição
         if (this.type == CRUDType.REMOVE) {
             // inicia a interface de remoção
-            RemoveEdition removeEdition = new RemoveEdition(this.db, e);
+            RemoveEdition removeEdition = new RemoveEdition(e);
             removeEdition.setVisible(true);
             this.dispose();
         }

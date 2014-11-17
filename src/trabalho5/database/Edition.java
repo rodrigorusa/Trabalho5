@@ -215,6 +215,28 @@ public class Edition {
     
     /**
      * 
+     * Busca as edição pela chave primária
+     * 
+     * 
+     * @param db
+     * @param codEv
+     * @param numEd
+     * @return 
+     * @throws SQLException 
+     */
+    public static Edition findByPrimaryKey(DbConnection db, int codEv, int numEd) throws SQLException {
+        String sql = "SELECT codEv, numEd, descricaoEd, to_char(dataInicioEd, 'DD/MM/YYYY') AS \"DataInicioEd\", "
+                + "to_char(dataFimEd, 'DD/MM/YYYY') AS \"DataFimEd\", localEd, "
+                + "taxaEd, "
+                + "saldoFinanceiroEd, "
+                + "qtdArtigosApresentadosEd FROM edicao "
+                + "WHERE codEv = "+codEv+" AND numEd = "+numEd;
+        System.out.println(sql);
+        return Edition.next(db.query(sql));
+    }
+    
+    /**
+     * 
      * Retorna um a um as edições
      * 
      * @param rs

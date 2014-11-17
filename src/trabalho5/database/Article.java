@@ -126,6 +126,19 @@ public class Article {
     
     /**
      * 
+     * Remove artigo no banco de dados
+     * 
+     * @param db
+     * @throws SQLException
+     */
+    public void remove(DbConnection db) throws SQLException {
+        String sql = "DELETE FROM artigo WHERE idArt = "+this.idArt;
+        System.out.println(sql);
+        db.execute(sql);
+    }
+    
+    /**
+     * 
      * Busca todos os artigos
      * 
      * @param db

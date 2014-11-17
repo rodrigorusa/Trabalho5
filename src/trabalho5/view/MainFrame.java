@@ -15,7 +15,7 @@ import java.sql.SQLException;
  */
 public class MainFrame extends javax.swing.JFrame {
 
-    protected DbConnection db;
+    protected static DbConnection db;
     
     /**
      * Creates new form MainFrame
@@ -23,7 +23,7 @@ public class MainFrame extends javax.swing.JFrame {
      * @param db
      */
     public MainFrame(DbConnection db) {
-        this.db = db;
+        MainFrame.db = db;
         initComponents();
     }
 
@@ -258,7 +258,7 @@ public class MainFrame extends javax.swing.JFrame {
      * Cadastrar evento
      */
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        InsertEvent insertEvent = new InsertEvent(this.db);
+        InsertEvent insertEvent = new InsertEvent();
         insertEvent.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -267,7 +267,7 @@ public class MainFrame extends javax.swing.JFrame {
      */
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         try {
-            this.db.disconnect();
+            MainFrame.db.disconnect();
             System.out.println("Conexão fechada com sucesso.");
         } catch(SQLException e) {
             System.out.println("Erro ao fechar a conexão com o banco de dados.");
@@ -278,7 +278,7 @@ public class MainFrame extends javax.swing.JFrame {
      * Atualizar evento
      */
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        SearchEventByName searchEvent = new SearchEventByName(this.db, CRUDType.UPDATE);
+        SearchEventByName searchEvent = new SearchEventByName(CRUDType.UPDATE);
         searchEvent.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
@@ -286,7 +286,7 @@ public class MainFrame extends javax.swing.JFrame {
      * Remover evento
      */
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        SearchEventByName searchEvent = new SearchEventByName(this.db, CRUDType.REMOVE);
+        SearchEventByName searchEvent = new SearchEventByName(CRUDType.REMOVE);
         searchEvent.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
@@ -294,7 +294,7 @@ public class MainFrame extends javax.swing.JFrame {
      * Buscar evento
      */
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        SearchEventByName searchEvent = new SearchEventByName(this.db, CRUDType.SEARCH);
+        SearchEventByName searchEvent = new SearchEventByName(CRUDType.SEARCH);
         searchEvent.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
@@ -302,7 +302,7 @@ public class MainFrame extends javax.swing.JFrame {
      * Cadastrar edição
      */
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        InsertEdition insertEdition = new InsertEdition(this.db);
+        InsertEdition insertEdition = new InsertEdition();
         insertEdition.setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
@@ -310,7 +310,7 @@ public class MainFrame extends javax.swing.JFrame {
      * Buscar edição
      */
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        SearchEditionByEvent searchEdition = new SearchEditionByEvent(this.db, CRUDType.SEARCH);
+        SearchEditionByEvent searchEdition = new SearchEditionByEvent(CRUDType.SEARCH);
         searchEdition.setVisible(true);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
@@ -318,7 +318,7 @@ public class MainFrame extends javax.swing.JFrame {
      * Remover edição
      */
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        SearchEditionByEvent searchEdition = new SearchEditionByEvent(this.db, CRUDType.REMOVE);
+        SearchEditionByEvent searchEdition = new SearchEditionByEvent(CRUDType.REMOVE);
         searchEdition.setVisible(true);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
@@ -326,7 +326,7 @@ public class MainFrame extends javax.swing.JFrame {
      * Atualizar edição
      */
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
-        SearchEditionByEvent searchEdition = new SearchEditionByEvent(this.db, CRUDType.UPDATE);
+        SearchEditionByEvent searchEdition = new SearchEditionByEvent(CRUDType.UPDATE);
         searchEdition.setVisible(true);
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
@@ -334,7 +334,7 @@ public class MainFrame extends javax.swing.JFrame {
      * Cadastrar pessoa
      */
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
-        InsertPeople insertPeople = new InsertPeople(this.db);
+        InsertPeople insertPeople = new InsertPeople();
         insertPeople.setVisible(true);
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
@@ -342,7 +342,7 @@ public class MainFrame extends javax.swing.JFrame {
      * Buscar pessoa
      */
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
-        SearchPeopleByName searchPeople = new SearchPeopleByName(this.db, CRUDType.SEARCH);
+        SearchPeopleByName searchPeople = new SearchPeopleByName(CRUDType.SEARCH);
         searchPeople.setVisible(true);
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
@@ -350,7 +350,7 @@ public class MainFrame extends javax.swing.JFrame {
      * Atualizar pessoa
      */
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
-        SearchPeopleByName searchPeople = new SearchPeopleByName(this.db, CRUDType.UPDATE);
+        SearchPeopleByName searchPeople = new SearchPeopleByName(CRUDType.UPDATE);
         searchPeople.setVisible(true);
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
@@ -358,7 +358,7 @@ public class MainFrame extends javax.swing.JFrame {
      * Remover pessoa
      */
     private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
-        SearchPeopleByName searchPeople = new SearchPeopleByName(this.db, CRUDType.REMOVE);
+        SearchPeopleByName searchPeople = new SearchPeopleByName(CRUDType.REMOVE);
         searchPeople.setVisible(true);
     }//GEN-LAST:event_jMenuItem12ActionPerformed
 
@@ -366,7 +366,7 @@ public class MainFrame extends javax.swing.JFrame {
      * Cadastrar inscrito
      */
     private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
-        InsertRegistered insertRegistered = new InsertRegistered(this.db);
+        InsertRegistered insertRegistered = new InsertRegistered();
         insertRegistered.setVisible(true);
     }//GEN-LAST:event_jMenuItem13ActionPerformed
 
@@ -374,7 +374,7 @@ public class MainFrame extends javax.swing.JFrame {
      * Buscar inscrito
      */
     private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
-        SearchRegisteredByPeople searchRegistered = new SearchRegisteredByPeople(this.db, CRUDType.SEARCH);
+        SearchRegisteredByPeople searchRegistered = new SearchRegisteredByPeople(CRUDType.SEARCH);
         searchRegistered.setVisible(true);
     }//GEN-LAST:event_jMenuItem14ActionPerformed
 
@@ -382,7 +382,7 @@ public class MainFrame extends javax.swing.JFrame {
      * Remover inscrito
      */
     private void jMenuItem15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem15ActionPerformed
-        SearchRegisteredByPeople searchRegistered = new SearchRegisteredByPeople(this.db, CRUDType.REMOVE);
+        SearchRegisteredByPeople searchRegistered = new SearchRegisteredByPeople(CRUDType.REMOVE);
         searchRegistered.setVisible(true);
     }//GEN-LAST:event_jMenuItem15ActionPerformed
 
@@ -390,7 +390,7 @@ public class MainFrame extends javax.swing.JFrame {
      *  Cadastrar artigo
      */
     private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
-        InsertArticle insertArticle = new InsertArticle(this.db);
+        InsertArticle insertArticle = new InsertArticle();
         insertArticle.setVisible(true);
     }//GEN-LAST:event_jMenuItem16ActionPerformed
 
@@ -398,7 +398,7 @@ public class MainFrame extends javax.swing.JFrame {
      * Buscar artigo
      */
     private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
-        SearchArticleByName searchArticle = new SearchArticleByName(this.db, CRUDType.SEARCH);
+        SearchArticleByName searchArticle = new SearchArticleByName(CRUDType.SEARCH);
         searchArticle.setVisible(true);
     }//GEN-LAST:event_jMenuItem17ActionPerformed
 
@@ -406,7 +406,7 @@ public class MainFrame extends javax.swing.JFrame {
      * Atualizar artigo
      */
     private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
-        SearchArticleByName searchArticle = new SearchArticleByName(this.db, CRUDType.UPDATE);
+        SearchArticleByName searchArticle = new SearchArticleByName(CRUDType.UPDATE);
         searchArticle.setVisible(true);
     }//GEN-LAST:event_jMenuItem18ActionPerformed
 
@@ -414,7 +414,7 @@ public class MainFrame extends javax.swing.JFrame {
      * Remover artigo
      */
     private void jMenuItem19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem19ActionPerformed
-        SearchArticleByName searchArticle = new SearchArticleByName(this.db, CRUDType.REMOVE);
+        SearchArticleByName searchArticle = new SearchArticleByName(CRUDType.REMOVE);
         searchArticle.setVisible(true);
     }//GEN-LAST:event_jMenuItem19ActionPerformed
 

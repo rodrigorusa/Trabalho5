@@ -6,10 +6,10 @@
 
 package trabalho5.view;
 
+import trabalho5.database.Event;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import trabalho5.database.DbConnection;
-import trabalho5.database.Event;
 
 /**
  *
@@ -17,23 +17,20 @@ import trabalho5.database.Event;
  */
 public class SearchEditionByEvent extends javax.swing.JFrame {
 
-    protected DbConnection db;
     private final int type;
     
     /**
      * Creates new form SearchEditionByEvent
      * 
-     * @param db
      * @param type
      */
-    public SearchEditionByEvent(DbConnection db, int type) {
-        this.db = db;
+    public SearchEditionByEvent(int type) {
         this.type = type;
         initComponents();
         
         // busca todos os eventos
         try {
-            ResultSet rs = Event.findAll(this.db);
+            ResultSet rs = Event.findAll(MainFrame.db);
             Event e = Event.next(rs);
             while(e != null) {
                 this.jComboBox1.addItem(e.getNomeEv());
@@ -127,7 +124,7 @@ public class SearchEditionByEvent extends javax.swing.JFrame {
      * Buscar
      */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        SearchEdition searchEdition = new SearchEdition(this.db, this.type, (String) this.jComboBox1.getSelectedItem());
+        SearchEdition searchEdition = new SearchEdition(this.type, (String) this.jComboBox1.getSelectedItem());
         searchEdition.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed

@@ -6,8 +6,8 @@
 
 package trabalho5.view;
 
-import trabalho5.database.DbConnection;
 import trabalho5.database.People;
+
 import java.sql.SQLException;
 
 /**
@@ -15,16 +15,12 @@ import java.sql.SQLException;
  * @author Rodrigo
  */
 public class InsertPeople extends javax.swing.JFrame {
-
-    protected DbConnection db;
     
     /**
      * Creates new form InsertPeople
      * 
-     * @param db
      */
-    public InsertPeople(DbConnection db) {
-        this.db = db;
+    public InsertPeople() {
         initComponents();
     }
 
@@ -238,7 +234,7 @@ public class InsertPeople extends javax.swing.JFrame {
             People people = new People(nomePe, emailPe, instituicaoPe, telefonePe, nacionalidadePe, enderecoPe, 
                     tipoOrganizador, tipoParticipante, tipoAutor);
             try {
-                people.insert(this.db);
+                people.insert(MainFrame.db);
                 new Message(this, true, "Pessoa cadastrada.").setVisible(true);
                 this.dispose();
             } catch(SQLException e) {

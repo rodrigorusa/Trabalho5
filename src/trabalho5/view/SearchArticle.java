@@ -6,7 +6,6 @@
 
 package trabalho5.view;
 
-import trabalho5.database.DbConnection;
 import trabalho5.database.Article;
 import trabalho5.database.Event;
 import trabalho5.database.People;
@@ -21,18 +20,15 @@ import javax.swing.table.DefaultTableModel;
  */
 public class SearchArticle extends javax.swing.JFrame {
 
-    protected DbConnection db;
     private final int type;
     
     /**
      * Creates new form SearchArticle
      * 
-     * @param db
      * @param type
      * @param name
      */
-    public SearchArticle(DbConnection db, int type, String name) {
-        this.db = db;
+    public SearchArticle(int type, String name) {
         this.type = type;
         initComponents();
         
@@ -42,16 +38,16 @@ public class SearchArticle extends javax.swing.JFrame {
             ResultSet rs;
             // SELECT ALL
             if(name.isEmpty())
-                rs = Article.findAll(this.db);
+                rs = Article.findAll(MainFrame.db);
             // SELECT By Name
             else
-                rs = Article.findByName(this.db, name);
+                rs = Article.findByName(MainFrame.db, name);
             Article a = Article.next(rs);
             while(a != null) {
                 // pega o evento
-                Event e = Event.findByPrimaryKey(this.db, a.getCodEv());
+                Event e = Event.findByPrimaryKey(MainFrame.db, a.getCodEv());
                 // pega o apresentador
-                People p = People.findByPrimaryKey(this.db, a.getIdApr());
+                People p = People.findByPrimaryKey(MainFrame.db, a.getIdApr());
                 // adiciona uma linha na tabela
                 model.addRow(new Object[] {a.getIdArt(), a.getTituloArt(), a.getDataApresArt(), a.getHoraApresArt(),
                     e.getNomeEv(), a.getNumEd(), p.getNomePe()});
@@ -163,11 +159,11 @@ public class SearchArticle extends javax.swing.JFrame {
         int i = this.jTable1.getSelectedRow();
         try {
             // pega o código do evento
-            ResultSet rs = Event.findByName(this.db, (String) this.jTable1.getValueAt(i, 4));
+            ResultSet rs = Event.findByName(MainFrame.db, (String) this.jTable1.getValueAt(i, 4));
             Event e = Event.next(rs);
             int codEv = e.getCodEv();
             // pega o id do apresentador
-            rs = People.findByName(this.db, (String) this.jTable1.getValueAt(i, 6));
+            rs = People.findByName(MainFrame.db, (String) this.jTable1.getValueAt(i, 6));
             People p = People.next(rs);
             int idApr = p.getIdPe();
 
@@ -178,21 +174,21 @@ public class SearchArticle extends javax.swing.JFrame {
             // busca os autores
             if (this.type == CRUDType.SEARCH) {
                 // inicia a interface de impressão dos autores do artigo selecionado
-                Authors authors = new Authors(this.db, a);
+                Authors authors = new Authors(a);
                 authors.setVisible(true);
             }
 
             // atualização de artigo
             if (this.type == CRUDType.UPDATE) {
                 // inicia a interface de atualização
-                UpdateArticle updateArticle = new UpdateArticle(this.db, a);
+                UpdateArticle updateArticle = new UpdateArticle(a);
                 updateArticle.setVisible(true);
                 this.dispose();
             }
             // remoção de artigo
             if (this.type == CRUDType.REMOVE) {
                 // inicia a interface de remoção
-                RemoveArticle removeArticle = new RemoveArticle(this.db, a);
+                RemoveArticle removeArticle = new RemoveArticle(a);
                 removeArticle.setVisible(true);
                 this.dispose();
             }

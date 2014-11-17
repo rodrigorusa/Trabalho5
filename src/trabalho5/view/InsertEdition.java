@@ -6,7 +6,6 @@
 
 package trabalho5.view;
 
-import trabalho5.database.DbConnection;
 import trabalho5.database.Event;
 import trabalho5.database.Edition;
 
@@ -18,16 +17,12 @@ import java.sql.SQLException;
  * @author Rodrigo
  */
 public class InsertEdition extends javax.swing.JFrame {
-
-    protected DbConnection db;
     
     /**
      * Creates new form InsertEdition
      * 
-     * @param db
      */
-    public InsertEdition(DbConnection db) {
-        this.db = db;
+    public InsertEdition() {
         initComponents();
         
         // taxa default
@@ -35,7 +30,7 @@ public class InsertEdition extends javax.swing.JFrame {
         
         // busca todos os eventos
         try {
-            ResultSet rs = Event.findAll(this.db);
+            ResultSet rs = Event.findAll(MainFrame.db);
             Event e = Event.next(rs);
             while(e != null) {
                 this.jComboBox1.addItem(e.getNomeEv());
@@ -250,7 +245,7 @@ public class InsertEdition extends javax.swing.JFrame {
         String name = (String) this.jComboBox1.getSelectedItem();
         try {
             // pega o evento selecionado pelo nome
-            ResultSet rs = Event.findByName(this.db, name);
+            ResultSet rs = Event.findByName(MainFrame.db, name);
             Event e = Event.next(rs);
             
             // pega os atributos para a inserção da edição
@@ -287,7 +282,7 @@ public class InsertEdition extends javax.swing.JFrame {
                 } else {
                     // insere edição
                     Edition ed = new Edition(codEv, numEd, descricaoEd, dataInicioEd, dataFimEd, localEd, taxaEd, 0.00, 0);
-                    ed.insert(this.db);
+                    ed.insert(MainFrame.db);
                     new Message(this, true, "Edição cadastrada.").setVisible(true);
                     this.dispose();
                 }

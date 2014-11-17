@@ -6,7 +6,6 @@
 
 package trabalho5.view;
 
-import trabalho5.database.DbConnection;
 import trabalho5.database.Registered;
 import trabalho5.database.People;
 import trabalho5.database.Event;
@@ -21,18 +20,15 @@ import javax.swing.table.DefaultTableModel;
  */
 public class SearchRegistered extends javax.swing.JFrame {
 
-    protected DbConnection db;
     private final int type;
     
     /**
      * Creates new form SearchRegistered
      * 
-     * @param db
      * @param type
      * @param name
      */
-    public SearchRegistered(DbConnection db, int type, String name) {
-        this.db = db;
+    public SearchRegistered(int type, String name) {
         this.type = type;
         initComponents();
         
@@ -42,17 +38,17 @@ public class SearchRegistered extends javax.swing.JFrame {
             ResultSet rs;
             // SELECT ALL
             if (name.isEmpty())
-                rs = Registered.findAll(this.db);
+                rs = Registered.findAll(MainFrame.db);
             // SELECT By Name
             else
-                rs = Registered.findByName(this.db, name);
+                rs = Registered.findByName(MainFrame.db, name);
             
             Registered r = Registered.next(rs);
             while(r != null) {
                 // pega o evento
-                Event ev = Event.findByPrimaryKey(this.db, r.getCodEv());
+                Event ev = Event.findByPrimaryKey(MainFrame.db, r.getCodEv());
                 // pega a pessoa
-                People p = People.findByPrimaryKey(this.db, r.getIdPart());
+                People p = People.findByPrimaryKey(MainFrame.db, r.getIdPart());
                 // adiciona uma linha na tabela
                 model.addRow(new Object[] {ev.getNomeEv(), r.getNumEd(), p.getNomePe(), r.getDataInsc(), 
                     r.getTipoApresentador()});
@@ -167,16 +163,16 @@ public class SearchRegistered extends javax.swing.JFrame {
             int i = this.jTable1.getSelectedRow();
             try {
                 // pega o código do evento
-                ResultSet rs = Event.findByName(this.db, (String) this.jTable1.getValueAt(i, 0));
+                ResultSet rs = Event.findByName(MainFrame.db, (String) this.jTable1.getValueAt(i, 0));
                 Event ev = Event.next(rs);
                 // pega o id do inscrito
-                rs = People.findByName(this.db, (String) this.jTable1.getValueAt(i, 2));
+                rs = People.findByName(MainFrame.db, (String) this.jTable1.getValueAt(i, 2));
                 People p = People.next(rs);
                 // pega o objeto a ser removido
                 Registered r = new Registered(ev.getCodEv(), (int) this.jTable1.getValueAt(i, 1), p.getIdPe(), 
                     (String) this.jTable1.getValueAt(i, 3), (char) this.jTable1.getValueAt(i, 4));
                 // inicia a interface de remoção
-                RemoveRegistered removeRegistered = new RemoveRegistered(this.db, r);
+                RemoveRegistered removeRegistered = new RemoveRegistered(r);
                 removeRegistered.setVisible(true);
                 this.dispose();
             } catch(SQLException e) {

@@ -6,9 +6,9 @@
 
 package trabalho5.view;
 
-import java.sql.SQLException;
-import trabalho5.database.DbConnection;
 import trabalho5.database.Edition;
+
+import java.sql.SQLException;
 
 /**
  *
@@ -16,17 +16,14 @@ import trabalho5.database.Edition;
  */
 public class UpdateEdition extends javax.swing.JFrame {
 
-    protected DbConnection db;
     private final Edition edition;
     
     /**
      * Creates new form UpdateEdition
      * 
-     * @param db
      * @param e
      */
-    public UpdateEdition(DbConnection db, Edition e) {
-        this.db = db;
+    public UpdateEdition(Edition e) {
         this.edition = e;
         initComponents();
         // imprime os valores atuais
@@ -222,7 +219,7 @@ public class UpdateEdition extends javax.swing.JFrame {
             this.edition.setDataFimEd(dataFimEd);
             this.edition.setTaxaEd(taxaEd);
             try {
-                this.edition.update(this.db);
+                this.edition.update(MainFrame.db);
                 new Message(this, true, "Edição atualizada.").setVisible(true);
                 this.dispose();
             } catch(SQLException e) {

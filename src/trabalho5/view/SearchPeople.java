@@ -6,10 +6,9 @@
 
 package trabalho5.view;
 
-import javax.swing.table.DefaultTableModel;
-import trabalho5.database.DbConnection;
 import trabalho5.database.People;
 
+import javax.swing.table.DefaultTableModel;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -19,18 +18,15 @@ import java.sql.SQLException;
  */
 public class SearchPeople extends javax.swing.JFrame {
 
-    protected DbConnection db;
     private final int type;
     
     /**
      * Creates new form SearchPeople
      * 
-     * @param db
      * @param type
      * @param name
      */
-    public SearchPeople(DbConnection db, int type, String name) {
-        this.db = db;
+    public SearchPeople(int type, String name) {
         this.type = type;
         initComponents();
         
@@ -40,10 +36,10 @@ public class SearchPeople extends javax.swing.JFrame {
             ResultSet rs;
             // SELECT ALL
             if (name.isEmpty())
-                rs = People.findAll(this.db);
+                rs = People.findAll(MainFrame.db);
             // SELECT BY Name
             else 
-                rs = People.findByName(this.db, name);
+                rs = People.findByName(MainFrame.db, name);
             People p = People.next(rs);
             while (p != null) {
                 // adiciona uma linha na tabela
@@ -169,14 +165,14 @@ public class SearchPeople extends javax.swing.JFrame {
         // atualização de pessoa
         if (this.type == CRUDType.UPDATE) {
             // inicia a interface de atualização
-            UpdatePeople updatePeople = new UpdatePeople(this.db, p);
+            UpdatePeople updatePeople = new UpdatePeople(p);
             updatePeople.setVisible(true);
             this.dispose();
         }
         // remoção de pessoa
         if (this.type == CRUDType.REMOVE) {
             // inicia a interface de remoção
-            RemovePeople removePeople = new RemovePeople(this.db, p);
+            RemovePeople removePeople = new RemovePeople(p);
             removePeople.setVisible(true);
             this.dispose();
         }

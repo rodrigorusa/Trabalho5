@@ -6,25 +6,20 @@
 
 package trabalho5.view;
 
-import trabalho5.database.DbConnection;
-
 /**
  *
  * @author Rodrigo
  */
 public class SearchPeopleByName extends javax.swing.JFrame {
 
-    protected DbConnection db;
     private final int type;
     
     /**
      * Creates new form SearchPeopleByName
-     * 
-     * @param db
+     *
      * @param type
      */
-    public SearchPeopleByName(DbConnection db, int type) {
-        this.db = db;
+    public SearchPeopleByName(int type) {
         this.type = type;
         initComponents();
     }
@@ -108,7 +103,7 @@ public class SearchPeopleByName extends javax.swing.JFrame {
      * Buscar
      */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        SearchPeople searchPeople = new SearchPeople(this.db, this.type, this.jTextField1.getText());
+        SearchPeople searchPeople = new SearchPeople(this.type, this.jTextField1.getText());
         searchPeople.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed

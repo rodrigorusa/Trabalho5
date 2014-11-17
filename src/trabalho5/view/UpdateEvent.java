@@ -6,7 +6,6 @@
 
 package trabalho5.view;
 
-import trabalho5.database.DbConnection;
 import trabalho5.database.Event;
 import java.sql.SQLException;
 
@@ -16,17 +15,14 @@ import java.sql.SQLException;
  */
 public class UpdateEvent extends javax.swing.JFrame {
     
-    protected DbConnection db;
     private final Event event;
 
     /**
      * Creates new form UpdateEvent
      * 
-     * @param db
      * @param e
      */
-    public UpdateEvent(DbConnection db, Event e) {
-        this.db = db;
+    public UpdateEvent(Event e) {
         this.event = e;
         initComponents();
         // imprime os valores atuais
@@ -164,7 +160,7 @@ public class UpdateEvent extends javax.swing.JFrame {
             
             // atualiza
             try {
-                this.event.update(this.db);
+                this.event.update(MainFrame.db);
                 new Message(this, true, "Evento atualizado.").setVisible(true);
             } catch(SQLException e) {
                 String error;

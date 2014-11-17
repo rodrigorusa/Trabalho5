@@ -6,7 +6,6 @@
 
 package trabalho5.view;
 
-import trabalho5.database.DbConnection;
 import trabalho5.database.Article;
 import trabalho5.database.People;
 import trabalho5.database.Write;
@@ -21,28 +20,25 @@ import java.sql.SQLException;
  */
 public class Authors extends javax.swing.JFrame {
 
-    protected DbConnection db;
     private final Article article;
     
     /**
      * Creates new form Authors
      * 
-     * @param db
      * @param a
      */
-    public Authors(DbConnection db, Article a) {
-        this.db = db;
+    public Authors(Article a) {
         this.article = a;
         initComponents();
         
         // imprime os autores
         DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
         try {
-            ResultSet rs = Write.findByArticle(this.db, a.getIdArt());
+            ResultSet rs = Write.findByArticle(MainFrame.db, this.article.getIdArt());
             Write w = Write.next(rs);
             while(w != null) {
                 // pega informações do autor
-                People p = People.findByPrimaryKey(this.db, w.getIdAut());
+                People p = People.findByPrimaryKey(MainFrame.db, w.getIdAut());
                 // adiciona uma linha ana tabela
                 model.addRow(new Object[] {p.getNomePe(), p.getEmailPe(), p.getInstituicaoPe(), p.getTelefonePe()});
                 w = Write.next(rs);

@@ -6,7 +6,6 @@
 
 package trabalho5.view;
 
-import trabalho5.database.DbConnection;
 import trabalho5.database.People;
 
 import java.sql.SQLException;
@@ -17,17 +16,14 @@ import java.sql.SQLException;
  */
 public class UpdatePeople extends javax.swing.JFrame {
 
-    protected DbConnection db;
     private final People people;
     
     /**
      * Creates new form UpdatePeople
      * 
-     * @param db
      * @param p
      */
-    public UpdatePeople(DbConnection db, People p) {
-        this.db = db;
+    public UpdatePeople(People p) {
         this.people = p;
         initComponents();
         
@@ -256,7 +252,7 @@ public class UpdatePeople extends javax.swing.JFrame {
                 this.people.setTipoAutor('N');
             
             try {
-                people.update(this.db);
+                people.update(MainFrame.db);
                 new Message(this, true, "Pessoa atualizada.").setVisible(true);
                 this.dispose();
             } catch(SQLException e) {

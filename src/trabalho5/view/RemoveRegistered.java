@@ -6,7 +6,6 @@
 
 package trabalho5.view;
 
-import trabalho5.database.DbConnection;
 import trabalho5.database.Registered;
 
 import java.sql.SQLException;
@@ -17,17 +16,14 @@ import java.sql.SQLException;
  */
 public class RemoveRegistered extends javax.swing.JFrame {
 
-    protected DbConnection db;
     private final Registered registered;
     
     /**
      * Creates new form RemoveRegistered
      * 
-     * @param db
      * @param r
      */
-    public RemoveRegistered(DbConnection db, Registered r) {
-        this.db = db;
+    public RemoveRegistered(Registered r) {
         this.registered = r;
         initComponents();
     }
@@ -108,7 +104,7 @@ public class RemoveRegistered extends javax.swing.JFrame {
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            this.registered.remove(this.db);
+            this.registered.remove(MainFrame.db);
             new Message(this, true, "Inscrito removido.").setVisible(true);
         } catch(SQLException e) {
             Message msg = new Message(this, true, e.getMessage());

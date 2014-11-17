@@ -8,23 +8,18 @@ package trabalho5.view;
 
 import java.sql.SQLException;
 import trabalho5.database.Event;
-import trabalho5.database.DbConnection;
 
 /**
  *
  * @author Rodrigo
  */
 public class InsertEvent extends javax.swing.JFrame {
-
-    protected DbConnection db;
     
     /**
      * Creates new form InsertEvent
      * 
-     * @param db
      */
-    public InsertEvent(DbConnection db) {
-        this.db = db;
+    public InsertEvent() {
         initComponents();
     }
 
@@ -156,7 +151,7 @@ public class InsertEvent extends javax.swing.JFrame {
             // insere o evento
             Event ev = new Event(nomeEv, descricaoEv, websiteEv, 0);
             try {
-                ev.insert(this.db);
+                ev.insert(MainFrame.db);
                 new Message(this, true, "Evento cadastrado.").setVisible(true);
             } catch (SQLException e) {
                 String error;

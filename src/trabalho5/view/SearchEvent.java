@@ -6,7 +6,6 @@
 
 package trabalho5.view;
 
-import trabalho5.database.DbConnection;
 import trabalho5.database.Event;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,18 +18,15 @@ import javax.swing.table.DefaultTableModel;
  */
 public class SearchEvent extends javax.swing.JFrame {
 
-    protected DbConnection db;
     private final int type;
     
     /**
      * Creates new form SearchEvent
      * 
-     * @param db
      * @param type
      * @param name
      */
-    public SearchEvent(DbConnection db, int type, String name) {
-        this.db = db;
+    public SearchEvent(int type, String name) {
         this.type = type;
         initComponents();
         
@@ -40,10 +36,10 @@ public class SearchEvent extends javax.swing.JFrame {
             ResultSet rs;
             // SELECT ALL
             if (name.isEmpty())
-                rs = Event.findAll(db);
+                rs = Event.findAll(MainFrame.db);
             // SELECT BY NAME
             else
-                rs = Event.findByName(db, name);
+                rs = Event.findByName(MainFrame.db, name);
             Event e = Event.next(rs);
             while (e != null) {
                 // adiciona uma linha na tabela
@@ -156,14 +152,14 @@ public class SearchEvent extends javax.swing.JFrame {
         // atualização de evento
         if (this.type == CRUDType.UPDATE) {
             // inicia a interface de atualização
-            UpdateEvent updateEvent = new UpdateEvent(this.db, e);
+            UpdateEvent updateEvent = new UpdateEvent(e);
             updateEvent.setVisible(true);
             this.dispose();
         }
         // remoção de evento
         if (this.type == CRUDType.REMOVE) {
             // inicia a interface de remoção
-            RemoveEvent removeEvent = new RemoveEvent(this.db, e);
+            RemoveEvent removeEvent = new RemoveEvent(e);
             removeEvent.setVisible(true);
             this.dispose();
         }

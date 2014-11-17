@@ -6,7 +6,6 @@
 
 package trabalho5.view;
 
-import trabalho5.database.DbConnection;
 import trabalho5.database.People;
 
 import java.sql.SQLException;
@@ -17,17 +16,14 @@ import java.sql.SQLException;
  */
 public class RemovePeople extends javax.swing.JFrame {
 
-    protected DbConnection db;
     private final People people;
     
     /**
      * Creates new form RemovePeople
      * 
-     * @param db
      * @param p
      */
-    public RemovePeople(DbConnection db, People p) {
-        this.db = db;
+    public RemovePeople(People p) {
         this.people = p;
         initComponents();
     }
@@ -108,7 +104,7 @@ public class RemovePeople extends javax.swing.JFrame {
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            this.people.remove(this.db);
+            this.people.remove(MainFrame.db);
             new Message(this, true, "Pessoa removida.").setVisible(true);
         } catch(SQLException e) {
             Message msg = new Message(this, true, e.getMessage());

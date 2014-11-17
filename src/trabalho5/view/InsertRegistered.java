@@ -6,34 +6,30 @@
 
 package trabalho5.view;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import trabalho5.database.DbConnection;
 import trabalho5.database.Edition;
 import trabalho5.database.Event;
 import trabalho5.database.People;
 import trabalho5.database.Registered;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
  * @author Rodrigo
  */
 public class InsertRegistered extends javax.swing.JFrame {
-
-    protected DbConnection db;
     
     /**
      * Creates new form InsertRegistered
      * 
-     * @param db
      */
-    public InsertRegistered(DbConnection db) {
-        this.db = db;
+    public InsertRegistered() {
         initComponents();
         
         // busca todos os eventos
         try {
-            ResultSet rs = Event.findAll(this.db);
+            ResultSet rs = Event.findAll(MainFrame.db);
             Event e = Event.next(rs);
             while(e != null) {
                 this.jComboBox1.addItem(e.getNomeEv());
@@ -47,7 +43,7 @@ public class InsertRegistered extends javax.swing.JFrame {
         
         // busca participantes
         try {
-            ResultSet rs = People.findParticipants(this.db);
+            ResultSet rs = People.findParticipants(MainFrame.db);
             People p = People.next(rs);
             while(p != null) {
                 this.jComboBox3.addItem(p.getNomePe());
@@ -188,11 +184,11 @@ public class InsertRegistered extends javax.swing.JFrame {
         String name = (String) this.jComboBox1.getSelectedItem();
         try {
             // pega o evento selecionado pelo nome
-            ResultSet rs = Event.findByName(this.db, name);
+            ResultSet rs = Event.findByName(MainFrame.db, name);
             Event ev = Event.next(rs);
             
             // pega as edições do evento
-            rs = Edition.findByEvent(this.db, ev);
+            rs = Edition.findByEvent(MainFrame.db, ev);
             Edition ed = Edition.next(rs);
             while(ed != null) {
                 String info = ed.getNumEd() + " de " + ed.getDataInicioEd() + " a " + ed.getDataFimEd()
@@ -225,7 +221,7 @@ public class InsertRegistered extends javax.swing.JFrame {
             } else {
 
                 // pega o evento selecionado
-                ResultSet rs = Event.findByName(this.db, eventName);
+                ResultSet rs = Event.findByName(MainFrame.db, eventName);
                 Event ev = Event.next(rs);
                 int codEv = ev.getCodEv();
 
@@ -234,13 +230,13 @@ public class InsertRegistered extends javax.swing.JFrame {
                 int numEd = Integer.valueOf(parts[0]).intValue();
 
                 // pega a pessoa selecionada
-                rs = People.findByName(this.db, peopleName);
+                rs = People.findByName(MainFrame.db, peopleName);
                 People p = People.next(rs);
                 int idPart = p.getIdPe();
 
                 // insere inscrito
                 Registered registered = new Registered(codEv, numEd, idPart);
-                registered.insert(this.db);
+                registered.insert(MainFrame.db);
                 new Message(this, true, "Inscrito cadastrado.").setVisible(true);
                 this.dispose();
             }

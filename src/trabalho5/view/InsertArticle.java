@@ -6,7 +6,6 @@
 
 package trabalho5.view;
 
-import trabalho5.database.DbConnection;
 import trabalho5.database.Event;
 import trabalho5.database.Edition;
 import trabalho5.database.People;
@@ -28,21 +27,17 @@ import java.util.List;
  * @author Rodrigo
  */
 public class InsertArticle extends javax.swing.JFrame {
-
-    protected DbConnection db;
     
     /**
      * Creates new form InsertArticle
      * 
-     * @param db
      */
-    public InsertArticle(DbConnection db) {
-        this.db = db;
+    public InsertArticle() {
         initComponents();
         
         try {
             // busca todos os eventos
-            ResultSet rs = Event.findAll(this.db);
+            ResultSet rs = Event.findAll(MainFrame.db);
             Event e = Event.next(rs);
             while(e != null) {
                 this.jComboBox1.addItem(e.getNomeEv());
@@ -51,7 +46,7 @@ public class InsertArticle extends javax.swing.JFrame {
             
             // busca todos os autores
             Vector<String> authors = new Vector<String>();
-            rs = People.findAuthors(this.db);
+            rs = People.findAuthors(MainFrame.db);
             People p = People.next(rs);
             while(p != null) {
                 authors.add(p.getNomePe());
@@ -175,27 +170,26 @@ public class InsertArticle extends javax.swing.JFrame {
                             .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jTextField1)))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel6)
-                                .addComponent(jLabel9))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(0, 0, Short.MAX_VALUE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jLabel7)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jLabel8)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jComboBox3, 0, 175, Short.MAX_VALUE))))
-                        .addComponent(jLabel5)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel9))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jComboBox3, 0, 175, Short.MAX_VALUE))))
+                    .addComponent(jLabel5))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -248,35 +242,6 @@ public class InsertArticle extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
-     * Buscar edições
-     */
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // remove os itens
-        this.jComboBox2.removeAllItems();
-        // pega o nome do evento selecionado
-        String name = (String) this.jComboBox1.getSelectedItem();
-        try {
-            // pega o evento selecionado pelo nome
-            ResultSet rs = Event.findByName(this.db, name);
-            Event ev = Event.next(rs);
-            
-            // pega as edições do evento
-            rs = Edition.findByEvent(this.db, ev);
-            Edition ed = Edition.next(rs);
-            while(ed != null) {
-                String info = ed.getNumEd() + " de " + ed.getDataInicioEd() + " a " + ed.getDataFimEd()
-                        + " em " + ed.getLocalEd();
-                this.jComboBox2.addItem(info);
-                ed = Edition.next(rs);
-            }
-        } catch(SQLException e) {
-            Message msg = new Message(this, true, e.getMessage());
-            msg.setTitle("Erro");
-            msg.setVisible(true);
-        }
-    }//GEN-LAST:event_jComboBox1ActionPerformed
-
-    /**
      * Cadastrar artigo
      */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -302,7 +267,7 @@ public class InsertArticle extends javax.swing.JFrame {
         } else {
             try {
                 // pega o evento selecionado
-                ResultSet rs = Event.findByName(this.db, eventName);
+                ResultSet rs = Event.findByName(MainFrame.db, eventName);
                 Event e = Event.next(rs);
                 int codEv = e.getCodEv();
                 
@@ -311,21 +276,21 @@ public class InsertArticle extends javax.swing.JFrame {
                 int numEd = Integer.valueOf(parts[0]).intValue();
                 
                 // pega o apresentador selecionado
-                rs = People.findByName(this.db, presenterName);
+                rs = People.findByName(MainFrame.db, presenterName);
                 People p = People.next(rs);
                 int idApr = p.getIdPe();
                 
                 // atualiza inscrito como apresentador
-                Registered r = Registered.findByPrimaryKey(this.db, codEv, numEd, idApr);
+                Registered r = Registered.findByPrimaryKey(MainFrame.db, codEv, numEd, idApr);
                 r.setTipoApresentador('S');
-                r.update(this.db);
+                r.update(MainFrame.db);
                 
                 // insere o artigo
                 Article article = new Article(tituloArt, dataApresArt, horaApresArt, codEv, numEd, idApr);
-                article.insert(this.db);
+                article.insert(MainFrame.db);
                 
                 // pega o id do artigo que acabou de ser inserido
-                rs = db.query("SELECT seq_artigo.CURRVAL FROM DUAL");
+                rs = MainFrame.db.query("SELECT seq_artigo.CURRVAL FROM DUAL");
                 int idArt = 0;
                 if(rs.next())
                     idArt = rs.getInt("CURRVAL");
@@ -338,15 +303,15 @@ public class InsertArticle extends javax.swing.JFrame {
                     if(presenterName.equals(name))
                         flag = 1;
                     // pega o id do autor
-                    rs = People.findByName(this.db, name);
+                    rs = People.findByName(MainFrame.db, name);
                     People author = People.next(rs);
                     Write write = new Write(author.getIdPe(), idArt);
-                    write.insert(this.db);
+                    write.insert(MainFrame.db);
                 }
                 // se o apresentador não foi selecionado como autor, insere-o
                 if(flag == 0) {
                     Write write = new Write(idApr, idArt);
-                    write.insert(this.db);
+                    write.insert(MainFrame.db);
                 }
                 
                 new Message(this, true, "Artigo cadastrado.").setVisible(true);
@@ -369,21 +334,23 @@ public class InsertArticle extends javax.swing.JFrame {
         try {
             // pega o evento selecionado
             String eventName = (String) this.jComboBox1.getSelectedItem();
-            ResultSet rs = Event.findByName(this.db, eventName);
+            ResultSet rs = Event.findByName(MainFrame.db, eventName);
             Event e = Event.next(rs);
             int codEv = e.getCodEv();
             // pega a edição selecionada
             String editionName = (String) this.jComboBox2.getSelectedItem();
+            if (editionName == null)
+                return;
             String[] parts = editionName.split(" ");
             int numEd = Integer.valueOf(parts[0]).intValue();
             
             // busca os inscritos da edição do evento
             List<String> registereds = new ArrayList<String>();
-            rs = Registered.findByEventAndEdition(this.db, codEv, numEd);
+            rs = Registered.findByEventAndEdition(MainFrame.db, codEv, numEd);
             Registered r = Registered.next(rs);
             while(r != null) {
                 // busca o nome do inscrito
-                People p = People.findByPrimaryKey(this.db, r.getIdPart());
+                People p = People.findByPrimaryKey(MainFrame.db, r.getIdPart());
                 // insere apenas se for autor
                 if(p.getTipoAutor() == 'S')
                     registereds.add(p.getNomePe());
@@ -405,6 +372,36 @@ public class InsertArticle extends javax.swing.JFrame {
             msg.setVisible(true);
         }
     }//GEN-LAST:event_jComboBox2ActionPerformed
+
+    /**
+     * Buscar edições
+     */
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // remove os itens
+        this.jComboBox2.removeAllItems();
+        // pega o nome do evento selecionado
+        String name = (String) this.jComboBox1.getSelectedItem();
+        System.out.println(name);
+        try {
+            // pega o evento selecionado pelo nome
+            ResultSet rs = Event.findByName(MainFrame.db, name);
+            Event ev = Event.next(rs);
+            
+            // pega as edições do evento
+            rs = Edition.findByEvent(MainFrame.db, ev);
+            Edition ed = Edition.next(rs);
+            while(ed != null) {
+                String info = ed.getNumEd() + " de " + ed.getDataInicioEd() + " a " + ed.getDataFimEd()
+                        + " em " + ed.getLocalEd();
+                this.jComboBox2.addItem(info);
+                ed = Edition.next(rs);
+            }
+        } catch(SQLException e) {
+            Message msg = new Message(this, true, e.getMessage());
+            msg.setTitle("Erro");
+            msg.setVisible(true);
+        }
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

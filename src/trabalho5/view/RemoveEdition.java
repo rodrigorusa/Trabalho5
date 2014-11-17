@@ -6,7 +6,6 @@
 
 package trabalho5.view;
 
-import trabalho5.database.DbConnection;
 import trabalho5.database.Edition;
 import java.sql.SQLException;
 
@@ -16,17 +15,14 @@ import java.sql.SQLException;
  */
 public class RemoveEdition extends javax.swing.JFrame {
 
-    protected DbConnection db;
     private final Edition edition;
     
     /**
      * Creates new form RemoveEdition
      * 
-     * @param db
      * @param e
      */
-    public RemoveEdition(DbConnection db, Edition e) {
-        this.db = db;
+    public RemoveEdition(Edition e) {
         this.edition = e;
         initComponents();
     }
@@ -107,7 +103,7 @@ public class RemoveEdition extends javax.swing.JFrame {
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            this.edition.remove(this.db);
+            this.edition.remove(MainFrame.db);
             new Message(this, true, "Edição removida.").setVisible(true);
         } catch(SQLException e) {
             Message msg = new Message(this, true, e.getMessage());
