@@ -46,13 +46,19 @@ public class SearchArticle extends javax.swing.JFrame {
             while(a != null) {
                 // pega o evento
                 Event e = Event.findByPrimaryKey(MainFrame.db, a.getCodEv());
+                // fecha o cursor
+                MainFrame.db.close();
                 // pega o apresentador
                 People p = People.findByPrimaryKey(MainFrame.db, a.getIdApr());
+                // fecha o cursor
+                MainFrame.db.close();
                 // adiciona uma linha na tabela
                 model.addRow(new Object[] {a.getIdArt(), a.getTituloArt(), a.getDataApresArt(), a.getHoraApresArt(),
                     e.getNomeEv(), a.getNumEd(), p.getNomePe()});
                 a = Article.next(rs);
             }
+            // fecha o cursor
+            MainFrame.db.close();
         } catch(SQLException e) {
             Message msg = new Message(this, true, e.getMessage());
             msg.setTitle("Erro");
@@ -162,10 +168,15 @@ public class SearchArticle extends javax.swing.JFrame {
             ResultSet rs = Event.findByName(MainFrame.db, (String) this.jTable1.getValueAt(i, 4));
             Event e = Event.next(rs);
             int codEv = e.getCodEv();
+            // fecha o cursor
+            MainFrame.db.close();
+            
             // pega o id do apresentador
             rs = People.findByName(MainFrame.db, (String) this.jTable1.getValueAt(i, 6));
             People p = People.next(rs);
             int idApr = p.getIdPe();
+            // fecha o cursor
+            MainFrame.db.close();
 
             Article a = new Article((int) this.jTable1.getValueAt(i, 0), (String) this.jTable1.getValueAt(i, 1), 
                 (String) this.jTable1.getValueAt(i, 2), (String) this.jTable1.getValueAt(i, 3), codEv, 
@@ -192,6 +203,7 @@ public class SearchArticle extends javax.swing.JFrame {
                 removeArticle.setVisible(true);
                 this.dispose();
             }
+            
         } catch(SQLException e) {
             Message msg = new Message(this, true, e.getMessage());
             msg.setTitle("Erro");

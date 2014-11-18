@@ -50,6 +50,7 @@ public class Write {
      */
     public void insert(DbConnection db) throws SQLException {
         String sql = "INSERT INTO escreve VALUES("+this.idAut+", "+this.idArt+")";
+        // debugg
         if(MainFrame.debugg)
             System.out.println(sql);
         db.execute(sql);
@@ -66,6 +67,7 @@ public class Write {
      */
     public static ResultSet findByArticle(DbConnection db, int idArt) throws SQLException {
         String sql = "SELECT idAut, idArt FROM escreve WHERE idArt = "+idArt;
+        // debugg
         if(MainFrame.debugg)
             System.out.println(sql);
         return db.query(sql);

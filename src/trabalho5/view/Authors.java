@@ -39,10 +39,14 @@ public class Authors extends javax.swing.JFrame {
             while(w != null) {
                 // pega informações do autor
                 People p = People.findByPrimaryKey(MainFrame.db, w.getIdAut());
+                // fecha o cursor
+                MainFrame.db.close();
                 // adiciona uma linha ana tabela
                 model.addRow(new Object[] {p.getNomePe(), p.getEmailPe(), p.getInstituicaoPe(), p.getTelefonePe()});
                 w = Write.next(rs);
             }
+            // fecha o cursor
+            MainFrame.db.close();
         } catch(SQLException e) {
             Message msg = new Message(this, true, e.getMessage());
             msg.setTitle("Erro");

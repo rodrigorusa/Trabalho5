@@ -47,8 +47,12 @@ public class UpdateArticle extends javax.swing.JFrame {
                 this.jComboBox1.addItem(e.getNomeEv());
                 e = Event.next(rs);
             }
+            // fecha o cursor
+            MainFrame.db.close();
             // seleciona o evento definido
             Event selected = Event.findByPrimaryKey(MainFrame.db, this.article.getCodEv());
+            // fecha o cursor
+            MainFrame.db.close();
             this.jComboBox1.setSelectedItem(selected.getNomeEv());
             
             // imprime os dados
@@ -65,6 +69,8 @@ public class UpdateArticle extends javax.swing.JFrame {
                 p = People.next(rs);
             }
             this.jList1.setListData(authors);
+            // fecha o cursor
+            MainFrame.db.close();
             
             // seleciona os autores
             rs = Write.findByArticle(MainFrame.db, this.article.getIdArt());
@@ -74,11 +80,14 @@ public class UpdateArticle extends javax.swing.JFrame {
             while(w != null) {
                 // pega o autor
                 People author = People.findByPrimaryKey(MainFrame.db, w.getIdAut());
+                // fecha o cursor
+                MainFrame.db.close();
                 indices[i++] = authors.indexOf(author.getNomePe());
                 w = Write.next(rs);
             }
             this.jList1.setSelectedIndices(indices);
-           
+            // fecha o cursor
+            MainFrame.db.close();
         } catch(SQLException e) {
             Message msg = new Message(this, true, e.getMessage());
             msg.setTitle("Erro");
@@ -362,6 +371,9 @@ public class UpdateArticle extends javax.swing.JFrame {
             ResultSet rs = Event.findByName(MainFrame.db, eventName);
             Event e = Event.next(rs);
             int codEv = e.getCodEv();
+            // fecha o cursor
+            MainFrame.db.close();
+            
             // pega a edição selecionada
             String editionName = (String) this.jComboBox2.getSelectedItem();
             if (editionName == null)
@@ -376,11 +388,15 @@ public class UpdateArticle extends javax.swing.JFrame {
             while(r != null) {
                 // busca o nome do inscrito
                 People p = People.findByPrimaryKey(MainFrame.db, r.getIdPart());
+                // fecha o cursor
+                MainFrame.db.close();
                 // insere apenas se for autor
                 if(p.getTipoAutor() == 'S')
                     registereds.add(p.getNomePe());
                 r = Registered.next(rs);
             }
+            // fech o cursor
+            MainFrame.db.close();
             // ordena a lista
             Collections.sort(registereds, new Comparator<String>() {
                 @Override
@@ -394,6 +410,8 @@ public class UpdateArticle extends javax.swing.JFrame {
             
             // seleciona o apresentador definido
             People selected = People.findByPrimaryKey(MainFrame.db, this.article.getIdApr());
+            // fecha o cursor
+            MainFrame.db.close();
             this.jComboBox3.setSelectedItem(selected.getNomePe());
             
         } catch(SQLException e) {
@@ -415,7 +433,9 @@ public class UpdateArticle extends javax.swing.JFrame {
             // pega o evento selecionado pelo nome
             ResultSet rs = Event.findByName(MainFrame.db, name);
             Event ev = Event.next(rs);
-
+            // fecha o cursor
+            MainFrame.db.close();
+            
             // pega as edições do evento
             rs = Edition.findByEvent(MainFrame.db, ev);
             Edition ed = Edition.next(rs);
@@ -425,9 +445,13 @@ public class UpdateArticle extends javax.swing.JFrame {
                 this.jComboBox2.addItem(info);
                 ed = Edition.next(rs);
             }
+            // fecha o cursor
+            MainFrame.db.close();
             
             // seleciona a edição definida
             Edition selected = Edition.findByPrimaryKey(MainFrame.db, this.article.getCodEv(), this.article.getNumEd());
+            // fecha o cursor
+            MainFrame.db.close();
             String info = selected.getNumEd() + " de " + selected.getDataInicioEd() + " a " + selected.getDataFimEd() 
                     + " em " + selected.getLocalEd();
             this.jComboBox2.setSelectedItem(info);

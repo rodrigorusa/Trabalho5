@@ -43,6 +43,8 @@ public class InsertArticle extends javax.swing.JFrame {
                 this.jComboBox1.addItem(e.getNomeEv());
                 e = Event.next(rs);
             }
+            // fecha o cursor
+            MainFrame.db.close();
             
             // busca todos os autores
             Vector<String> authors = new Vector<String>();
@@ -53,6 +55,8 @@ public class InsertArticle extends javax.swing.JFrame {
                 p = People.next(rs);
             }
             this.jList1.setListData(authors);
+            // fecha o cursor
+            MainFrame.db.close();
         } catch(SQLException e) {
             Message msg = new Message(this, true, e.getMessage());
             msg.setTitle("Erro");
@@ -270,6 +274,8 @@ public class InsertArticle extends javax.swing.JFrame {
                 ResultSet rs = Event.findByName(MainFrame.db, eventName);
                 Event e = Event.next(rs);
                 int codEv = e.getCodEv();
+                // fecha o cursor
+                MainFrame.db.close();
                 
                 // pega a edição selecionada
                 String[] parts = editionName.split(" ");
@@ -279,9 +285,13 @@ public class InsertArticle extends javax.swing.JFrame {
                 rs = People.findByName(MainFrame.db, presenterName);
                 People p = People.next(rs);
                 int idApr = p.getIdPe();
+                // fecha o cursor
+                MainFrame.db.close();
                 
                 // atualiza inscrito como apresentador
                 Registered r = Registered.findByPrimaryKey(MainFrame.db, codEv, numEd, idApr);
+                // fecha o cursor
+                MainFrame.db.close();
                 r.setTipoApresentador('S');
                 r.update(MainFrame.db);
                 
@@ -294,6 +304,8 @@ public class InsertArticle extends javax.swing.JFrame {
                 int idArt = 0;
                 if(rs.next())
                     idArt = rs.getInt("CURRVAL");
+                // fecha o cursor
+                MainFrame.db.close();
                 
                 // pega os autores
                 List<String> authors = this.jList1.getSelectedValuesList();
@@ -305,6 +317,8 @@ public class InsertArticle extends javax.swing.JFrame {
                     // pega o id do autor
                     rs = People.findByName(MainFrame.db, name);
                     People author = People.next(rs);
+                    // fecha o cursor
+                    MainFrame.db.close();
                     Write write = new Write(author.getIdPe(), idArt);
                     write.insert(MainFrame.db);
                 }
@@ -337,6 +351,9 @@ public class InsertArticle extends javax.swing.JFrame {
             ResultSet rs = Event.findByName(MainFrame.db, eventName);
             Event e = Event.next(rs);
             int codEv = e.getCodEv();
+            // fecha o cursor
+            MainFrame.db.close();
+            
             // pega a edição selecionada
             String editionName = (String) this.jComboBox2.getSelectedItem();
             if (editionName == null)
@@ -351,11 +368,15 @@ public class InsertArticle extends javax.swing.JFrame {
             while(r != null) {
                 // busca o nome do inscrito
                 People p = People.findByPrimaryKey(MainFrame.db, r.getIdPart());
+                // fecha o cursor
+                MainFrame.db.close();
                 // insere apenas se for autor
                 if(p.getTipoAutor() == 'S')
                     registereds.add(p.getNomePe());
                 r = Registered.next(rs);
             }
+            // fecha o cursor
+            MainFrame.db.close();
             // ordena a lista
             Collections.sort(registereds, new Comparator<String>() {
                 @Override
@@ -366,6 +387,7 @@ public class InsertArticle extends javax.swing.JFrame {
             // adiciona na ComboBox
             for (String name : registereds) 
                 this.jComboBox3.addItem(name);
+        
         } catch(SQLException e) {
             Message msg = new Message(this, true, e.getMessage());
             msg.setTitle("Erro");
@@ -386,6 +408,8 @@ public class InsertArticle extends javax.swing.JFrame {
             // pega o evento selecionado pelo nome
             ResultSet rs = Event.findByName(MainFrame.db, name);
             Event ev = Event.next(rs);
+            // fecha o cursor
+            MainFrame.db.close();
             
             // pega as edições do evento
             rs = Edition.findByEvent(MainFrame.db, ev);
@@ -396,6 +420,9 @@ public class InsertArticle extends javax.swing.JFrame {
                 this.jComboBox2.addItem(info);
                 ed = Edition.next(rs);
             }
+            // fecha o cursor
+            MainFrame.db.close();
+            
         } catch(SQLException e) {
             Message msg = new Message(this, true, e.getMessage());
             msg.setTitle("Erro");

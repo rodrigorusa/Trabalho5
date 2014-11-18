@@ -47,13 +47,19 @@ public class SearchRegistered extends javax.swing.JFrame {
             while(r != null) {
                 // pega o evento
                 Event ev = Event.findByPrimaryKey(MainFrame.db, r.getCodEv());
+                // fecha o cursor
+                MainFrame.db.close();
                 // pega a pessoa
                 People p = People.findByPrimaryKey(MainFrame.db, r.getIdPart());
+                // fecha o cursor
+                MainFrame.db.close();
                 // adiciona uma linha na tabela
                 model.addRow(new Object[] {ev.getNomeEv(), r.getNumEd(), p.getNomePe(), r.getDataInsc(), 
                     r.getTipoApresentador()});
                 r = Registered.next(rs);
             }
+            // fecha o cursor
+            MainFrame.db.close();
         } catch(SQLException e) {
             Message msg = new Message(this, true, e.getMessage());
             msg.setTitle("Erro");
@@ -165,9 +171,15 @@ public class SearchRegistered extends javax.swing.JFrame {
                 // pega o código do evento
                 ResultSet rs = Event.findByName(MainFrame.db, (String) this.jTable1.getValueAt(i, 0));
                 Event ev = Event.next(rs);
+                // fecha o cursor
+                MainFrame.db.close();
+                
                 // pega o id do inscrito
                 rs = People.findByName(MainFrame.db, (String) this.jTable1.getValueAt(i, 2));
                 People p = People.next(rs);
+                // fecha o cursor
+                MainFrame.db.close();
+                
                 // pega o objeto a ser removido
                 Registered r = new Registered(ev.getCodEv(), (int) this.jTable1.getValueAt(i, 1), p.getIdPe(), 
                     (String) this.jTable1.getValueAt(i, 3), (char) this.jTable1.getValueAt(i, 4));
@@ -175,6 +187,7 @@ public class SearchRegistered extends javax.swing.JFrame {
                 RemoveRegistered removeRegistered = new RemoveRegistered(r);
                 removeRegistered.setVisible(true);
                 this.dispose();
+                
             } catch(SQLException e) {
                 Message msg = new Message(this, true, e.getMessage());
                 msg.setTitle("Erro");

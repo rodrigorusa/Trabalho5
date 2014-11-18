@@ -47,6 +47,8 @@ public class SearchEvent extends javax.swing.JFrame {
                     e.getTotalArtigosApresentadosEv()});
                 e = Event.next(rs);
             }
+            // fecha o cursor
+            MainFrame.db.close();
         } catch(SQLException e) {
             Message msg = new Message(this, true, e.getMessage());
             msg.setTitle("Erro");

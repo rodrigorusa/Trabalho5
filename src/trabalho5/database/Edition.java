@@ -135,6 +135,7 @@ public class Edition {
                 + this.taxaEd+", "
                 + this.saldoFinanceiroEd+", "
                 + this.qtdArtigosApresentadosEd+")";
+        // debugg
         if(MainFrame.debugg)
             System.out.println(sql);
         db.execute(sql);
@@ -160,7 +161,8 @@ public class Edition {
                + "localEd = '"+this.localEd+"', "
                + "taxaEd = "+this.taxaEd+" "
                + "WHERE codEv = '"+this.codEv+"' AND numEd = '"+this.numEd+"'";
-        if(MainFrame.debugg)
+       // debugg 
+       if(MainFrame.debugg)
             System.out.println(sql);
         db.execute(sql);
     }
@@ -174,6 +176,7 @@ public class Edition {
      */
     public void remove(DbConnection db) throws SQLException {
         String sql = "DELETE FROM edicao WHERE codEv = "+this.codEv+" AND numEd = "+this.numEd ;
+        // debugg
         if(MainFrame.debugg)
             System.out.println(sql);
         db.execute(sql);
@@ -193,6 +196,7 @@ public class Edition {
                 + "taxaEd, "
                 + "saldoFinanceiroEd, "
                 + "qtdArtigosApresentadosEd FROM edicao";
+        // debugg
         if(MainFrame.debugg)
             System.out.println(sql);
         return db.query(sql);
@@ -215,6 +219,7 @@ public class Edition {
                 + "saldoFinanceiroEd, "
                 + "qtdArtigosApresentadosEd FROM edicao "
                 + "WHERE codEv = "+ev.getCodEv();
+        // debugg
         if(MainFrame.debugg)
             System.out.println(sql);
         return db.query(sql);
@@ -238,6 +243,7 @@ public class Edition {
                 + "saldoFinanceiroEd, "
                 + "qtdArtigosApresentadosEd FROM edicao "
                 + "WHERE codEv = "+codEv+" AND numEd = "+numEd;
+        // debugg
         if(MainFrame.debugg)
             System.out.println(sql);
         return Edition.next(db.query(sql));

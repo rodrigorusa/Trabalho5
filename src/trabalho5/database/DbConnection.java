@@ -19,6 +19,7 @@ import java.sql.ResultSet;
 public class DbConnection implements Config {
     
     private final Connection conn;
+    private Statement stmt;
     
     /**
      *
@@ -71,9 +72,9 @@ public class DbConnection implements Config {
      * @throws SQLException
      */
     public boolean execute(String sql) throws SQLException {
-        Statement stmt = this.conn.createStatement();
-        boolean result = stmt.execute(sql);
-        stmt.close();
+        this.stmt = this.conn.createStatement();
+        boolean result = this.stmt.execute(sql);
+        this.stmt.close();
         return result;
     }
     
@@ -86,8 +87,18 @@ public class DbConnection implements Config {
      * @throws SQLException
      */
     public ResultSet query(String sql) throws SQLException {
-        Statement stmt = this.conn.createStatement();
-        return stmt.executeQuery(sql);
+        this.stmt = this.conn.createStatement();
+        return this.stmt.executeQuery(sql);
+    }
+    
+    /**
+     * 
+     * Fecha o Statement
+     * 
+     * @throws SQLException
+     */
+    public void close() throws SQLException {
+        this.stmt.close();
     }
     
 }

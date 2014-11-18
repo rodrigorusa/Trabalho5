@@ -38,6 +38,9 @@ public class SearchEditionByEvent extends javax.swing.JFrame {
             }
             // adiciona a opção todos os eventos (SELECT ALL)
             this.jComboBox1.addItem("Todos");
+            
+            // fecha o cursor
+            MainFrame.db.close();
         } catch(SQLException e) {
             Message msg = new Message(this, true, e.getMessage());
             msg.setTitle("Erro");

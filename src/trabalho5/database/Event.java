@@ -100,6 +100,7 @@ public class Event {
             sql += "'"+this.websiteEv+"', ";
         
         sql += this.totalArtigosApresentadosEv+")";
+        // debugg
         if(MainFrame.debugg)
             System.out.println(sql);
         db.execute(sql);
@@ -128,6 +129,7 @@ public class Event {
             sql += "'"+this.websiteEv+"'";
         
         sql += " WHERE codEv = '"+this.codEv+"'";
+        // debugg
         if(MainFrame.debugg)
             System.out.println(sql);
         db.execute(sql);
@@ -142,6 +144,7 @@ public class Event {
      */
     public void remove(DbConnection db) throws SQLException {
         String sql = "DELETE FROM evento WHERE codEv = "+this.codEv;
+        // debugg
         if(MainFrame.debugg)
             System.out.println(sql);
         db.execute(sql);
@@ -159,6 +162,7 @@ public class Event {
     public static Event findByPrimaryKey(DbConnection db, int primaryKey) throws SQLException {
         String sql = "SELECT codEv, nomeEv, descricaoEv, websiteEv, totalArtigosApresentadosEv FROM evento"
                 + " WHERE codEv = "+primaryKey;
+        // debugg
         if(MainFrame.debugg)
             System.out.println(sql);
         return Event.next(db.query(sql));
@@ -174,6 +178,7 @@ public class Event {
      */
     public static ResultSet findAll(DbConnection db) throws SQLException {
         String sql = "SELECT codEv, nomeEv, descricaoEv, websiteEv, totalArtigosApresentadosEv FROM evento";
+        // debugg
         if(MainFrame.debugg)
             System.out.println(sql);
         return db.query(sql);
@@ -192,6 +197,7 @@ public class Event {
     public static ResultSet findByName(DbConnection db, String name) throws SQLException {
         String sql = "SELECT codEv, nomeEv, descricaoEv, websiteEv, totalArtigosApresentadosEv FROM evento "
                 + "WHERE UPPER(nomeEv) LIKE UPPER('%"+name+"%')";
+        // debugg
         if(MainFrame.debugg)
             System.out.println(sql);
         return db.query(sql);

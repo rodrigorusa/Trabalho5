@@ -43,6 +43,8 @@ public class SearchEdition extends javax.swing.JFrame {
                 // pega o evento selecionado
                 rs = Event.findByName(MainFrame.db, option);
                 Event ev = Event.next(rs);
+                // fecha o cursor
+                MainFrame.db.close();
                 rs = Edition.findByEvent(MainFrame.db, ev);
             }    
             Edition ed = Edition.next(rs);
@@ -53,6 +55,8 @@ public class SearchEdition extends javax.swing.JFrame {
                     ed.getQtdArtigosApresentadosEd()});
                 ed = Edition.next(rs);
             }
+            // fecha o cursor
+            MainFrame.db.close();
         } catch(SQLException e) {
             Message msg = new Message(this, true, e.getMessage());
             msg.setTitle("Erro");

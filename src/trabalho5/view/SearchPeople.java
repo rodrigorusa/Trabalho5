@@ -48,6 +48,8 @@ public class SearchPeople extends javax.swing.JFrame {
                     p.getTipoAutor()});
                 p = People.next(rs);
             }
+            // fecha o cursor
+            MainFrame.db.close();
         } catch(SQLException e) {
             Message msg = new Message(this, true, e.getMessage());
             msg.setTitle("Erro");

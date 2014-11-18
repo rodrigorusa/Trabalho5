@@ -35,6 +35,8 @@ public class InsertRegistered extends javax.swing.JFrame {
                 this.jComboBox1.addItem(e.getNomeEv());
                 e = Event.next(rs);
             }
+            // fecha o cursor
+            MainFrame.db.close();
         } catch(SQLException e) {
             Message msg = new Message(this, true, e.getMessage());
             msg.setTitle("Erro");
@@ -49,6 +51,8 @@ public class InsertRegistered extends javax.swing.JFrame {
                 this.jComboBox3.addItem(p.getNomePe());
                 p = People.next(rs);
             }
+            // fecha o cursor
+            MainFrame.db.close();
         } catch(SQLException e) {
             Message msg = new Message(this, true, e.getMessage());
             msg.setTitle("Erro");
@@ -186,6 +190,8 @@ public class InsertRegistered extends javax.swing.JFrame {
             // pega o evento selecionado pelo nome
             ResultSet rs = Event.findByName(MainFrame.db, name);
             Event ev = Event.next(rs);
+            // fecha o cursor
+            MainFrame.db.close();
             
             // pega as edições do evento
             rs = Edition.findByEvent(MainFrame.db, ev);
@@ -196,6 +202,8 @@ public class InsertRegistered extends javax.swing.JFrame {
                 this.jComboBox2.addItem(info);
                 ed = Edition.next(rs);
             }   
+            // fecha o cursor
+            MainFrame.db.close();
         } catch(SQLException e) {
             Message msg = new Message(this, true, e.getMessage());
             msg.setTitle("Erro");
@@ -224,6 +232,8 @@ public class InsertRegistered extends javax.swing.JFrame {
                 ResultSet rs = Event.findByName(MainFrame.db, eventName);
                 Event ev = Event.next(rs);
                 int codEv = ev.getCodEv();
+                // fecha o cursor
+                MainFrame.db.close();
 
                 // pega a edição selecionada
                 String[] parts = editionName.split(" ");
@@ -233,12 +243,16 @@ public class InsertRegistered extends javax.swing.JFrame {
                 rs = People.findByName(MainFrame.db, peopleName);
                 People p = People.next(rs);
                 int idPart = p.getIdPe();
+                // fecha o cursor
+                MainFrame.db.close();
 
                 // insere inscrito
                 Registered registered = new Registered(codEv, numEd, idPart);
                 registered.insert(MainFrame.db);
                 new Message(this, true, "Inscrito cadastrado.").setVisible(true);
                 this.dispose();
+                
+                rs.close();
             }
             
         } catch(SQLException e) {

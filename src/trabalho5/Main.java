@@ -17,7 +17,6 @@ import trabalho5.view.MainFrame;
  */
 public class Main {
 
-    protected static MainFrame mainFrame;
     private static DbConnection db;
     
     /**
@@ -33,9 +32,9 @@ public class Main {
         try {
             db = new DbConnection();
             System.out.println("Conectado com sucesso.");
-        } catch (ClassNotFoundException e1) {
+        } catch (ClassNotFoundException e) {
             System.out.println("Não foi possível carregar o driver.");
-        } catch (SQLException e2) {
+        } catch (SQLException e1) {
             System.out.println("Falha ao conectar-se ao banco de dados.");
         }
         

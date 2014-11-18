@@ -122,6 +122,7 @@ public class Article {
             sql += "to_date('"+this.dataApresArt+" "+this.horaApresArt+"', 'dd/mm/yyyy hh24:mi'), ";
         
         sql += this.codEv+", "+ this.numEd+", "+ this.idApr+ ")";
+        // debugg
         if(MainFrame.debugg)
             System.out.println(sql);
         db.execute(sql);
@@ -136,6 +137,7 @@ public class Article {
      */
     public void remove(DbConnection db) throws SQLException {
         String sql = "DELETE FROM artigo WHERE idArt = "+this.idArt;
+        // debugg
         if(MainFrame.debugg)
             System.out.println(sql);
         db.execute(sql);
@@ -152,6 +154,7 @@ public class Article {
     public static ResultSet findAll(DbConnection db) throws SQLException {
         String sql = "SELECT idArt, tituloArt, to_char(dataApresArt, 'dd/mm/yyyy') AS \"dataApresArt\","
                 + " to_char(horaApresArt, 'hh24:mi') AS \"horaApresArt\", codEv, numEd, idApr FROM artigo";
+        // debugg
         if(MainFrame.debugg)
             System.out.println(sql);
         return db.query(sql);
@@ -170,6 +173,7 @@ public class Article {
         String sql = "SELECT idArt, tituloArt, to_char(dataApresArt, 'dd/mm/yyyy') AS \"dataApresArt\","
                 + " to_char(horaApresArt, 'hh24:mi') AS \"horaApresArt\", codEv, numEd, idApr FROM artigo"
                 + " WHERE UPPER(tituloArt) LIKE UPPER('%"+name+"%')";
+        // debugg
         if(MainFrame.debugg)
             System.out.println(sql);
         return db.query(sql);

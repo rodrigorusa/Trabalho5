@@ -36,6 +36,8 @@ public class InsertEdition extends javax.swing.JFrame {
                 this.jComboBox1.addItem(e.getNomeEv());
                 e = Event.next(rs);
             }
+            // fecha o cursor
+            MainFrame.db.close();
         } catch(SQLException e) {
             Message msg = new Message(this, true, e.getMessage());
             msg.setTitle("Erro");
@@ -247,6 +249,8 @@ public class InsertEdition extends javax.swing.JFrame {
             // pega o evento selecionado pelo nome
             ResultSet rs = Event.findByName(MainFrame.db, name);
             Event e = Event.next(rs);
+            // fecha o cursor
+            MainFrame.db.close();
             
             // pega os atributos para a inserção da edição
             int codEv = e.getCodEv();
