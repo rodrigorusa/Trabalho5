@@ -17,16 +17,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Vector;
-import java.util.List;
 
 /**
  *
  * @author Rodrigo
  */
 public class InsertArticle extends javax.swing.JFrame {
+    
+    private ArrayList<Integer> ids_registereds;
     
     /**
      * Creates new form InsertArticle
@@ -47,7 +46,7 @@ public class InsertArticle extends javax.swing.JFrame {
             MainFrame.db.close();
             
             // busca todos os autores
-            Vector<String> authors = new Vector<String>();
+            Vector<String> authors = new Vector();
             rs = People.findAuthors(MainFrame.db);
             People p = People.next(rs);
             while(p != null) {
@@ -249,6 +248,7 @@ public class InsertArticle extends javax.swing.JFrame {
      * Cadastrar artigo
      */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        /*
         String eventName = (String) this.jComboBox1.getSelectedItem();
         String editionName = (String) this.jComboBox2.getSelectedItem();
         String tituloArt = this.jTextField1.getText();
@@ -289,11 +289,11 @@ public class InsertArticle extends javax.swing.JFrame {
                 MainFrame.db.close();
                 
                 // atualiza inscrito como apresentador
-                Registered r = Registered.findByPrimaryKey(MainFrame.db, codEv, numEd, idApr);
+                //Registered r = Registered.findByPrimaryKey(MainFrame.db, codEv, numEd, idApr);
                 // fecha o cursor
-                MainFrame.db.close();
-                r.setTipoApresentador('S');
-                r.update(MainFrame.db);
+                //MainFrame.db.close();
+                //r.setTipoApresentador('S');
+                //r.update(MainFrame.db);
                 
                 // insere o artigo
                 Article article = new Article(tituloArt, dataApresArt, horaApresArt, codEv, numEd, idApr);
@@ -337,6 +337,7 @@ public class InsertArticle extends javax.swing.JFrame {
                 msg.setVisible(true);
             }
         }
+        */
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -362,31 +363,16 @@ public class InsertArticle extends javax.swing.JFrame {
             int numEd = Integer.valueOf(parts[0]).intValue();
             
             // busca os inscritos da edição do evento
-            List<String> registereds = new ArrayList<String>();
-            rs = Registered.findByEventAndEdition(MainFrame.db, codEv, numEd);
-            Registered r = Registered.next(rs);
-            while(r != null) {
-                // busca o nome do inscrito
-                People p = People.findByPrimaryKey(MainFrame.db, r.getIdPart());
-                // fecha o cursor
-                MainFrame.db.close();
-                // insere apenas se for autor
-                if(p.getTipoAutor() == 'S')
-                    registereds.add(p.getNomePe());
-                r = Registered.next(rs);
+            this.ids_registereds = new ArrayList();
+            rs = Registered.findByEventAndEdition(MainFrame.db, codEv, numEd, true);
+            while(rs.next()) {
+                // adiciona os ids dos inscritos no array
+                this.ids_registereds.add(rs.getInt("idPart"));
+                // adiciona o nome do inscrito na ComboBox
+                this.jComboBox3.addItem(rs.getString("nomePe"));
             }
             // fecha o cursor
             MainFrame.db.close();
-            // ordena a lista
-            Collections.sort(registereds, new Comparator<String>() {
-                @Override
-                public int compare(String s1, String s2) {
-                    return s1.compareTo(s2);
-                }
-            });
-            // adiciona na ComboBox
-            for (String name : registereds) 
-                this.jComboBox3.addItem(name);
         
         } catch(SQLException e) {
             Message msg = new Message(this, true, e.getMessage());
@@ -402,17 +388,10 @@ public class InsertArticle extends javax.swing.JFrame {
         // remove os itens
         this.jComboBox2.removeAllItems();
         // pega o nome do evento selecionado
-        String name = (String) this.jComboBox1.getSelectedItem();
-        System.out.println(name);
+        String nomeEv = (String) this.jComboBox1.getSelectedItem();
         try {
-            // pega o evento selecionado pelo nome
-            ResultSet rs = Event.findByName(MainFrame.db, name);
-            Event ev = Event.next(rs);
-            // fecha o cursor
-            MainFrame.db.close();
-            
             // pega as edições do evento
-            rs = Edition.findByEvent(MainFrame.db, ev);
+            ResultSet rs = Edition.findByEvent(MainFrame.db, nomeEv);
             Edition ed = Edition.next(rs);
             while(ed != null) {
                 String info = ed.getNumEd() + " de " + ed.getDataInicioEd() + " a " + ed.getDataFimEd()

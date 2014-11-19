@@ -7,12 +7,14 @@
 package trabalho5.view;
 
 import trabalho5.database.Registered;
-import trabalho5.database.People;
 import trabalho5.database.Event;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import javax.swing.table.DefaultTableModel;
+
+import java.util.ArrayList;
 
 /**
  *
@@ -21,6 +23,7 @@ import javax.swing.table.DefaultTableModel;
 public class SearchRegistered extends javax.swing.JFrame {
 
     private final int type;
+    private final ArrayList<Integer> ids;
     
     /**
      * Creates new form SearchRegistered
@@ -30,36 +33,29 @@ public class SearchRegistered extends javax.swing.JFrame {
      */
     public SearchRegistered(int type, String name) {
         this.type = type;
+        this.ids = new ArrayList();
         initComponents();
         
-        // impriem os inscritos
+        // imprime os inscritos
         DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
         try {
             ResultSet rs;
             // SELECT ALL
             if (name.isEmpty())
-                rs = Registered.findAll(MainFrame.db);
+                rs = Registered.findViewAll(MainFrame.db);
             // SELECT By Name
             else
-                rs = Registered.findByName(MainFrame.db, name);
-            
-            Registered r = Registered.next(rs);
-            while(r != null) {
-                // pega o evento
-                Event ev = Event.findByPrimaryKey(MainFrame.db, r.getCodEv());
-                // fecha o cursor
-                MainFrame.db.close();
-                // pega a pessoa
-                People p = People.findByPrimaryKey(MainFrame.db, r.getIdPart());
-                // fecha o cursor
-                MainFrame.db.close();
+                rs = Registered.findViewByName(MainFrame.db, name);
+            while(rs.next()) {
+                // armazena o id da pessoa no array
+                this.ids.add(rs.getInt("idPe"));
                 // adiciona uma linha na tabela
-                model.addRow(new Object[] {ev.getNomeEv(), r.getNumEd(), p.getNomePe(), r.getDataInsc(), 
-                    r.getTipoApresentador()});
-                r = Registered.next(rs);
+                model.addRow(new Object[] {rs.getString("nomeEv"), rs.getInt("numEd"), rs.getString("NomePe"), 
+                    rs.getString("dataInsc"), rs.getString("tipoApresentador").charAt(0)});
             }
             // fecha o cursor
             MainFrame.db.close();
+            
         } catch(SQLException e) {
             Message msg = new Message(this, true, e.getMessage());
             msg.setTitle("Erro");
@@ -175,13 +171,11 @@ public class SearchRegistered extends javax.swing.JFrame {
                 MainFrame.db.close();
                 
                 // pega o id do inscrito
-                rs = People.findByName(MainFrame.db, (String) this.jTable1.getValueAt(i, 2));
-                People p = People.next(rs);
-                // fecha o cursor
-                MainFrame.db.close();
+                int indice_people = this.jTable1.getSelectedRow();
+                int idApr = this.ids.get(indice_people);
                 
                 // pega o objeto a ser removido
-                Registered r = new Registered(ev.getCodEv(), (int) this.jTable1.getValueAt(i, 1), p.getIdPe(), 
+                Registered r = new Registered(ev.getCodEv(), (int) this.jTable1.getValueAt(i, 1), idApr, 
                     (String) this.jTable1.getValueAt(i, 3), (char) this.jTable1.getValueAt(i, 4));
                 // inicia a interface de remoção
                 RemoveRegistered removeRegistered = new RemoveRegistered(r);

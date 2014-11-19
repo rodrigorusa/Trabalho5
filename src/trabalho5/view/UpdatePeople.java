@@ -258,11 +258,11 @@ public class UpdatePeople extends javax.swing.JFrame {
             } catch(SQLException e) {
                 String error;
                 if (e.getErrorCode() == 1)
-                error = "Pessoa já cadastrada.";
+                    error = "Pessoa já cadastrada.";
                 else if (e.getErrorCode() == 12899)
-                error = "Tamanho de atributo excedido.";
+                    error = "Tamanho de atributo excedido.";
                 else
-                error = e.getMessage();
+                    error = e.getMessage();
                 Message msg = new Message(this, true, error);
                 msg.setTitle("Erro");
                 msg.setVisible(true);

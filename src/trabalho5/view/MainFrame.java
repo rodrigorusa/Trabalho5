@@ -415,24 +415,30 @@ public class MainFrame extends javax.swing.JFrame {
      * Buscar artigo
      */
     private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
+        /*
         SearchArticleByName searchArticle = new SearchArticleByName(CRUDType.SEARCH);
         searchArticle.setVisible(true);
+        */
     }//GEN-LAST:event_jMenuItem17ActionPerformed
 
     /**
      * Atualizar artigo
      */
     private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
+        /*
         SearchArticleByName searchArticle = new SearchArticleByName(CRUDType.UPDATE);
         searchArticle.setVisible(true);
+        */
     }//GEN-LAST:event_jMenuItem18ActionPerformed
 
     /**
      * Remover artigo
      */
     private void jMenuItem19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem19ActionPerformed
+        /*
         SearchArticleByName searchArticle = new SearchArticleByName(CRUDType.REMOVE);
         searchArticle.setVisible(true);
+        */
     }//GEN-LAST:event_jMenuItem19ActionPerformed
 
     /**

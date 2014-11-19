@@ -156,7 +156,7 @@ public class Registered {
      * @throws SQLException 
      */
     public static ResultSet findByName(DbConnection db, String name) throws SQLException {
-        String sql = "SELECT codEv, numEd, idPart, to_char(dataInsc, 'dd/mm/yyyy') AS \"dataInsc\","
+        String sql = "SELECT codEv, nuidParmEd, t, to_char(dataInsc, 'dd/mm/yyyy') AS \"dataInsc\","
                 + " tipoApresentador FROM inscrito JOIN pessoa ON (idPart = idPe)"
                 + " WHERE UPPER(nomePe) LIKE UPPER('%"+name+"%')";
         // debugg
@@ -172,13 +172,17 @@ public class Registered {
      * @param db
      * @param codEv
      * @param numEd
+     * @param order
      * @return 
      * @throws SQLException 
      */
-    public static ResultSet findByEventAndEdition(DbConnection db, int codEv, int numEd) throws SQLException {
-        String sql = "SELECT codEv, numEd, idPart, to_char(dataInsc, 'dd/mm/yyyy') AS \"dataInsc\","
-                + " tipoApresentador FROM inscrito"
+    public static ResultSet findByEventAndEdition(DbConnection db, int codEv, int numEd, boolean order) throws SQLException {
+        String sql = "SELECT codEv, numEd, idPart, nomePe, to_char(dataInsc, 'dd/mm/yyyy') AS \"dataInsc\","
+                + " tipoApresentador FROM inscrito JOIN pessoa ON (idPart = idPe)"
                 + " WHERE codEv = "+codEv+" AND numEd = "+numEd;
+        // ordena pelo nome
+        if(order)
+            sql += " ORDER BY nomePe";
         // debugg
         if(MainFrame.debugg)
             System.out.println(sql);
@@ -221,6 +225,39 @@ public class Registered {
                     rs.getString("tipoApresentador").charAt(0));
         }
         return registered;
+    }
+   
+    /**
+     * 
+     * SELECT ALL na view de inscritos
+     * 
+     * @param db
+     * @return 
+     * @throws SQLException 
+     */
+    public static ResultSet findViewAll(DbConnection db) throws SQLException {
+        String sql = "SELECT * FROM view_inscritos";
+        // debugg
+        if(MainFrame.debugg)
+            System.out.println(sql);
+        return db.query(sql);
+    }
+    
+     /**
+     * 
+     * SELECT By Name na view de inscritos
+     * 
+     * @param db
+     * @param name
+     * @return 
+     * @throws SQLException 
+     */
+    public static ResultSet findViewByName(DbConnection db, String name) throws SQLException {
+        String sql = "SELECT * FROM view_inscritos WHERE UPPER(nomePe) LIKE UPPER('%"+name+"%')";
+        // debugg
+        if(MainFrame.debugg)
+            System.out.println(sql);
+        return db.query(sql);
     }
     
 }

@@ -24,8 +24,8 @@ public class Edition {
     private String dataFimEd;
     private String localEd;
     private double taxaEd;
-    private double saldoFinanceiroEd = 0.00;
-    private int qtdArtigosApresentadosEd = 0;
+    private double saldoFinanceiroEd;
+    private int qtdArtigosApresentadosEd;
     
     public Edition(int codEv, int numEd, String descricaoEd, String dataInicioEd, String dataFimEd, String localEd,
             double taxaEd, double saldoFinanceiroEd, int qtdArtigosApresentadosEd) {
@@ -219,6 +219,29 @@ public class Edition {
                 + "saldoFinanceiroEd, "
                 + "qtdArtigosApresentadosEd FROM edicao "
                 + "WHERE codEv = "+ev.getCodEv();
+        // debugg
+        if(MainFrame.debugg)
+            System.out.println(sql);
+        return db.query(sql);
+    }
+    
+    /**
+     * 
+     * Busca as edições pelo nome do evento
+     * 
+     * 
+     * @param db
+     * @param nomeEv
+     * @return 
+     * @throws SQLException 
+     */
+    public static ResultSet findByEvent(DbConnection db, String nomeEv) throws SQLException {
+        String sql = "SELECT codEv, numEd, descricaoEd, to_char(dataInicioEd, 'DD/MM/YYYY') AS \"DataInicioEd\", "
+                + "to_char(dataFimEd, 'DD/MM/YYYY') AS \"DataFimEd\", localEd, "
+                + "taxaEd, "
+                + "saldoFinanceiroEd, "
+                + "qtdArtigosApresentadosEd FROM edicao NATURAL JOIN evento "
+                + "WHERE nomeEv = '"+nomeEv+"'";
         // debugg
         if(MainFrame.debugg)
             System.out.println(sql);

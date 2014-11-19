@@ -21,7 +21,7 @@ public class Event {
     private String nomeEv;
     private String descricaoEv;
     private String websiteEv;
-    private int totalArtigosApresentadosEv = 0;
+    private int totalArtigosApresentadosEv;
     
     public Event(String nomeEv, String descricaoEv, String websiteEv, int totalArtigosApresentadosEv) {
         this.nomeEv = nomeEv;

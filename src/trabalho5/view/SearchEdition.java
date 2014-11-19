@@ -7,7 +7,6 @@
 package trabalho5.view;
 
 import trabalho5.database.Edition;
-import trabalho5.database.Event;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -39,14 +38,9 @@ public class SearchEdition extends javax.swing.JFrame {
             if (option.equals("Todos"))
                 rs = Edition.findAll(MainFrame.db);
             // SELECT BY Event
-            else {
-                // pega o evento selecionado
-                rs = Event.findByName(MainFrame.db, option);
-                Event ev = Event.next(rs);
-                // fecha o cursor
-                MainFrame.db.close();
-                rs = Edition.findByEvent(MainFrame.db, ev);
-            }    
+            else
+                rs = Edition.findByEvent(MainFrame.db, option);
+ 
             Edition ed = Edition.next(rs);
             while (ed != null) {
                 // adiciona uma linha na tabela
@@ -109,6 +103,12 @@ public class SearchEdition extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(40);
+            jTable1.getColumnModel().getColumn(4).setPreferredWidth(40);
+            jTable1.getColumnModel().getColumn(6).setPreferredWidth(15);
+            jTable1.getColumnModel().getColumn(7).setPreferredWidth(25);
+        }
 
         jButton1.setText("Voltar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -123,21 +123,21 @@ public class SearchEdition extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 905, Short.MAX_VALUE)
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(337, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(432, 432, 432)
                 .addComponent(jButton1)
-                .addGap(336, 336, 336))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();

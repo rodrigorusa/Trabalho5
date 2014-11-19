@@ -128,6 +128,35 @@ public class Article {
         db.execute(sql);
     }
     
+     /**
+     * 
+     * Atualiza artigo no banco de dados
+     * 
+     * @param db
+     * @throws SQLException
+     */
+    public void update(DbConnection db) throws SQLException {
+        String sql = "UPDATE artigo SET tituloArt = '"+this.tituloArt+"', ";
+        
+        sql += "dataApresArt = ";
+        if(this.dataApresArt == null)
+            sql += "null, ";
+        else
+            sql += "to_date('"+this.dataApresArt+"', 'dd/mm/yyyy'), ";
+        sql += "horaApresArt = ";
+        if(this.horaApresArt == null)
+            sql += "null, ";
+        else
+            sql += "to_date('"+this.dataApresArt+" "+this.horaApresArt+"', 'dd/mm/yyyy hh24:mi'), ";
+        
+        sql += "codEv = "+this.codEv+", numEd = "+ this.numEd+", idApr = "+ this.idApr
+                + " WHERE idArt = "+this.idArt;
+        // debugg
+        if(MainFrame.debugg)
+            System.out.println(sql);
+        db.execute(sql);
+    }
+    
     /**
      * 
      * Remove artigo no banco de dados

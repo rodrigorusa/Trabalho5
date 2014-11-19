@@ -14,17 +14,22 @@ import trabalho5.database.Registered;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Rodrigo
  */
 public class InsertRegistered extends javax.swing.JFrame {
     
+    private final ArrayList<People> participants;
+    
     /**
      * Creates new form InsertRegistered
      * 
      */
     public InsertRegistered() {
+        this.participants = new ArrayList();
         initComponents();
         
         // busca todos os eventos
@@ -48,7 +53,10 @@ public class InsertRegistered extends javax.swing.JFrame {
             ResultSet rs = People.findParticipants(MainFrame.db);
             People p = People.next(rs);
             while(p != null) {
+                // adiciona no ComboBox
                 this.jComboBox3.addItem(p.getNomePe());
+                // adiciona no array
+                this.participants.add(p);
                 p = People.next(rs);
             }
             // fecha o cursor
@@ -185,16 +193,10 @@ public class InsertRegistered extends javax.swing.JFrame {
         // remove os itens
         this.jComboBox2.removeAllItems();
         // pega o nome do evento selecionado
-        String name = (String) this.jComboBox1.getSelectedItem();
+        String event_name = (String) this.jComboBox1.getSelectedItem();
         try {
-            // pega o evento selecionado pelo nome
-            ResultSet rs = Event.findByName(MainFrame.db, name);
-            Event ev = Event.next(rs);
-            // fecha o cursor
-            MainFrame.db.close();
-            
             // pega as edições do evento
-            rs = Edition.findByEvent(MainFrame.db, ev);
+            ResultSet rs = Edition.findByEvent(MainFrame.db, event_name);
             Edition ed = Edition.next(rs);
             while(ed != null) {
                 String info = ed.getNumEd() + " de " + ed.getDataInicioEd() + " a " + ed.getDataFimEd()
@@ -219,10 +221,10 @@ public class InsertRegistered extends javax.swing.JFrame {
             // pega os itens selecionados
             String eventName = (String) this.jComboBox1.getSelectedItem();
             String editionName = (String) this.jComboBox2.getSelectedItem();
-            String peopleName = (String) this.jComboBox3.getSelectedItem();
+            int people_index = this.jComboBox3.getSelectedIndex();
             
             // campos obrigatórios não preenchidos
-            if (eventName == null || editionName == null || peopleName == null) {
+            if (eventName == null || editionName == null || people_index == -1) {
                 Message msg = new Message(this, true, "Campos obrigatórios não preenchidos.");
                 msg.setTitle("Erro");
                 msg.setVisible(true);
@@ -240,23 +242,23 @@ public class InsertRegistered extends javax.swing.JFrame {
                 int numEd = Integer.valueOf(parts[0]).intValue();
 
                 // pega a pessoa selecionada
-                rs = People.findByName(MainFrame.db, peopleName);
-                People p = People.next(rs);
+                People p = this.participants.get(people_index);
                 int idPart = p.getIdPe();
-                // fecha o cursor
-                MainFrame.db.close();
 
                 // insere inscrito
                 Registered registered = new Registered(codEv, numEd, idPart);
                 registered.insert(MainFrame.db);
                 new Message(this, true, "Inscrito cadastrado.").setVisible(true);
                 this.dispose();
-                
-                rs.close();
             }
             
         } catch(SQLException e) {
-            Message msg = new Message(this, true, e.getMessage());
+            String error;
+            if (e.getErrorCode() == 1)
+                error = "Participante já inscrito.";
+            else
+                error = e.getMessage();
+            Message msg = new Message(this, true, error);
             msg.setTitle("Erro");
             msg.setVisible(true);
         }

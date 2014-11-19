@@ -200,6 +200,7 @@ public class UpdateEdition extends javax.swing.JFrame {
         String localEd = this.jTextField2.getText();
         String dataInicioEd = this.jFormattedTextField1.getText();
         String dataFimEd = this.jFormattedTextField2.getText();
+        
         // campos obrigatórios não preenchidos
         if (dataInicioEd.equals("  /  /    ") || dataFimEd.equals("  /  /    ") || localEd.isEmpty()) {
             Message msg = new Message(this, true, "Campos obrigatórios não preenchidos.");
@@ -213,24 +214,50 @@ public class UpdateEdition extends javax.swing.JFrame {
                 taxaEd = Double.valueOf(aux).doubleValue();
             }
           
-            // seta os valores atualizados
-            this.edition.setLocalEd(localEd);
-            this.edition.setDataInicioEd(dataInicioEd);
-            this.edition.setDataFimEd(dataFimEd);
-            this.edition.setTaxaEd(taxaEd);
-            try {
-                this.edition.update(MainFrame.db);
-                new Message(this, true, "Edição atualizada.").setVisible(true);
-                this.dispose();
-            } catch(SQLException e) {
-                String error;
-                if (e.getErrorCode() == 12899)
-                    error = "Tamanho de atributo excedido.";
-                else
-                    error = e.getMessage();
-                Message msg = new Message(this, true, error);
+            // validação das datas
+            int data_error = 0;
+            String parts_inicio[] = dataInicioEd.split("/");
+            String parts_fim[] = dataFimEd.split("/");
+
+            // ano
+            if (parts_inicio[2].compareTo(parts_fim[2]) > 0)
+                data_error = 1;
+            else if(parts_inicio[2].compareTo(parts_fim[2]) == 0) {
+                // mês
+                if (parts_inicio[1].compareTo(parts_fim[1]) > 0)
+                    data_error = 1;
+                else if(parts_inicio[1].compareTo(parts_fim[1]) == 0) {
+                    // dia
+                    if (parts_inicio[0].compareTo(parts_fim[0]) > 0)
+                        data_error = 1;
+                }
+            }
+            if (data_error == 1) {
+                Message msg = new Message(this, true, "Datas incorretas.");
                 msg.setTitle("Erro");
                 msg.setVisible(true);
+            } else {
+                // seta os valores atualizados
+                this.edition.setLocalEd(localEd);
+                this.edition.setDataInicioEd(dataInicioEd);
+                this.edition.setDataFimEd(dataFimEd);
+                this.edition.setTaxaEd(taxaEd);
+                try {
+                    this.edition.update(MainFrame.db);
+                    new Message(this, true, "Edição atualizada.").setVisible(true);
+                    this.dispose();
+                } catch(SQLException e) {
+                    String error;
+                    if (e.getErrorCode() == 12899)
+                        error = "Tamanho de atributo excedido.";
+                    else if (e.getErrorCode() == 1843 || e.getErrorCode() == 1847)
+                        error = "Data inválida";
+                    else
+                        error = e.getMessage();
+                    Message msg = new Message(this, true, error);
+                    msg.setTitle("Erro");
+                    msg.setVisible(true);
+                }
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed

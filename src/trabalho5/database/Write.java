@@ -58,6 +58,21 @@ public class Write {
     
     /**
      * 
+     * Remove escreve no banco de dados
+     * 
+     * @param db
+     * @throws SQLException
+     */
+    public void remove(DbConnection db) throws SQLException {
+        String sql = "DELETE FROM escreve WHERE idAut = "+this.idAut+" AND idArt = "+this.idArt;
+        // debugg
+        if(MainFrame.debugg)
+            System.out.println(sql);
+        db.execute(sql);
+    }
+    
+    /**
+     * 
      * Busca os autores pelo artigo
      * 
      * @param db

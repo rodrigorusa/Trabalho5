@@ -25,7 +25,7 @@ public class InsertEdition extends javax.swing.JFrame {
     public InsertEdition() {
         initComponents();
         
-        // taxa default
+        // seta taxa default
         this.jFormattedTextField1.setText("0,00");
         
         // busca todos os eventos
@@ -284,11 +284,35 @@ public class InsertEdition extends javax.swing.JFrame {
                     msg.setTitle("Erro");
                     msg.setVisible(true);
                 } else {
-                    // insere edição
-                    Edition ed = new Edition(codEv, numEd, descricaoEd, dataInicioEd, dataFimEd, localEd, taxaEd, 0.00, 0);
-                    ed.insert(MainFrame.db);
-                    new Message(this, true, "Edição cadastrada.").setVisible(true);
-                    this.dispose();
+                    // validação das datas
+                    int data_error = 0;
+                    String parts_inicio[] = dataInicioEd.split("/");
+                    String parts_fim[] = dataFimEd.split("/");
+                    
+                    // ano
+                    if (parts_inicio[2].compareTo(parts_fim[2]) > 0)
+                        data_error = 1;
+                    else if(parts_inicio[2].compareTo(parts_fim[2]) == 0) {
+                        // mês
+                        if (parts_inicio[1].compareTo(parts_fim[1]) > 0)
+                            data_error = 1;
+                        else if(parts_inicio[1].compareTo(parts_fim[1]) == 0) {
+                            // dia
+                            if (parts_inicio[0].compareTo(parts_fim[0]) > 0)
+                                data_error = 1;
+                        }
+                    }
+                    if (data_error == 1) {
+                        Message msg = new Message(this, true, "Datas incorretas.");
+                        msg.setTitle("Erro");
+                        msg.setVisible(true);
+                    } else {
+                        // insere edição
+                        Edition ed = new Edition(codEv, numEd, descricaoEd, dataInicioEd, dataFimEd, localEd, taxaEd, 0.00, 0);
+                        ed.insert(MainFrame.db);
+                        new Message(this, true, "Edição cadastrada.").setVisible(true);
+                        this.dispose();
+                    }
                 }
             }
         } catch(SQLException e) {
@@ -297,6 +321,8 @@ public class InsertEdition extends javax.swing.JFrame {
                 error = "Edição de evento já cadastrada.";
             else if (e.getErrorCode() == 12899)
                 error = "Tamanho de atributo excedido.";
+            else if (e.getErrorCode() == 1843 || e.getErrorCode() == 1847)
+                error = "Data inválida";
             else
                 error = e.getMessage();
             Message msg = new Message(this, true, error);
