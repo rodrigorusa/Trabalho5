@@ -41,7 +41,7 @@ public class SearchRegisteredByPeople extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Buscar Inscrito");
 
-        jLabel1.setText("Nome");
+        jLabel1.setText("Nome do inscrito");
 
         jButton1.setText("Cancelar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {

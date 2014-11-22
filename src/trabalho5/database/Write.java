@@ -81,7 +81,7 @@ public class Write {
      * @throws SQLException 
      */
     public static ResultSet findByArticle(DbConnection db, int idArt) throws SQLException {
-        String sql = "SELECT idAut, idArt FROM escreve WHERE idArt = "+idArt;
+        String sql = "SELECT idAut, nomePe, idArt FROM escreve JOIN pessoa ON (idAut = idPe) WHERE idArt = "+idArt;
         // debugg
         if(MainFrame.debugg)
             System.out.println(sql);
@@ -102,6 +102,23 @@ public class Write {
             write = new Write(rs.getInt("idAut"), rs.getInt("idArt"));
         }
         return write;
+    }
+    
+    /**
+     * 
+     * SELECT By artigo na view escreve
+     * 
+     * @param db
+     * @param idArt
+     * @return 
+     * @throws SQLException 
+     */
+    public static ResultSet findViewByArticle(DbConnection db, int idArt) throws SQLException {
+        String sql = "SELECT * FROM view_escreve WHERE idArt = "+idArt;
+        // debugg
+        if(MainFrame.debugg)
+            System.out.println(sql);
+        return db.query(sql);
     }
     
 }

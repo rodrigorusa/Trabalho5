@@ -12,6 +12,9 @@ import trabalho5.database.People;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import java.util.ArrayList;
+
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -21,6 +24,7 @@ import javax.swing.table.DefaultTableModel;
 public class SearchArticle extends javax.swing.JFrame {
 
     private final int type;
+    private final ArrayList<Integer> presenter_ids;
     
     /**
      * Creates new form SearchArticle
@@ -30,6 +34,7 @@ public class SearchArticle extends javax.swing.JFrame {
      */
     public SearchArticle(int type, String name) {
         this.type = type;
+        this.presenter_ids = new ArrayList();
         initComponents();
         
         // imprime os artigos
@@ -38,24 +43,16 @@ public class SearchArticle extends javax.swing.JFrame {
             ResultSet rs;
             // SELECT ALL
             if(name.isEmpty())
-                rs = Article.findAll(MainFrame.db);
+                rs = Article.findViewAll(MainFrame.db);
             // SELECT By Name
             else
-                rs = Article.findByName(MainFrame.db, name);
-            Article a = Article.next(rs);
-            while(a != null) {
-                // pega o evento
-                Event e = Event.findByPrimaryKey(MainFrame.db, a.getCodEv());
-                // fecha o cursor
-                MainFrame.db.close();
-                // pega o apresentador
-                People p = People.findByPrimaryKey(MainFrame.db, a.getIdApr());
-                // fecha o cursor
-                MainFrame.db.close();
+                rs = Article.findViewByName(MainFrame.db, name);
+            while(rs.next()) {
+                // armazena os ids dos apresentadores no array
+                this.presenter_ids.add(rs.getInt("idPe"));
                 // adiciona uma linha na tabela
-                model.addRow(new Object[] {a.getIdArt(), a.getTituloArt(), a.getDataApresArt(), a.getHoraApresArt(),
-                    e.getNomeEv(), a.getNumEd(), p.getNomePe()});
-                a = Article.next(rs);
+                model.addRow(new Object[] {rs.getInt("idArt"), rs.getString("tituloArt"), rs.getString("dataApresArt"),
+                    rs.getString("horaApresArt"), rs.getString("nomeEv"), rs.getInt("numEd"), rs.getString("nomePe")});
             }
             // fecha o cursor
             MainFrame.db.close();
@@ -172,11 +169,7 @@ public class SearchArticle extends javax.swing.JFrame {
             MainFrame.db.close();
             
             // pega o id do apresentador
-            rs = People.findByName(MainFrame.db, (String) this.jTable1.getValueAt(i, 6));
-            People p = People.next(rs);
-            int idApr = p.getIdPe();
-            // fecha o cursor
-            MainFrame.db.close();
+            int idApr = this.presenter_ids.get(i);
 
             Article a = new Article((int) this.jTable1.getValueAt(i, 0), (String) this.jTable1.getValueAt(i, 1), 
                 (String) this.jTable1.getValueAt(i, 2), (String) this.jTable1.getValueAt(i, 3), codEv, 
@@ -196,6 +189,7 @@ public class SearchArticle extends javax.swing.JFrame {
                 updateArticle.setVisible(true);
                 this.dispose();
             }
+            
             // remoção de artigo
             if (this.type == CRUDType.REMOVE) {
                 // inicia a interface de remoção

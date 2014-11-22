@@ -7,7 +7,6 @@
 package trabalho5.view;
 
 import trabalho5.database.Article;
-import trabalho5.database.People;
 import trabalho5.database.Write;
 
 import javax.swing.table.DefaultTableModel;
@@ -34,16 +33,11 @@ public class Authors extends javax.swing.JFrame {
         // imprime os autores
         DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
         try {
-            ResultSet rs = Write.findByArticle(MainFrame.db, this.article.getIdArt());
-            Write w = Write.next(rs);
-            while(w != null) {
-                // pega informações do autor
-                People p = People.findByPrimaryKey(MainFrame.db, w.getIdAut());
-                // fecha o cursor
-                MainFrame.db.close();
-                // adiciona uma linha ana tabela
-                model.addRow(new Object[] {p.getNomePe(), p.getEmailPe(), p.getInstituicaoPe(), p.getTelefonePe()});
-                w = Write.next(rs);
+            ResultSet rs = Write.findViewByArticle(MainFrame.db, this.article.getIdArt());
+            while(rs.next()) {
+                // adiciona uma linha na tabela
+                model.addRow(new Object[] {rs.getString("nomePe"), rs.getString("emailPe"), rs.getString("instituicaoPe"),
+                    rs.getString("telefonePe")});
             }
             // fecha o cursor
             MainFrame.db.close();

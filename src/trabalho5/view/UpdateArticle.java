@@ -17,10 +17,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Vector;
+import java.util.Date;
 
 /**
  *
@@ -29,8 +28,10 @@ import java.util.Vector;
 public class UpdateArticle extends javax.swing.JFrame {
 
     private final Article article;
-    private Vector<String> all_authors;
-    private ArrayList<String> authors;
+    private final Vector<String> all_authors;
+    private final ArrayList<Integer> all_authors_ids;
+    private final ArrayList<String> authors;
+    private ArrayList<Integer> ids_registereds;
     private int[] indices;
     
     /**
@@ -40,7 +41,9 @@ public class UpdateArticle extends javax.swing.JFrame {
      */
     public UpdateArticle(Article a) {
         this.article = a;
-        this.authors = new ArrayList<>();
+        this.all_authors = new Vector();
+        this.all_authors_ids = new ArrayList();
+        this.authors = new ArrayList();
         initComponents();
         
         try {
@@ -65,33 +68,37 @@ public class UpdateArticle extends javax.swing.JFrame {
             this.jFormattedTextField2.setText(this.article.getHoraApresArt());
             
             // busca todos os autores
-            this.all_authors = new Vector<>();
             rs = People.findAuthors(MainFrame.db);
             People p = People.next(rs);
             while(p != null) {
+                // armazena os nomes dos autores no vetor
                 this.all_authors.add(p.getNomePe());
+                // armazena os ids dos autores no array
+                this.all_authors_ids.add(p.getIdPe());
                 p = People.next(rs);
             }
+            // insere os nomes dos autores na jList
             this.jList1.setListData(this.all_authors);
             // fecha o cursor
             MainFrame.db.close();
             
             // seleciona os autores
             rs = Write.findByArticle(MainFrame.db, this.article.getIdArt());
-            System.err.println(rs.getStatement().getMaxRows());
-            Write w = Write.next(rs);
-            this.indices = new int[rs.getStatement().getMaxRows()];
-            int i = 0;
-            while(w != null) {
-                // pega o autor
-                People author = People.findByPrimaryKey(MainFrame.db, w.getIdAut());
-                // fecha o cursor
-                MainFrame.db.close();
-                this.authors.add(author.getNomePe());
-                this.indices[i++] = all_authors.indexOf(author.getNomePe());
-                w = Write.next(rs);
+            ArrayList<Integer> aux = new ArrayList();
+            while(rs.next()) {
+                // nome do autor
+                String nomePe = rs.getString("nomePe");
+                // armazena o nome do autor definido
+                this.authors.add(nomePe);
+                // pega o posicao desse autor para selecionar na jList
+                aux.add(all_authors.indexOf(nomePe));
             }
+            // copia para int[]
+            this.indices = new int[aux.size()];
+            for(int i = 0; i < aux.size(); i++)
+                this.indices[i] = aux.get(i);
             
+            // seleciona os autores pelos seus indices
             this.jList1.setSelectedIndices(this.indices);
             // fecha o cursor
             MainFrame.db.close();
@@ -293,112 +300,119 @@ public class UpdateArticle extends javax.swing.JFrame {
             horaApresArt = this.jFormattedTextField2.getText();
 
         String presenterName = (String) this.jComboBox3.getSelectedItem();
+        int presenter_index = this.jComboBox3.getSelectedIndex();
 
         // campos obrigatórios não preenchidos
         if(eventName == null || editionName == null || tituloArt.isEmpty() || presenterName == null) {
             Message msg = new Message(this, true, "Campos obrigatórios não preenchidos");
             msg.setTitle("Erro");
             msg.setVisible(true);
-        } else {
-            try {
-                // pega o evento selecionado
-                ResultSet rs = Event.findByName(MainFrame.db, eventName);
-                Event e = Event.next(rs);
-                int codEv = e.getCodEv();
+            return;
+        }
+        
+        try {
+            // pega o evento selecionado
+            ResultSet rs = Event.findByName(MainFrame.db, eventName);
+            Event e = Event.next(rs);
+            int codEv = e.getCodEv();
+            // fecha o cursor
+            MainFrame.db.close();
+
+            // pega a edição selecionada
+            String[] parts = editionName.split(" ");
+            int numEd = Integer.valueOf(parts[0]).intValue();
+
+            // se a data não é nula
+            if (dataApresArt != null) {
+                Edition ed = Edition.findByPrimaryKey(MainFrame.db, codEv, numEd);
                 // fecha o cursor
                 MainFrame.db.close();
 
-                // pega a edição selecionada
-                String[] parts = editionName.split(" ");
-                int numEd = Integer.valueOf(parts[0]).intValue();
-
-                // pega o apresentador selecionado
-                rs = People.findByName(MainFrame.db, presenterName);
-                People p = People.next(rs);
-                int idApr = p.getIdPe();
-                // fecha o cursor
-                MainFrame.db.close();
-
-                // atualiza inscrito como apresentador
-                //Registered r = Registered.findByPrimaryKey(this.db, codEv, numEd, idApr);
-                //r.setTipoApresentador('S');
-                //r.update(this.db);
-
-                // atualiza o artigo
-                this.article.setTituloArt(tituloArt);
-                this.article.setDataApresArt(dataApresArt);
-                this.article.setHoraApresArt(horaApresArt);
-                this.article.setCodEv(codEv);
-                this.article.setNumEd(numEd);
-                this.article.setIdApr(idApr);
-                article.update(MainFrame.db);
+                // verifica se a data de apresentação do artigo está contida na data da edição do evento
+                String parts_artigo[] = dataApresArt.split("/");
+                String parts_inicio[] = ed.getDataInicioEd().split("/");
+                String parts_fim[] = ed.getDataFimEd().split("/");
                 
-                /*
-                 * Atualiza os autores
-                 */
-                
-                // remove os autores que foram desmarcados
-                for(int i : this.indices) {
-                    if(!this.jList1.isSelectedIndex(i)) {
-                        // pega o id do autor
-                        rs = People.findByName(MainFrame.db, this.all_authors.get(i));
-                        People author = People.next(rs);
-                        // fecha o cursor
-                        MainFrame.db.close();
-                        Write write = new Write(author.getIdPe(), this.article.getIdArt());
-                        write.remove(MainFrame.db);
-                    }
-                }
-                
-                // pega os autores selecionados
-                List<String> selecteds = this.jList1.getSelectedValuesList();
-                int flag = 0;
-                for(String new_authors : selecteds) {
-                    // verifica se foi selecionado o apresentador como autor
-                    if(presenterName.equals(new_authors))
-                        flag = 1;
-                    // verifica se já foi inserido
-                    int aux = 0;
-                    for(String old_authors : this.authors) {
-                        if(new_authors.equals(old_authors))
-                            aux = 1;
-                    }
-                    // insere novo autor
-                    if(aux == 0) {
-                        // pega o id do autor
-                        rs = People.findByName(MainFrame.db, new_authors);
-                        People author = People.next(rs);
-                        // fecha o cursor
-                        MainFrame.db.close();
-                        Write write = new Write(author.getIdPe(), this.article.getIdArt());
-                        write.insert(MainFrame.db);
-                    }
-                }
-                // se o apresentador não foi selecionado como autor, insere-o
-                if(flag == 0) {
-                    // verifica se já não foi inserido
-                    int aux = 0;
-                    for(String name : this.authors) {
-                        if(presenterName.equals(name))
-                            aux = 1;
-                    }
-                    if(aux == 0) {
-                        Write write = new Write(idApr, this.article.getIdArt());
-                        write.insert(MainFrame.db);
-                    }
-                }
+                Date data_artigo = new Date(Integer.parseInt(parts_artigo[2]), Integer.parseInt(parts_artigo[1]), 
+                        Integer.parseInt(parts_artigo[0]));
+                Date data_inicio = new Date(Integer.parseInt(parts_inicio[2]), Integer.parseInt(parts_inicio[1]), 
+                        Integer.parseInt(parts_inicio[0]));
+                Date data_fim = new Date(Integer.parseInt(parts_fim[2]), Integer.parseInt(parts_fim[1]), 
+                        Integer.parseInt(parts_fim[0]));
 
-                new Message(this, true, "Artigo atualizado.").setVisible(true);
-                this.dispose();
-
-            } catch(SQLException e) {
-                Message msg = new Message(this, true, e.getMessage());
-                msg.setTitle("Erro");
-                msg.setVisible(true);
+                if (data_artigo.compareTo(data_inicio) < 0 || data_artigo.compareTo(data_fim) > 0) {
+                    Message msg = new Message(this, true, "Data de apresentação inválida.");
+                    msg.setTitle("Erro");
+                    msg.setVisible(true);
+                    return;
+                }
             }
+            
+            // pega o apresentador selecionado
+            int idApr = this.ids_registereds.get(presenter_index);
+
+            // atualiza o artigo
+            this.article.setTituloArt(tituloArt);
+            this.article.setDataApresArt(dataApresArt);
+            this.article.setHoraApresArt(horaApresArt);
+            this.article.setCodEv(codEv);
+            this.article.setNumEd(numEd);
+            this.article.setIdApr(idApr);
+            article.update(MainFrame.db);
+
+            /*
+             * Atualiza os autores
+             */
+            
+            // remove os autores que foram desmarcados
+            for(int i : this.indices) {
+                if(!this.jList1.isSelectedIndex(i)) {
+                    Write write = new Write(this.all_authors_ids.get(i), this.article.getIdArt());
+                    write.remove(MainFrame.db);
+                }
+            }
+
+            // pega os autores selecionados
+            List<String> selecteds = this.jList1.getSelectedValuesList();
+            int flag = 0;
+            for(String new_authors : selecteds) {
+                // verifica se foi selecionado o apresentador como autor
+                if(presenterName.equals(new_authors))
+                    flag = 1;
+                // verifica se já foi inserido
+                int aux = 0;
+                for(String old_authors : this.authors) {
+                    if(new_authors.equals(old_authors))
+                        aux = 1;
+                }
+                // insere novo autor
+                if(aux == 0) {
+                    int index = this.all_authors.indexOf(new_authors);
+                    Write write = new Write(this.all_authors_ids.get(index), this.article.getIdArt());
+                    write.insert(MainFrame.db);
+                }
+            }
+            // se o apresentador não foi selecionado como autor, insere-o
+            if(flag == 0) {
+                Write write = new Write(idApr, this.article.getIdArt());
+                write.insert(MainFrame.db);
+            }
+
+            new Message(this, true, "Artigo atualizado.").setVisible(true);
+            this.dispose();
+            
+        } catch(SQLException e) {
+            String error;
+            if (e.getErrorCode() == 1850 || e.getErrorCode() == 1851)
+                error = "Horário inválido.";
+            else
+                error = e.getMessage();
+            Message msg = new Message(this, true, error);
+            msg.setTitle("Erro");
+            msg.setVisible(true);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
-
+     
     /**
      * Cancelar
      */
@@ -429,37 +443,22 @@ public class UpdateArticle extends javax.swing.JFrame {
             int numEd = Integer.valueOf(parts[0]).intValue();
 
             // busca os inscritos da edição do evento
-            List<String> registereds = new ArrayList<>();
+            this.ids_registereds = new ArrayList();
             rs = Registered.findByEventAndEdition(MainFrame.db, codEv, numEd, true);
-            Registered r = Registered.next(rs);
-            while(r != null) {
-                // busca o nome do inscrito
-                People p = People.findByPrimaryKey(MainFrame.db, r.getIdPart());
-                // fecha o cursor
-                MainFrame.db.close();
-                // insere apenas se for autor
-                if(p.getTipoAutor() == 'S')
-                    registereds.add(p.getNomePe());
-                r = Registered.next(rs);
+            while(rs.next()) {
+                // adiciona nos ids dos inscritos no array
+                this.ids_registereds.add(rs.getInt("idPart"));
+                // adiciona o nome do inscrito na ComboBox
+                this.jComboBox3.addItem(rs.getString("nomePe"));
             }
-            // fech o cursor
+            // fecha o cursor
             MainFrame.db.close();
-            // ordena a lista
-            Collections.sort(registereds, new Comparator<String>() {
-                @Override
-                public int compare(String s1, String s2) {
-                    return s1.compareTo(s2);
-                }
-            });
-            // adiciona na ComboBox
-            for (String name : registereds)
-                this.jComboBox3.addItem(name);
             
             // seleciona o apresentador definido
             People selected = People.findByPrimaryKey(MainFrame.db, this.article.getIdApr());
+            this.jComboBox3.setSelectedItem(selected.getNomePe());
             // fecha o cursor
             MainFrame.db.close();
-            this.jComboBox3.setSelectedItem(selected.getNomePe());
             
         } catch(SQLException e) {
             Message msg = new Message(this, true, e.getMessage());
@@ -477,14 +476,8 @@ public class UpdateArticle extends javax.swing.JFrame {
         // pega o nome do evento selecionado
         String name = (String) this.jComboBox1.getSelectedItem();
         try {
-            // pega o evento selecionado pelo nome
-            ResultSet rs = Event.findByName(MainFrame.db, name);
-            Event ev = Event.next(rs);
-            // fecha o cursor
-            MainFrame.db.close();
-            
             // pega as edições do evento
-            rs = Edition.findByEvent(MainFrame.db, ev);
+            ResultSet rs = Edition.findByEvent(MainFrame.db, name);
             Edition ed = Edition.next(rs);
             while(ed != null) {
                 String info = ed.getNumEd() + " de " + ed.getDataInicioEd() + " a " + ed.getDataFimEd()
@@ -497,11 +490,11 @@ public class UpdateArticle extends javax.swing.JFrame {
             
             // seleciona a edição definida
             Edition selected = Edition.findByPrimaryKey(MainFrame.db, this.article.getCodEv(), this.article.getNumEd());
-            // fecha o cursor
-            MainFrame.db.close();
             String info = selected.getNumEd() + " de " + selected.getDataInicioEd() + " a " + selected.getDataFimEd() 
                     + " em " + selected.getLocalEd();
             this.jComboBox2.setSelectedItem(info);
+            // fecha o cursor
+            MainFrame.db.close();
             
         } catch(SQLException e) {
             Message msg = new Message(this, true, e.getMessage());

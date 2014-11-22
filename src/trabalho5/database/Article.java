@@ -112,14 +112,19 @@ public class Article {
                 + "seq_artigo.NEXTVAL, "
                 + "'"+this.tituloArt+"', ";
         
-        if(this.dataApresArt == null)
-            sql += "null, ";
+        int flag = 0;
+        if(this.dataApresArt == null) {
+            sql += "null, null, ";
+            flag = 1;
+        }
         else
             sql += "to_date('"+this.dataApresArt+"', 'dd/mm/yyyy'), ";
-        if(this.horaApresArt == null)
-            sql += "null, ";
-        else
-            sql += "to_date('"+this.dataApresArt+" "+this.horaApresArt+"', 'dd/mm/yyyy hh24:mi'), ";
+        if(flag == 0) {
+            if(this.horaApresArt == null)
+                sql += "null, ";
+            else
+                sql += "to_date('"+this.dataApresArt+" "+this.horaApresArt+"', 'dd/mm/yyyy hh24:mi'), ";
+        }
         
         sql += this.codEv+", "+ this.numEd+", "+ this.idApr+ ")";
         // debugg
@@ -223,6 +228,39 @@ public class Article {
                     rs.getString("horaApresArt"), rs.getInt("codEv"), rs.getInt("numEd"), rs.getInt("idApr"));
         }
         return article;
+    }
+    
+     /**
+     * 
+     * SELECT ALL na view de artigos
+     * 
+     * @param db
+     * @return 
+     * @throws SQLException 
+     */
+    public static ResultSet findViewAll(DbConnection db) throws SQLException {
+        String sql = "SELECT * FROM view_artigos";
+        // debugg
+        if(MainFrame.debugg)
+            System.out.println(sql);
+        return db.query(sql);
+    }
+    
+     /**
+     * 
+     * SELECT By Name na view de artigos
+     * 
+     * @param db
+     * @param name
+     * @return 
+     * @throws SQLException 
+     */
+    public static ResultSet findViewByName(DbConnection db, String name) throws SQLException {
+        String sql = "SELECT * FROM view_artigos WHERE UPPER(\"tituloArt\") LIKE UPPER('%"+name+"%')";
+        // debugg
+        if(MainFrame.debugg)
+            System.out.println(sql);
+        return db.query(sql);
     }
     
 }

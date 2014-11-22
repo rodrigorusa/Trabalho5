@@ -98,7 +98,6 @@ public class RemoveArticle extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             this.article.remove(MainFrame.db);
-            // TODO atualizar apresentador
             new Message(this, true, "Artigo removido.").setVisible(true);
         } catch(SQLException e) {
             Message msg = new Message(this, true, e.getMessage());
