@@ -45,23 +45,27 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem13 = new javax.swing.JMenuItem();
         jMenuItem16 = new javax.swing.JMenuItem();
+        jMenuItem20 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
         jMenuItem14 = new javax.swing.JMenuItem();
         jMenuItem17 = new javax.swing.JMenuItem();
+        jMenuItem21 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItem11 = new javax.swing.JMenuItem();
         jMenuItem18 = new javax.swing.JMenuItem();
+        jMenuItem22 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem12 = new javax.swing.JMenuItem();
         jMenuItem15 = new javax.swing.JMenuItem();
         jMenuItem19 = new javax.swing.JMenuItem();
+        jMenuItem23 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
 
@@ -115,6 +119,14 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem16);
 
+        jMenuItem20.setText("Organizador");
+        jMenuItem20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem20ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem20);
+
         jMenuBar1.add(jMenu1);
 
         jMenu4.setText("Buscar");
@@ -159,6 +171,14 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenu4.add(jMenuItem17);
 
+        jMenuItem21.setText("Organizador");
+        jMenuItem21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem21ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem21);
+
         jMenuBar1.add(jMenu4);
 
         jMenu2.setText("Atualizar");
@@ -194,6 +214,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jMenu2.add(jMenuItem18);
+
+        jMenuItem22.setText("Organizador");
+        jMenuItem22.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem22ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem22);
 
         jMenuBar1.add(jMenu2);
 
@@ -238,6 +266,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jMenuItem19);
+
+        jMenuItem23.setText("Organizador");
+        jMenuItem23.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem23ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem23);
 
         jMenuBar1.add(jMenu3);
 
@@ -442,6 +478,38 @@ public class MainFrame extends javax.swing.JFrame {
         MainFrame.debugg = this.jCheckBoxMenuItem1.getState();
     }//GEN-LAST:event_jCheckBoxMenuItem1ActionPerformed
 
+    /**
+     * Cadastrar organizador
+     */
+    private void jMenuItem20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem20ActionPerformed
+        InsertOrganizer insertOrganizer = new InsertOrganizer();
+        insertOrganizer.setVisible(true);
+    }//GEN-LAST:event_jMenuItem20ActionPerformed
+
+    /**
+     * Buscar organizador
+     */
+    private void jMenuItem21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem21ActionPerformed
+        SearchOrganizerByName searchOrganizer = new SearchOrganizerByName(CRUDType.SEARCH);
+        searchOrganizer.setVisible(true);
+    }//GEN-LAST:event_jMenuItem21ActionPerformed
+
+    /**
+     * Atualizar organizador
+     */
+    private void jMenuItem22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem22ActionPerformed
+        SearchOrganizerByName searchOrganizer = new SearchOrganizerByName(CRUDType.UPDATE);
+        searchOrganizer.setVisible(true);
+    }//GEN-LAST:event_jMenuItem22ActionPerformed
+
+    /**
+     * Remove organizador
+     */
+    private void jMenuItem23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem23ActionPerformed
+        SearchOrganizerByName searchOrganizer = new SearchOrganizerByName(CRUDType.REMOVE);
+        searchOrganizer.setVisible(true);
+    }//GEN-LAST:event_jMenuItem23ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JMenu jMenu1;
@@ -462,6 +530,10 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem18;
     private javax.swing.JMenuItem jMenuItem19;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem20;
+    private javax.swing.JMenuItem jMenuItem21;
+    private javax.swing.JMenuItem jMenuItem22;
+    private javax.swing.JMenuItem jMenuItem23;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;

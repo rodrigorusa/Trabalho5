@@ -325,6 +325,24 @@ public class People {
     
     /**
      * 
+     * Busca todos organizadores
+     * 
+     * @param db
+     * @return 
+     * @throws SQLException
+     */
+    public static ResultSet findOrganizers(DbConnection db) throws SQLException {
+        String sql = "SELECT idPe, nomePe, emailPe, instituicaoPe, telefonePe, nacionalidadePe, enderecoPe, "
+                + "tipoOrganizador, tipoParticipante, tipoAutor FROM pessoa WHERE tipoOrganizador = 'S'"
+                + "ORDER BY nomePe";
+        // debugg
+        if(MainFrame.debugg)
+            System.out.println(sql);
+        return db.query(sql);
+    }
+    
+    /**
+     * 
      * Retorna um a um as pessoas
      * 
      * @param rs
