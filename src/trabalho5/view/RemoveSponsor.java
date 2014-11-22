@@ -6,7 +6,7 @@
 
 package trabalho5.view;
 
-import trabalho5.database.Event;
+import trabalho5.database.Sponsor;
 
 import java.sql.SQLException;
 
@@ -14,17 +14,17 @@ import java.sql.SQLException;
  *
  * @author Rodrigo
  */
-public class RemoveEvent extends javax.swing.JFrame {
+public class RemoveSponsor extends javax.swing.JFrame {
 
-    private final Event event;
+    private final Sponsor sponsor;
     
     /**
-     * Creates new form RemoveEvent
+     * Creates new form RemoveSponsor
      * 
-     * @param e
+     * @param s
      */
-    public RemoveEvent(Event e) {
-        this.event = e;
+    public RemoveSponsor(Sponsor s) {
+        this.sponsor = s;
         initComponents();
     }
 
@@ -38,25 +38,25 @@ public class RemoveEvent extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Remover");
 
         jLabel1.setText("Remover?");
 
-        jButton1.setText("Sim");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         jButton2.setText("Não");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Sim");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -93,12 +93,19 @@ public class RemoveEvent extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * Confirma remoção
+     * Cancelar remoção
+     */
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    /**
+     * Confirmar remoção
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            this.event.remove(MainFrame.db);
-            new Message(this, true, "Evento removido.").setVisible(true);
+            this.sponsor.remove(MainFrame.db);
+            new Message(this, true, "Patrocinador removido.").setVisible(true);
             this.dispose();
         } catch(SQLException e) {
             Message msg = new Message(this, true, e.getMessage());
@@ -106,13 +113,6 @@ public class RemoveEvent extends javax.swing.JFrame {
             msg.setVisible(true);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
-    
-    /**
-     * Cancela remoção
-     */
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
