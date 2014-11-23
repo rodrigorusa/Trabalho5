@@ -47,6 +47,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuItem16 = new javax.swing.JMenuItem();
         jMenuItem20 = new javax.swing.JMenuItem();
         jMenuItem24 = new javax.swing.JMenuItem();
+        jMenuItem28 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
@@ -55,6 +56,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuItem17 = new javax.swing.JMenuItem();
         jMenuItem21 = new javax.swing.JMenuItem();
         jMenuItem25 = new javax.swing.JMenuItem();
+        jMenuItem29 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
@@ -62,6 +64,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuItem18 = new javax.swing.JMenuItem();
         jMenuItem22 = new javax.swing.JMenuItem();
         jMenuItem26 = new javax.swing.JMenuItem();
+        jMenuItem30 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
@@ -70,6 +73,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuItem19 = new javax.swing.JMenuItem();
         jMenuItem23 = new javax.swing.JMenuItem();
         jMenuItem27 = new javax.swing.JMenuItem();
+        jMenuItem31 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
 
@@ -139,6 +143,14 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem24);
 
+        jMenuItem28.setText("Patrocínio");
+        jMenuItem28.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem28ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem28);
+
         jMenuBar1.add(jMenu1);
 
         jMenu4.setText("Buscar");
@@ -199,6 +211,14 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenu4.add(jMenuItem25);
 
+        jMenuItem29.setText("Patrocínio");
+        jMenuItem29.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem29ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem29);
+
         jMenuBar1.add(jMenu4);
 
         jMenu2.setText("Atualizar");
@@ -250,6 +270,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jMenu2.add(jMenuItem26);
+
+        jMenuItem30.setText("Patrocínio");
+        jMenuItem30.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem30ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem30);
 
         jMenuBar1.add(jMenu2);
 
@@ -310,6 +338,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jMenuItem27);
+
+        jMenuItem31.setText("Patrocínio");
+        jMenuItem31.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem31ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem31);
 
         jMenuBar1.add(jMenu3);
 
@@ -578,6 +614,38 @@ public class MainFrame extends javax.swing.JFrame {
         searchSponsor.setVisible(true);
     }//GEN-LAST:event_jMenuItem27ActionPerformed
 
+    /**
+     * Cadastrar patrocínio
+     */
+    private void jMenuItem28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem28ActionPerformed
+        InsertSponsorship insertSponsorship = new InsertSponsorship();
+        insertSponsorship.setVisible(true);
+    }//GEN-LAST:event_jMenuItem28ActionPerformed
+
+    /**
+     * Buscar patrocínio
+     */
+    private void jMenuItem29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem29ActionPerformed
+        SearchSponsorshipByName searchSponsorship = new SearchSponsorshipByName(CRUDType.SEARCH);
+        searchSponsorship.setVisible(true);
+    }//GEN-LAST:event_jMenuItem29ActionPerformed
+
+    /**
+     * Atualizar patrocínio
+     */
+    private void jMenuItem30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem30ActionPerformed
+        SearchSponsorshipByName searchSponsorship = new SearchSponsorshipByName(CRUDType.UPDATE);
+        searchSponsorship.setVisible(true);
+    }//GEN-LAST:event_jMenuItem30ActionPerformed
+
+    /**
+     * Remover patrocínio
+     */
+    private void jMenuItem31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem31ActionPerformed
+        SearchSponsorshipByName searchSponsorship = new SearchSponsorshipByName(CRUDType.REMOVE);
+        searchSponsorship.setVisible(true);
+    }//GEN-LAST:event_jMenuItem31ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JMenu jMenu1;
@@ -606,7 +674,11 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem25;
     private javax.swing.JMenuItem jMenuItem26;
     private javax.swing.JMenuItem jMenuItem27;
+    private javax.swing.JMenuItem jMenuItem28;
+    private javax.swing.JMenuItem jMenuItem29;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem30;
+    private javax.swing.JMenuItem jMenuItem31;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
