@@ -145,6 +145,67 @@ public class Sponsorship {
         db.execute(sql);
     }
     
+    /**
+     * 
+     * Busca patrocínios pelo evento e edição
+     * 
+     * @param db
+     * @param codEv
+     * @param numEd
+     * @param order
+     * @return 
+     * @throws SQLException 
+     */
+    public static ResultSet findByEventAndEdition(DbConnection db, int codEv, int numEd, boolean order) throws SQLException {
+        String sql = "SELECT cnpjPat, razaoSocialPat, valorPat, saldoPat, to_char(dataPat, 'dd/mm/yyyy') AS \"dataPat\""
+                + " FROM patrocinio NATURAL JOIN patrocinador"
+                + " WHERE codEv = "+codEv+" AND numEd = "+numEd;
+        // ordena pelo nome
+        if(order)
+            sql += " ORDER BY razaoSocialPat";
+        // debugg
+        if(MainFrame.debugg)
+            System.out.println(sql);
+        return db.query(sql);
+    }
+    
+    /**
+     * 
+     * Busca patrocínio pela chave primária
+     * 
+     * @param db
+     * @param cnpjPat
+     * @param numEd
+     * @return 
+     * @throws SQLException 
+     */
+    public static Sponsorship findByPrimaryKey(DbConnection db, String cnpjPat, int codEv, int numEd) throws SQLException {
+        String sql = "SELECT cnpjPat, codEv, numEd, valorPat, saldoPat, to_char(dataPat, 'dd/mm/yyyy') AS \"dataPat\""
+                + " FROM patrocinio"
+                + " WHERE cnpjPat = "+cnpjPat+" AND codEv = "+codEv+" AND numEd = "+numEd;
+        // debugg
+        if (MainFrame.debugg)
+            System.out.println(sql);
+        return Sponsorship.next(db.query(sql));
+    }
+    
+    /**
+     * 
+     * Retorna um a um os patrocínios
+     * 
+     * @param rs
+     * @return 
+     * @throws SQLException 
+     */
+    public static Sponsorship next(ResultSet rs) throws SQLException {
+        Sponsorship ss = null;
+        if (rs.next()) {
+            ss = new Sponsorship(rs.getString("cnpjPat"), rs.getInt("codEv"), rs.getInt("numEd"), rs.getDouble("valorPat"),
+                rs.getDouble("saldoPat"), rs.getString("dataPat"));
+        }
+        return ss;
+    }
+    
      /**
      * 
      * SELECT ALL na view de patrocinios

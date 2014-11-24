@@ -6,6 +6,16 @@
 
 package trabalho5.view;
 
+import trabalho5.view.event.*;
+import trabalho5.view.edition.*;
+import trabalho5.view.people.*;
+import trabalho5.view.registered.*;
+import trabalho5.view.article.*;
+import trabalho5.view.organizer.*;
+import trabalho5.view.sponsor.*;
+import trabalho5.view.sponsorship.*;
+import trabalho5.view.expense.*;
+
 import trabalho5.database.DbConnection;
 import java.sql.SQLException;
 
@@ -15,7 +25,7 @@ import java.sql.SQLException;
  */
 public class MainFrame extends javax.swing.JFrame {
 
-    protected static DbConnection db;
+    public static DbConnection db;
     public static boolean debugg;
     
     /**
@@ -48,6 +58,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuItem20 = new javax.swing.JMenuItem();
         jMenuItem24 = new javax.swing.JMenuItem();
         jMenuItem28 = new javax.swing.JMenuItem();
+        jMenuItem32 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
@@ -57,6 +68,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuItem21 = new javax.swing.JMenuItem();
         jMenuItem25 = new javax.swing.JMenuItem();
         jMenuItem29 = new javax.swing.JMenuItem();
+        jMenuItem33 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
@@ -65,6 +77,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuItem22 = new javax.swing.JMenuItem();
         jMenuItem26 = new javax.swing.JMenuItem();
         jMenuItem30 = new javax.swing.JMenuItem();
+        jMenuItem34 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
@@ -74,6 +87,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuItem23 = new javax.swing.JMenuItem();
         jMenuItem27 = new javax.swing.JMenuItem();
         jMenuItem31 = new javax.swing.JMenuItem();
+        jMenuItem35 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
 
@@ -151,6 +165,14 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem28);
 
+        jMenuItem32.setText("Despesa");
+        jMenuItem32.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem32ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem32);
+
         jMenuBar1.add(jMenu1);
 
         jMenu4.setText("Buscar");
@@ -219,6 +241,14 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenu4.add(jMenuItem29);
 
+        jMenuItem33.setText("Despesa");
+        jMenuItem33.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem33ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem33);
+
         jMenuBar1.add(jMenu4);
 
         jMenu2.setText("Atualizar");
@@ -278,6 +308,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jMenu2.add(jMenuItem30);
+
+        jMenuItem34.setText("Despesa");
+        jMenuItem34.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem34ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem34);
 
         jMenuBar1.add(jMenu2);
 
@@ -346,6 +384,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jMenuItem31);
+
+        jMenuItem35.setText("Despesa");
+        jMenuItem35.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem35ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem35);
 
         jMenuBar1.add(jMenu3);
 
@@ -646,6 +692,38 @@ public class MainFrame extends javax.swing.JFrame {
         searchSponsorship.setVisible(true);
     }//GEN-LAST:event_jMenuItem31ActionPerformed
 
+    /**
+     * Cadastrar despesa
+     */
+    private void jMenuItem32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem32ActionPerformed
+        InsertExpense insertExpense = new InsertExpense();
+        insertExpense.setVisible(true);
+    }//GEN-LAST:event_jMenuItem32ActionPerformed
+
+    /**
+     * Buscar despesas
+     */
+    private void jMenuItem33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem33ActionPerformed
+        SearchExpenseByName searchExpense = new SearchExpenseByName(CRUDType.SEARCH);
+        searchExpense.setVisible(true);
+    }//GEN-LAST:event_jMenuItem33ActionPerformed
+
+    /**
+     * Atualizar despesa
+     */
+    private void jMenuItem34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem34ActionPerformed
+        SearchExpenseByName searchExpense = new SearchExpenseByName(CRUDType.UPDATE);
+        searchExpense.setVisible(true);
+    }//GEN-LAST:event_jMenuItem34ActionPerformed
+
+    /**
+     * Remover despesa
+     */
+    private void jMenuItem35ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem35ActionPerformed
+        SearchExpenseByName searchExpense = new SearchExpenseByName(CRUDType.REMOVE);
+        searchExpense.setVisible(true);
+    }//GEN-LAST:event_jMenuItem35ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JMenu jMenu1;
@@ -679,6 +757,10 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem30;
     private javax.swing.JMenuItem jMenuItem31;
+    private javax.swing.JMenuItem jMenuItem32;
+    private javax.swing.JMenuItem jMenuItem33;
+    private javax.swing.JMenuItem jMenuItem34;
+    private javax.swing.JMenuItem jMenuItem35;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
