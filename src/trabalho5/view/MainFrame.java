@@ -81,6 +81,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuItem26 = new javax.swing.JMenuItem();
         jMenuItem30 = new javax.swing.JMenuItem();
         jMenuItem34 = new javax.swing.JMenuItem();
+        jMenuItem39 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
@@ -91,6 +92,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuItem27 = new javax.swing.JMenuItem();
         jMenuItem31 = new javax.swing.JMenuItem();
         jMenuItem35 = new javax.swing.JMenuItem();
+        jMenuItem38 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
 
@@ -336,6 +338,14 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuItem34);
 
+        jMenuItem39.setText("Auxílio");
+        jMenuItem39.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem39ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem39);
+
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("Remover");
@@ -411,6 +421,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jMenuItem35);
+
+        jMenuItem38.setText("Auxílio");
+        jMenuItem38.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem38ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem38);
 
         jMenuBar1.add(jMenu3);
 
@@ -759,6 +777,22 @@ public class MainFrame extends javax.swing.JFrame {
         searchSupport.setVisible(true);
     }//GEN-LAST:event_jMenuItem37ActionPerformed
 
+    /**
+     * Remover auxílio
+     */
+    private void jMenuItem38ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem38ActionPerformed
+        SearchSupportByName searchSupport = new SearchSupportByName(CRUDType.REMOVE);
+        searchSupport.setVisible(true);
+    }//GEN-LAST:event_jMenuItem38ActionPerformed
+
+    /**
+     * Atualizar auxílio
+     */
+    private void jMenuItem39ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem39ActionPerformed
+        SearchSupportByName searchSupport = new SearchSupportByName(CRUDType.UPDATE);
+        searchSupport.setVisible(true);
+    }//GEN-LAST:event_jMenuItem39ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JMenu jMenu1;
@@ -798,6 +832,8 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem35;
     private javax.swing.JMenuItem jMenuItem36;
     private javax.swing.JMenuItem jMenuItem37;
+    private javax.swing.JMenuItem jMenuItem38;
+    private javax.swing.JMenuItem jMenuItem39;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;

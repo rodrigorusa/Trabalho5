@@ -142,6 +142,51 @@ public class Support {
     
     /**
      * 
+     * Atualiza auxílio no banco de dados
+     * 
+     * @param db
+     * @throws SQLException
+     */
+    public void update(DbConnection db) throws SQLException {
+        String sql = "UPDATE auxilio SET "
+                + "cnpjPat = "+this.cnpjPat+", "
+                + "codEvPat = "+this.codEvPat+", "
+                + "numEdPat = "+this.numEdPat+", "
+                + "valorAux = "+this.valorAux+", ";
+        
+        sql += "dataAux = ";
+        if (this.dataAux == null)
+            sql += "null";
+        else
+            sql += "to_date('"+this.dataAux+"', 'dd/mm/yyyy')";
+        
+        sql += " WHERE codEvApr = "+this.codEvApr+" AND numEdApr = "+this.numEdApr+" AND idApr = "+this.idApr+" AND "
+                + "tipoAux = '"+this.tipoAux+"'";
+        // debugg
+        if (MainFrame.debugg)
+            System.out.println(sql);
+        db.execute(sql);
+    }
+    
+    /**
+     * 
+     * Remove auxílio do banco de dados
+     * 
+     * @param db
+     * @throws SQLException
+     */
+    public void remove(DbConnection db) throws SQLException {
+        String sql = "DELETE FROM auxilio WHERE codEvApr = "+this.codEvApr+" AND numEdApr = "+this.numEdApr+" AND "
+                + "idApr = "+this.idApr+" AND tipoAux = '"+this.tipoAux+"'";
+        
+        // debugg
+        if (MainFrame.debugg)
+            System.out.println(sql);
+        db.execute(sql);
+    }
+    
+    /**
+     * 
      * SELECT ALL na view de auxílios
      * 
      * @param db

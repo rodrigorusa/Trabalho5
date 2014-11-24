@@ -11,6 +11,8 @@ import trabalho5.view.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import java.util.ArrayList;
+
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 public class SearchSupport extends javax.swing.JFrame {
 
     private final int type;
+    private final ArrayList<Support> supports;
     
     /**
      * Creates new form SearchSupport
@@ -29,6 +32,7 @@ public class SearchSupport extends javax.swing.JFrame {
      */
     public SearchSupport(int type, String name) {
         this.type = type;
+        this.supports = new ArrayList();
         initComponents();
         
         // imprime os auxílios
@@ -42,8 +46,11 @@ public class SearchSupport extends javax.swing.JFrame {
             else
                 rs = Support.findViewByName(MainFrame.db, name);
             while(rs.next()) {
-                // armazena os cnpjs dos patrocinadores
-                //this.cnpjs.add(rs.getString("cnpjPat"));
+                // armazena os auxílios no array
+                Support s = new Support(rs.getString("cnpjPat"), rs.getInt("codEvPat"), rs.getInt("numEdPat"), 
+                        rs.getInt("codEvApr"), rs.getInt("numEdApr"), rs.getInt("idApr"), rs.getDouble("valorAux"), 
+                        rs.getString("dataAux"), rs.getString("tipoAux"));
+                this.supports.add(s);
                 // adiciona uma linha na tabela
                 model.addRow(new Object[] {rs.getString("nomePe"), rs.getString("razaoSocialPat"), rs.getString("nomeEv"), 
                     rs.getInt("numEdPat"), rs.getString("tipoAux"), rs.getString("dataAux"), rs.getDouble("valorAux")});
@@ -95,6 +102,11 @@ public class SearchSupport extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(jTable1);
@@ -151,6 +163,28 @@ public class SearchSupport extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    /**
+     * Inicia a interface de atualização ou remoção de auxílios
+     */
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        if (this.type != CRUDType.SEARCH) {
+            // pega o auxílio selecionado
+            Support s = this.supports.get(this.jTable1.getSelectedRow());
+            
+            // inicia a interface de atualização
+            if (this.type == CRUDType.UPDATE) {
+                UpdateSupport updateSupport = new UpdateSupport(s);
+                updateSupport.setVisible(true);
+            }
+            // inicia a interface de remoção
+            if (this.type == CRUDType.REMOVE) {
+                RemoveSupport removeSupport = new RemoveSupport(s);
+                removeSupport.setVisible(true);
+            }
+            this.dispose();
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
