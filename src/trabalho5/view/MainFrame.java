@@ -15,6 +15,7 @@ import trabalho5.view.organizer.*;
 import trabalho5.view.sponsor.*;
 import trabalho5.view.sponsorship.*;
 import trabalho5.view.expense.*;
+import trabalho5.view.support.*;
 
 import trabalho5.database.DbConnection;
 import java.sql.SQLException;
@@ -59,6 +60,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuItem24 = new javax.swing.JMenuItem();
         jMenuItem28 = new javax.swing.JMenuItem();
         jMenuItem32 = new javax.swing.JMenuItem();
+        jMenuItem36 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
@@ -69,6 +71,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuItem25 = new javax.swing.JMenuItem();
         jMenuItem29 = new javax.swing.JMenuItem();
         jMenuItem33 = new javax.swing.JMenuItem();
+        jMenuItem37 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
@@ -173,6 +176,14 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem32);
 
+        jMenuItem36.setText("Auxílio");
+        jMenuItem36.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem36ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem36);
+
         jMenuBar1.add(jMenu1);
 
         jMenu4.setText("Buscar");
@@ -248,6 +259,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jMenu4.add(jMenuItem33);
+
+        jMenuItem37.setText("Auxílio");
+        jMenuItem37.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem37ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem37);
 
         jMenuBar1.add(jMenu4);
 
@@ -724,6 +743,22 @@ public class MainFrame extends javax.swing.JFrame {
         searchExpense.setVisible(true);
     }//GEN-LAST:event_jMenuItem35ActionPerformed
 
+    /**
+     * Cadastrar auxílio
+     */
+    private void jMenuItem36ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem36ActionPerformed
+        InsertSupport insertSupport = new InsertSupport();
+        insertSupport.setVisible(true);
+    }//GEN-LAST:event_jMenuItem36ActionPerformed
+
+    /**
+     * Buscar auxílio
+     */
+    private void jMenuItem37ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem37ActionPerformed
+        SearchSupportByName searchSupport = new SearchSupportByName(CRUDType.SEARCH);
+        searchSupport.setVisible(true);
+    }//GEN-LAST:event_jMenuItem37ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JMenu jMenu1;
@@ -761,6 +796,8 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem33;
     private javax.swing.JMenuItem jMenuItem34;
     private javax.swing.JMenuItem jMenuItem35;
+    private javax.swing.JMenuItem jMenuItem36;
+    private javax.swing.JMenuItem jMenuItem37;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;

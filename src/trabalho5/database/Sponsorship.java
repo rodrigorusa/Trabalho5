@@ -157,7 +157,7 @@ public class Sponsorship {
      * @throws SQLException 
      */
     public static ResultSet findByEventAndEdition(DbConnection db, int codEv, int numEd, boolean order) throws SQLException {
-        String sql = "SELECT cnpjPat, razaoSocialPat, valorPat, saldoPat, to_char(dataPat, 'dd/mm/yyyy') AS \"dataPat\""
+        String sql = "SELECT cnpjPat, razaoSocialPat, codEv, numEd, valorPat, saldoPat, to_char(dataPat, 'dd/mm/yyyy') AS \"dataPat\""
                 + " FROM patrocinio NATURAL JOIN patrocinador"
                 + " WHERE codEv = "+codEv+" AND numEd = "+numEd;
         // ordena pelo nome

@@ -156,7 +156,7 @@ public class Registered {
      * @throws SQLException 
      */
     public static ResultSet findByName(DbConnection db, String name) throws SQLException {
-        String sql = "SELECT codEv, nuidParmEd, t, to_char(dataInsc, 'dd/mm/yyyy') AS \"dataInsc\","
+        String sql = "SELECT codEv, numEd, idPart, to_char(dataInsc, 'dd/mm/yyyy') AS \"dataInsc\","
                 + " tipoApresentador FROM inscrito JOIN pessoa ON (idPart = idPe)"
                 + " WHERE UPPER(nomePe) LIKE UPPER('%"+name+"%')";
         // debugg
@@ -208,6 +208,25 @@ public class Registered {
         if(MainFrame.debugg)
             System.out.println(sql);
         return Registered.next(db.query(sql));
+    }
+    
+    /**
+     * 
+     * Busca os inscritos apresentadores
+     * 
+     * @param db
+     * @return 
+     * @throws SQLException 
+     */
+    public static ResultSet findPresenters(DbConnection db) throws SQLException {
+        String sql = "SELECT codEv, numEd, idPart, nomePe, to_char(dataInsc, 'dd/mm/yyyy') AS \"dataInsc\","
+                + " tipoApresentador FROM inscrito JOIN pessoa ON (idPart = idPe)"
+                + " WHERE tipoApresentador = 'S'"
+                + " ORDER BY nomePe";
+        // debugg
+        if(MainFrame.debugg)
+            System.out.println(sql);
+        return db.query(sql);
     }
     
     /**
