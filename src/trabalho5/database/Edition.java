@@ -227,6 +227,28 @@ public class Edition {
     
     /**
      * 
+     * Busca as edições pelo local
+     * 
+     * @param db
+     * @param local
+     * @return 
+     * @throws SQLException 
+     */
+    public static ResultSet findByLocal(DbConnection db, String local) throws SQLException {
+        String sql = "SELECT codEv, numEd, descricaoEd, to_char(dataInicioEd, 'DD/MM/YYYY') AS \"DataInicioEd\", "
+                + "to_char(dataFimEd, 'DD/MM/YYYY') AS \"DataFimEd\", localEd, "
+                + "taxaEd, "
+                + "saldoFinanceiroEd, "
+                + "qtdArtigosApresentadosEd FROM edicao "
+                + "WHERE UPPER(localEd) LIKE UPPER('%"+local+"%')";
+        // debugg
+        if(MainFrame.debugg)
+            System.out.println(sql);
+        return db.query(sql);
+    }
+    
+    /**
+     * 
      * Busca as edições pelo nome do evento
      * 
      * 

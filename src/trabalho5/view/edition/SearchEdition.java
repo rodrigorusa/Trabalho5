@@ -25,9 +25,10 @@ public class SearchEdition extends javax.swing.JFrame {
      * Creates new form SearchEdition
      * 
      * @param type
-     * @param option
+     * @param filter
+     * @param value
      */
-    public SearchEdition(int type, String option) {
+    public SearchEdition(int type, int filter, String value) {
         this.type = type;
         initComponents();
         
@@ -35,12 +36,17 @@ public class SearchEdition extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
         try {
             ResultSet rs;
-            // SELECT ALL
-            if (option.equals("Todos"))
-                rs = Edition.findAll(MainFrame.db);
-            // SELECT BY Event
-            else
-                rs = Edition.findByEvent(MainFrame.db, option);
+            // buscar por evento
+            if (filter == SearchEditionByEvent.EVENT) {
+                // SELECT ALL
+                if (value.equals("Todos"))
+                    rs = Edition.findAll(MainFrame.db);
+                // SELECT BY Event
+                else
+                    rs = Edition.findByEvent(MainFrame.db, value);
+            // buscar por local
+            } else
+                rs = Edition.findByLocal(MainFrame.db, value);
  
             Edition ed = Edition.next(rs);
             while (ed != null) {
