@@ -33,26 +33,7 @@ public class UpdateExpense extends javax.swing.JFrame {
         this.expense = ex;
         this.cnpjs = new ArrayList();
         initComponents();
-        
-        try {
-            // busca os patrocínios
-            ResultSet rs = Sponsorship.findByEventAndEdition(MainFrame.db, this.expense.getCodEv(), this.expense.getNumEd(), true);
-            while(rs.next()) {
-                // adiciona os cnpjs dos patrocinadores no array
-                this.cnpjs.add(rs.getString("cnpjPat"));
-                // adiciona o nome do inscrito na ComboBox
-                this.jComboBox1.addItem(rs.getString("razaoSocialPat"));
-            }
-            // fecha o cursor
-            MainFrame.db.close();
-        } catch(SQLException e) {
-            Message msg = new Message(this, true, e.getMessage());
-            msg.setTitle("Erro");
-            msg.setVisible(true);
-        }
-        // seleciona o patrocínio definido
-        this.jComboBox1.setSelectedIndex(this.cnpjs.indexOf(this.expense.getCnpjPat()));
-        
+         
         // imprime os valores definidos
         this.jTextArea1.setText(this.expense.getDescricaoDesp());
         this.jFormattedTextField1.setText(this.expense.getDataDesp());
@@ -68,8 +49,6 @@ public class UpdateExpense extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
@@ -79,13 +58,9 @@ public class UpdateExpense extends javax.swing.JFrame {
         jFormattedTextField2 = new javax.swing.JFormattedTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Atualizar Despesa");
-
-        jLabel1.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel1.setText("Patrocinador*");
 
         jLabel2.setText("Descrição");
 
@@ -119,9 +94,6 @@ public class UpdateExpense extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel5.setText("* campos obrigatórios");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -132,12 +104,10 @@ public class UpdateExpense extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel1)
                             .addComponent(jLabel3)
                             .addComponent(jLabel4))
                         .addGap(11, 11, 11)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -149,19 +119,12 @@ public class UpdateExpense extends javax.swing.JFrame {
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton2)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -173,9 +136,7 @@ public class UpdateExpense extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
@@ -197,17 +158,7 @@ public class UpdateExpense extends javax.swing.JFrame {
      * Atualizar despesa
      */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // pega os itens selecionados
-        int sponsor_index = this.jComboBox1.getSelectedIndex();
-        
-        // campo obrigatório não preenchido
-        if (sponsor_index == -1) {
-            Message msg = new Message(this, true, "Campo obrigatório não preenchido.");
-            msg.setTitle("Erro");
-            msg.setVisible(true);
-            return;
-        }
-        
+      
         String descricaoDesp = null;
         if (!this.jTextArea1.getText().isEmpty())
             descricaoDesp = this.jTextArea1.getText();
@@ -223,13 +174,7 @@ public class UpdateExpense extends javax.swing.JFrame {
             valorDesp = Double.valueOf(aux).doubleValue();
         }
         
-        try {
-            // pega o patrocinador selecionado
-            Sponsorship ss = Sponsorship.findByPrimaryKey(MainFrame.db, this.cnpjs.get(sponsor_index), this.expense.getCodEv(), this.expense.getNumEd());
-            
-            this.expense.setCnpjPat(ss.getCnpjPat());
-            this.expense.setCodEvPat(ss.getCodEv());
-            this.expense.setNumEdPat(ss.getNumEd());
+        try { 
             this.expense.setDataDesp(dataDesp);
             this.expense.setValorDesp(valorDesp);
             this.expense.setDescricaoDesp(descricaoDesp);
@@ -256,14 +201,11 @@ public class UpdateExpense extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JFormattedTextField jFormattedTextField2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables

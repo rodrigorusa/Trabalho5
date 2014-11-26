@@ -61,7 +61,7 @@ public class UpdateEdition extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jFormattedTextField3 = new javax.swing.JFormattedTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Atualizar Edição");
 
         jLabel2.setText("Descrição");

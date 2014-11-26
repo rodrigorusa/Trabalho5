@@ -34,38 +34,9 @@ public class UpdateSupport extends javax.swing.JFrame {
         this.sponsors = new ArrayList();
         initComponents();
         
-        // busca os patrocinadores
-        try {
-            int i = 0;
-            int selected = i;
-            ResultSet rs = Sponsorship.findByEventAndEdition(MainFrame.db, s.getCodEvPat(), s.getNumEdPat(), true);
-            while(rs.next()) {
-                // adiciona o patrocínio no array
-                Sponsorship ss = new Sponsorship(rs.getString("cnpjPat"), rs.getInt("codEv"), rs.getInt("numEd"), 
-                        rs.getDouble("valorPat"), rs.getDouble("saldoPat"), rs.getString("dataPat"));
-                this.sponsors.add(ss);
-                // pega o indice do item a ser selecionado
-                if (ss.getCnpjPat().equals(this.support.getCnpjPat()))
-                    selected = i;
-                // adiciona o patrocinador na ComboBox
-                this.jComboBox1.addItem(rs.getString("razaoSocialPat"));
-                i++;
-            }
-            // fecha o cursor
-            MainFrame.db.close();
-            
-            // seleciona o patrocinador definido
-            this.jComboBox1.setSelectedIndex(selected);
-        
-            // imprime os valores definidos
-            this.jFormattedTextField1.setText(s.getDataAux());
-            this.jFormattedTextField2.setValue(s.getValorAux());
-            
-        } catch(SQLException e) {
-            Message msg = new Message(this, true, e.getMessage());
-            msg.setTitle("Erro");
-            msg.setVisible(true);
-        }
+        // imprime os valores definidos
+        this.jFormattedTextField1.setText(s.getDataAux());
+        this.jFormattedTextField2.setValue(s.getValorAux());
     }
 
     /**
@@ -77,21 +48,15 @@ public class UpdateSupport extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
         jFormattedTextField1 = new javax.swing.JFormattedTextField();
         jLabel3 = new javax.swing.JLabel();
         jFormattedTextField2 = new javax.swing.JFormattedTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Atualizar Auxílio");
-
-        jLabel1.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel1.setText("Patrocinador*");
 
         jLabel2.setText("Data do Auxílio");
 
@@ -119,9 +84,6 @@ public class UpdateSupport extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel4.setText("* campos obrigatórios");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -131,24 +93,17 @@ public class UpdateSupport extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 228, Short.MAX_VALUE))))
+                            .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 228, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jButton2)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -156,19 +111,13 @@ public class UpdateSupport extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
@@ -190,17 +139,7 @@ public class UpdateSupport extends javax.swing.JFrame {
      * Atualizar auxílio
      */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // pega os valores selecionados
-        int sponsor_index = this.jComboBox1.getSelectedIndex();
-        
-        // campos obrigatórios não preenchidos
-        if (sponsor_index == -1) {
-            Message msg = new Message(this, true, "Campos obrigatórios não preenchidos.");
-            msg.setTitle("Erro");
-            msg.setVisible(true);
-            return;
-        }
-        
+      
         String dataAux = null;
         if (!this.jFormattedTextField1.getText().equals("  /  /    "))
             dataAux = this.jFormattedTextField1.getText();
@@ -212,14 +151,8 @@ public class UpdateSupport extends javax.swing.JFrame {
             valorAux = Double.valueOf(aux).doubleValue();
         }
         
-        // pega o patrocínio selecionado
-        Sponsorship ss = this.sponsors.get(sponsor_index);
-        
         try {
             // atualiza o auxílio
-            this.support.setCnpjPat(ss.getCnpjPat());
-            this.support.setCodEvPat(ss.getCodEv());
-            this.support.setNumEdPat(ss.getNumEd());
             this.support.setValorAux(valorAux);
             this.support.setDataAux(dataAux);
             
@@ -245,12 +178,9 @@ public class UpdateSupport extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JFormattedTextField jFormattedTextField2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     // End of variables declaration//GEN-END:variables
 }

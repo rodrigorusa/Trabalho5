@@ -12,6 +12,7 @@ import trabalho5.view.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.table.DefaultTableModel;
+import trabalho5.database.Event;
 
 /**
  *
@@ -51,7 +52,7 @@ public class SearchEdition extends javax.swing.JFrame {
             Edition ed = Edition.next(rs);
             while (ed != null) {
                 // adiciona uma linha na tabela
-                model.addRow(new Object[]{ed.getCodEv(), ed.getNumEd(), ed.getDescricaoEd(), ed.getDataInicioEd(), 
+                model.addRow(new Object[]{rs.getString("nomeEv"), ed.getNumEd(), ed.getDescricaoEd(), ed.getDataInicioEd(), 
                     ed.getDataFimEd(), ed.getLocalEd(), ed.getTaxaEd(), ed.getSaldoFinanceiroEd(), 
                     ed.getQtdArtigosApresentadosEd()});
                 ed = Edition.next(rs);
@@ -76,9 +77,8 @@ public class SearchEdition extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Edições");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -86,11 +86,11 @@ public class SearchEdition extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Código do Evento", "Número da Edição", "Descrição", "Data de Início", "Data de Fim", "Local", "Taxa", "Saldo", "Artigos Apresentados"
+                "Evento", "Edição", "Descrição", "Data de Início", "Data de Fim", "Local", "Taxa", "Saldo", "Artigos Apresentados"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false, false, false
@@ -111,18 +111,23 @@ public class SearchEdition extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(1).setMinWidth(50);
+            jTable1.getColumnModel().getColumn(1).setMaxWidth(60);
+            jTable1.getColumnModel().getColumn(3).setMinWidth(110);
             jTable1.getColumnModel().getColumn(3).setPreferredWidth(40);
+            jTable1.getColumnModel().getColumn(3).setMaxWidth(120);
+            jTable1.getColumnModel().getColumn(4).setMinWidth(110);
             jTable1.getColumnModel().getColumn(4).setPreferredWidth(40);
+            jTable1.getColumnModel().getColumn(4).setMaxWidth(120);
+            jTable1.getColumnModel().getColumn(6).setMinWidth(50);
             jTable1.getColumnModel().getColumn(6).setPreferredWidth(15);
+            jTable1.getColumnModel().getColumn(6).setMaxWidth(60);
+            jTable1.getColumnModel().getColumn(7).setMinWidth(110);
             jTable1.getColumnModel().getColumn(7).setPreferredWidth(25);
+            jTable1.getColumnModel().getColumn(7).setMaxWidth(120);
+            jTable1.getColumnModel().getColumn(8).setMinWidth(120);
+            jTable1.getColumnModel().getColumn(8).setMaxWidth(130);
         }
-
-        jButton1.setText("Voltar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -132,19 +137,13 @@ public class SearchEdition extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 905, Short.MAX_VALUE)
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(432, 432, 432)
-                .addComponent(jButton1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -152,40 +151,50 @@ public class SearchEdition extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * Voltar
-     */
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    /**
      * Inicia a tela de atualização ou remoção de evento
      */
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        // Pega a edição selecionada
-        int i = this.jTable1.getSelectedRow();
-        Edition e = new Edition((int) this.jTable1.getValueAt(i, 0), (int) this.jTable1.getValueAt(i, 1), 
-            (String) this.jTable1.getValueAt(i, 2), (String) this.jTable1.getValueAt(i, 3), (String) this.jTable1.getValueAt(i, 4),
-            (String) this.jTable1.getValueAt(i, 5), (double) this.jTable1.getValueAt(i, 6), (double) this.jTable1.getValueAt(i, 7),
-            (int) this.jTable1.getValueAt(i, 8));
-        // atualização da edição
-        if (this.type == CRUDType.UPDATE) {
-            // inicia a interface de atualização
-            UpdateEdition updateEdition = new UpdateEdition(e);
-            updateEdition.setVisible(true);
-            this.dispose();
-        }
-        // remoção da edição
-        if (this.type == CRUDType.REMOVE) {
-            // inicia a interface de remoção
-            RemoveEdition removeEdition = new RemoveEdition(e);
-            removeEdition.setVisible(true);
-            this.dispose();
+        if (this.type != CRUDType.SEARCH) {
+            // Pega a edição selecionada
+            int i = this.jTable1.getSelectedRow();
+            
+            try {
+                // pega o evento selecionado
+                ResultSet rs = Event.findByName(MainFrame.db, (String) this.jTable1.getValueAt(i, 0));
+                Event ev = Event.next(rs);
+                int codEv = ev.getCodEv();
+                // fecha o cursor
+                MainFrame.db.close();
+                
+                Edition ed = new Edition(codEv, (int) this.jTable1.getValueAt(i, 1), (String) this.jTable1.getValueAt(i, 2),
+                        (String) this.jTable1.getValueAt(i, 3), (String) this.jTable1.getValueAt(i, 4), 
+                        (String) this.jTable1.getValueAt(i, 5), (double) this.jTable1.getValueAt(i, 6), 
+                        (double) this.jTable1.getValueAt(i, 7), (int) this.jTable1.getValueAt(i, 8));
+                
+                // atualização da edição
+                if (this.type == CRUDType.UPDATE) {
+                    // inicia a interface de atualização
+                    UpdateEdition updateEdition = new UpdateEdition(ed);
+                    updateEdition.setVisible(true);
+                    this.dispose();
+                }
+                // remoção da edição
+                if (this.type == CRUDType.REMOVE) {
+                    // inicia a interface de remoção
+                    RemoveEdition removeEdition = new RemoveEdition(ed);
+                    removeEdition.setVisible(true);
+                    this.dispose();
+                }
+                
+            } catch(SQLException e) {
+                Message msg = new Message(this, true, e.getMessage());
+                msg.setTitle("Erro");
+                msg.setVisible(true);
+            }
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables

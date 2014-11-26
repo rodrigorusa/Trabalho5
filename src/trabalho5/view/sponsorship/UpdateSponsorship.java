@@ -49,7 +49,7 @@ public class UpdateSponsorship extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Atualizar Patrocínio");
 
         jLabel1.setText("Data do Patrocínio");
@@ -143,6 +143,10 @@ public class UpdateSponsorship extends javax.swing.JFrame {
             String aux = this.jFormattedTextField2.getText().replace(',', '.');
             valorPat = Double.valueOf(aux).doubleValue();
         }
+        
+        // atualiza o saldoPat
+        double valorPat_old = this.sponsorship.getValorPat();
+        this.sponsorship.setSaldoPat(this.sponsorship.getSaldoPat() + (valorPat - valorPat_old));
         
         // atualiza
         this.sponsorship.setDataPat(dataPat);

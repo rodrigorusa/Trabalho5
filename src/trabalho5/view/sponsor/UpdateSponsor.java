@@ -53,7 +53,7 @@ public class UpdateSponsor extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Atualizar Patrocinador");
 
         jLabel1.setForeground(new java.awt.Color(255, 0, 0));

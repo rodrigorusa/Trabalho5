@@ -45,7 +45,7 @@ public class InsertSponsor extends javax.swing.JFrame {
         jFormattedTextField2 = new javax.swing.JFormattedTextField();
         jFormattedTextField1 = new javax.swing.JFormattedTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastrar Patrocinador");
 
         jLabel1.setForeground(new java.awt.Color(255, 0, 0));

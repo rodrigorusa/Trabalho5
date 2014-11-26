@@ -23,14 +23,13 @@ import java.util.ArrayList;
 public class InsertSupport extends javax.swing.JFrame {
 
     private final ArrayList<Registered> presenters;
-    private final ArrayList<Sponsorship> sponsors;
+    private ArrayList<Sponsorship> sponsors;
     
     /**
      * Creates new form InsertSupport
      */
     public InsertSupport() {
         this.presenters = new ArrayList();
-        this.sponsors = new ArrayList();
         initComponents();
         
         try {
@@ -79,7 +78,7 @@ public class InsertSupport extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastrar Auxílio");
 
         jLabel1.setForeground(new java.awt.Color(255, 0, 0));
@@ -212,6 +211,7 @@ public class InsertSupport extends javax.swing.JFrame {
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // remove todos os items
         this.jComboBox2.removeAllItems();
+        this.sponsors = new ArrayList();
         // pega o apresentador selecionado
         Registered r = this.presenters.get(this.jComboBox1.getSelectedIndex());
         

@@ -189,6 +189,30 @@ public class Registered {
         return db.query(sql);
     }
     
+    /**
+     * 
+     * Busca inscritos autores pelo evento e edição
+     * 
+     * @param db
+     * @param codEv
+     * @param numEd
+     * @param order
+     * @return 
+     * @throws SQLException 
+     */
+    public static ResultSet findByEventAndEditionAndAuthors(DbConnection db, int codEv, int numEd, boolean order) throws SQLException {
+        String sql = "SELECT codEv, numEd, idPart, nomePe, to_char(dataInsc, 'dd/mm/yyyy') AS \"dataInsc\","
+                + " tipoApresentador FROM inscrito JOIN pessoa ON (idPart = idPe)"
+                + " WHERE codEv = "+codEv+" AND numEd = "+numEd+" AND tipoAutor = 'S'";
+        // ordena pelo nome
+        if(order)
+            sql += " ORDER BY nomePe";
+        // debugg
+        if(MainFrame.debugg)
+            System.out.println(sql);
+        return db.query(sql);
+    }
+    
      /**
      * 
      * Busca inscritos pela chave primária

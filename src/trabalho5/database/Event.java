@@ -177,7 +177,8 @@ public class Event {
      * @throws SQLException
      */
     public static ResultSet findAll(DbConnection db) throws SQLException {
-        String sql = "SELECT codEv, nomeEv, descricaoEv, websiteEv, totalArtigosApresentadosEv FROM evento";
+        String sql = "SELECT codEv, nomeEv, descricaoEv, websiteEv, totalArtigosApresentadosEv FROM evento"
+                + " ORDER BY nomeEv";
         // debugg
         if(MainFrame.debugg)
             System.out.println(sql);
@@ -196,7 +197,7 @@ public class Event {
      */
     public static ResultSet findByName(DbConnection db, String name) throws SQLException {
         String sql = "SELECT codEv, nomeEv, descricaoEv, websiteEv, totalArtigosApresentadosEv FROM evento "
-                + "WHERE UPPER(nomeEv) LIKE UPPER('%"+name+"%')";
+                + "WHERE UPPER(nomeEv) LIKE UPPER('%"+name+"%') ORDER BY nomeEv";
         // debugg
         if(MainFrame.debugg)
             System.out.println(sql);

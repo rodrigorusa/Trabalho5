@@ -78,7 +78,7 @@ public class InsertEdition extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jFormattedTextField1 = new javax.swing.JFormattedTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastrar Edição");
 
         jLabel1.setForeground(new java.awt.Color(255, 0, 0));

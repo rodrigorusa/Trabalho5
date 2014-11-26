@@ -191,11 +191,12 @@ public class Edition {
      * @throws SQLException
      */
     public static ResultSet findAll(DbConnection db) throws SQLException {
-        String sql = "SELECT codEv, numEd, descricaoEd, to_char(dataInicioEd, 'DD/MM/YYYY') AS \"DataInicioEd\", "
+        String sql = "SELECT codEv, nomeEv, numEd, descricaoEd, to_char(dataInicioEd, 'DD/MM/YYYY') AS \"DataInicioEd\", "
                 + "to_char(dataFimEd, 'DD/MM/YYYY') AS \"DataFimEd\", localEd, "
                 + "taxaEd, "
                 + "saldoFinanceiroEd, "
-                + "qtdArtigosApresentadosEd FROM edicao";
+                + "qtdArtigosApresentadosEd FROM edicao NATURAL JOIN evento "
+                + "ORDER BY nomeEv, dataInicioEd";
         // debugg
         if(MainFrame.debugg)
             System.out.println(sql);
@@ -213,12 +214,13 @@ public class Edition {
      * @throws SQLException 
      */
     public static ResultSet findByEvent(DbConnection db, Event ev) throws SQLException {
-        String sql = "SELECT codEv, numEd, descricaoEd, to_char(dataInicioEd, 'DD/MM/YYYY') AS \"DataInicioEd\", "
+        String sql = "SELECT codEv, nomeEv, numEd, descricaoEd, to_char(dataInicioEd, 'DD/MM/YYYY') AS \"DataInicioEd\", "
                 + "to_char(dataFimEd, 'DD/MM/YYYY') AS \"DataFimEd\", localEd, "
                 + "taxaEd, "
                 + "saldoFinanceiroEd, "
-                + "qtdArtigosApresentadosEd FROM edicao "
-                + "WHERE codEv = "+ev.getCodEv();
+                + "qtdArtigosApresentadosEd FROM edicao NATUAL JOIN evento"
+                + "WHERE codEv = "+ev.getCodEv()+" "
+                + "ORDER BY nomeEv, dataInicioEd";
         // debugg
         if(MainFrame.debugg)
             System.out.println(sql);
@@ -235,12 +237,13 @@ public class Edition {
      * @throws SQLException 
      */
     public static ResultSet findByLocal(DbConnection db, String local) throws SQLException {
-        String sql = "SELECT codEv, numEd, descricaoEd, to_char(dataInicioEd, 'DD/MM/YYYY') AS \"DataInicioEd\", "
+        String sql = "SELECT codEv, nomeEv, numEd, descricaoEd, to_char(dataInicioEd, 'DD/MM/YYYY') AS \"DataInicioEd\", "
                 + "to_char(dataFimEd, 'DD/MM/YYYY') AS \"DataFimEd\", localEd, "
                 + "taxaEd, "
                 + "saldoFinanceiroEd, "
-                + "qtdArtigosApresentadosEd FROM edicao "
-                + "WHERE UPPER(localEd) LIKE UPPER('%"+local+"%')";
+                + "qtdArtigosApresentadosEd FROM edicao NATURAL JOIN evento "
+                + "WHERE UPPER(localEd) LIKE UPPER('%"+local+"%') "
+                + "ORDER BY nomeEv, dataInicioEd";
         // debugg
         if(MainFrame.debugg)
             System.out.println(sql);
@@ -258,12 +261,13 @@ public class Edition {
      * @throws SQLException 
      */
     public static ResultSet findByEvent(DbConnection db, String nomeEv) throws SQLException {
-        String sql = "SELECT codEv, numEd, descricaoEd, to_char(dataInicioEd, 'DD/MM/YYYY') AS \"DataInicioEd\", "
+        String sql = "SELECT codEv, nomeEv, numEd, descricaoEd, to_char(dataInicioEd, 'DD/MM/YYYY') AS \"DataInicioEd\", "
                 + "to_char(dataFimEd, 'DD/MM/YYYY') AS \"DataFimEd\", localEd, "
                 + "taxaEd, "
                 + "saldoFinanceiroEd, "
                 + "qtdArtigosApresentadosEd FROM edicao NATURAL JOIN evento "
-                + "WHERE nomeEv = '"+nomeEv+"'";
+                + "WHERE nomeEv = '"+nomeEv+"' "
+                + "ORDER BY nomeEv, dataInicioEd";
         // debugg
         if(MainFrame.debugg)
             System.out.println(sql);

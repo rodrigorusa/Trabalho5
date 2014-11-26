@@ -115,7 +115,7 @@ public class Sponsorship {
      * @throws SQLException
      */
     public void update(DbConnection db) throws SQLException {
-        String sql = "UPDATE patrocinio SET valorPat = "+this.valorPat+", dataPat = ";
+        String sql = "UPDATE patrocinio SET valorPat = "+this.valorPat+", saldoPat = "+this.saldoPat+", dataPat = ";
         
         if (this.dataPat == null)
             sql += "null";
