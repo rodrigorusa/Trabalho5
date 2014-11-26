@@ -145,7 +145,7 @@ public class UpdateArticle extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 51, 0));
         jLabel3.setText("Título*");
 
-        jButton2.setText("Cadastrar");
+        jButton2.setText("Atualizar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -359,7 +359,28 @@ public class UpdateArticle extends javax.swing.JFrame {
             
             // pega o apresentador selecionado
             int idApr = this.ids_registereds.get(presenter_index);
+            
+            // atualiza o apresentador que estava definido se ele não apresentada nenhum outro
+            rs = Article.findNumberArticlesPresenter(MainFrame.db, this.article.getCodEv(), this.article.getNumEd(), 
+                    this.article.getIdApr());
+            if (rs.next()) {
+                if (rs.getInt("n_artigos") == 0) {
+                    // fecha o cursor
+                    MainFrame.db.close();
+                    Registered r = Registered.findByPrimaryKey(MainFrame.db, this.article.getCodEv(), this.article.getNumEd(), 
+                        this.article.getIdApr());
+                    r.setTipoApresentador('N');
+                    r.update(MainFrame.db);
+                }
+            }
+            // fecha o cursor
+            MainFrame.db.close();
 
+            // atualiza o inscrito selecionado como apresentador
+            Registered r = Registered.findByPrimaryKey(MainFrame.db, codEv, numEd, idApr);
+            r.setTipoApresentador('S');
+            r.update(MainFrame.db);
+            
             // atualiza o artigo
             this.article.setTituloArt(tituloArt);
             this.article.setDataApresArt(dataApresArt);

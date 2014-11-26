@@ -331,6 +331,13 @@ public class InsertArticle extends javax.swing.JFrame {
  
             // pega o apresentador selecionado
             int idApr = this.ids_registereds.get(presenter_index);
+            
+            // atualiza o inscrito selecionado como apresentador
+            Registered r = Registered.findByPrimaryKey(MainFrame.db, codEv, numEd, idApr);
+            r.setTipoApresentador('S');
+            r.update(MainFrame.db);
+            // fecha o cursor
+            MainFrame.db.close();
 
             // insere o artigo
             Article article = new Article(tituloArt, dataApresArt, horaApresArt, codEv, numEd, idApr);

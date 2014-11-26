@@ -7,8 +7,10 @@
 package trabalho5.view.article;
 
 import trabalho5.database.Article;
+import trabalho5.database.Registered;
 import trabalho5.view.*;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -98,6 +100,22 @@ public class RemoveArticle extends javax.swing.JFrame {
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
+            // atualiza o apresentador que estava definido se ele não apresenta nenhum outro
+            ResultSet rs = Article.findNumberArticlesPresenter(MainFrame.db, this.article.getCodEv(), this.article.getNumEd(), 
+                    this.article.getIdApr());
+            if (rs.next()) {
+                if (rs.getInt("n_artigos") == 0) {
+                    // fecha o cursor
+                    MainFrame.db.close();
+                    Registered r = Registered.findByPrimaryKey(MainFrame.db, this.article.getCodEv(), this.article.getNumEd(), 
+                        this.article.getIdApr());
+                    r.setTipoApresentador('N');
+                    r.update(MainFrame.db);
+                }
+            }
+            // fecha o cursor
+            MainFrame.db.close();
+            
             this.article.remove(MainFrame.db);
             new Message(this, true, "Artigo removido.").setVisible(true);
         } catch(SQLException e) {

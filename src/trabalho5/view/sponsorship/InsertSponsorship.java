@@ -288,7 +288,7 @@ public class InsertSponsorship extends javax.swing.JFrame {
             Sponsor s = this.sponsors.get(sponsor_index);
             String cnpjPat = s.getCnpjPat();
             
-            Sponsorship ss = new Sponsorship(cnpjPat, codEv, numEd, valorPat, 0.00, dataPat);
+            Sponsorship ss = new Sponsorship(cnpjPat, codEv, numEd, valorPat, valorPat, dataPat);
             ss.insert(MainFrame.db);
             new Message(this, true, "Patrocínio cadastrado.").setVisible(true);
             this.dispose();

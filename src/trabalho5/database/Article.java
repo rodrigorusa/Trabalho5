@@ -213,6 +213,27 @@ public class Article {
         return db.query(sql);
     }
     
+    /**
+     * 
+     * Busca número de artigos apresentados por um inscrito
+     * 
+     * @param db
+     * @param codEv
+     * @param idApr
+     * @param numEd
+     * @return 
+     * @throws SQLException 
+     */
+    public static ResultSet findNumberArticlesPresenter(DbConnection db, int codEv, int numEd, int idApr) throws SQLException {
+        String sql = "SELECT COUNT(idArt) AS \"n_artigos\""
+                + " FROM artigo"
+                + " WHERE codEv = "+numEd+" AND numEd = "+numEd+" AND idApr = "+idApr;
+        // debugg
+        if(MainFrame.debugg)
+            System.out.println(sql);
+        return db.query(sql);
+    }
+    
      /**
      * 
      * Retorna um a um os artigos
