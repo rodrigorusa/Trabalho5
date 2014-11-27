@@ -172,10 +172,32 @@ public class SearchEdition extends javax.swing.JFrame {
                 // fecha o cursor
                 MainFrame.db.close();
                 
+                String aux;
+                StringBuffer tmp = new StringBuffer();
+                
+                aux = (String) this.jTable1.getValueAt(i, 6);
+                for(int j = 0; j < aux.length(); j++) {
+                    if (aux.charAt(j) >= '0' && aux.charAt(j) <= '9')
+                        tmp.append(aux.charAt(j));
+                    if(aux.charAt(j) == ',')
+                        tmp.append(".");
+                }
+                double taxaEd = Double.parseDouble(tmp.toString());
+                
+                tmp = new StringBuffer();
+                aux = (String) this.jTable1.getValueAt(i, 7);
+                for(int j = 0; j < aux.length(); j++) {
+                    if (aux.charAt(j) >= '0' && aux.charAt(j) <= '9')
+                        tmp.append(aux.charAt(j));
+                    if(aux.charAt(j) == ',')
+                        tmp.append(".");
+                }
+                double saldoFinanceiroEd = Double.parseDouble(tmp.toString());
+      
                 Edition ed = new Edition(codEv, (int) this.jTable1.getValueAt(i, 1), (String) this.jTable1.getValueAt(i, 2),
                         (String) this.jTable1.getValueAt(i, 3), (String) this.jTable1.getValueAt(i, 4), 
-                        (String) this.jTable1.getValueAt(i, 5), (double) this.jTable1.getValueAt(i, 6), 
-                        (double) this.jTable1.getValueAt(i, 7), (int) this.jTable1.getValueAt(i, 8));
+                        (String) this.jTable1.getValueAt(i, 5), taxaEd, saldoFinanceiroEd, 
+                        (int) this.jTable1.getValueAt(i, 8));
                 
                 // atualização da edição
                 if (this.type == CRUDType.UPDATE) {

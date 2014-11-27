@@ -156,26 +156,39 @@ public class SearchPeople extends javax.swing.JFrame {
      * Inicia a tela de atualização ou remoção de pessoa
      */
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        // pega a pessoa selecionada
-        int i = this.jTable1.getSelectedRow();
-        People p = new People((int) this.jTable1.getValueAt(i, 0), (String) this.jTable1.getValueAt(i, 1),
-            (String) this.jTable1.getValueAt(i, 2), (String) this.jTable1.getValueAt(i, 3), 
-            (String) this.jTable1.getValueAt(i, 4), (String) this.jTable1.getValueAt(i, 5), 
-            (String) this.jTable1.getValueAt(i, 6), (char) this.jTable1.getValueAt(i, 7), (char) this.jTable1.getValueAt(i, 8),
-            (char) this.jTable1.getValueAt(i, 9));
-        // atualização de pessoa
-        if (this.type == CRUDType.UPDATE) {
-            // inicia a interface de atualização
-            UpdatePeople updatePeople = new UpdatePeople(p);
-            updatePeople.setVisible(true);
-            this.dispose();
-        }
-        // remoção de pessoa
-        if (this.type == CRUDType.REMOVE) {
-            // inicia a interface de remoção
-            RemovePeople removePeople = new RemovePeople(p);
-            removePeople.setVisible(true);
-            this.dispose();
+        if (this.type != CRUDType.SEARCH) {
+            // pega a pessoa selecionada
+            int i = this.jTable1.getSelectedRow();
+            
+            char type_organizer = 'N';
+            char type_participant = 'N';
+            char type_author = 'N';
+            if (this.jTable1.getValueAt(i, 7).equals("Sim"))
+                type_organizer = 'S';
+            if (this.jTable1.getValueAt(i, 8).equals("Sim"))
+                type_participant = 'S';
+            if (this.jTable1.getValueAt(i, 9).equals("Sim"))
+                type_author = 'S';
+            
+            People p = new People((int) this.jTable1.getValueAt(i, 0), (String) this.jTable1.getValueAt(i, 1),
+                (String) this.jTable1.getValueAt(i, 2), (String) this.jTable1.getValueAt(i, 3), 
+                (String) this.jTable1.getValueAt(i, 4), (String) this.jTable1.getValueAt(i, 5), 
+                (String) this.jTable1.getValueAt(i, 6), type_organizer, type_participant,
+                type_author);
+            // atualização de pessoa
+            if (this.type == CRUDType.UPDATE) {
+                // inicia a interface de atualização
+                UpdatePeople updatePeople = new UpdatePeople(p);
+                updatePeople.setVisible(true);
+                this.dispose();
+            }
+            // remoção de pessoa
+            if (this.type == CRUDType.REMOVE) {
+                // inicia a interface de remoção
+                RemovePeople removePeople = new RemovePeople(p);
+                removePeople.setVisible(true);
+                this.dispose();
+            }
         }
     }//GEN-LAST:event_jTable1MouseClicked
 

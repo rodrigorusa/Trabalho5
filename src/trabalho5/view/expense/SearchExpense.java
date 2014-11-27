@@ -170,8 +170,20 @@ public class SearchExpense extends javax.swing.JFrame {
                 // pega o patrocínio
                 Sponsorship ss = Sponsorship.findByPrimaryKey(MainFrame.db, this.cnpjs.get(i), codEv, numEd);
 
+                String aux;
+                StringBuffer tmp = new StringBuffer();
+                
+                aux = (String) this.jTable1.getValueAt(i, 5);
+                for(int j = 0; j < aux.length(); j++) {
+                    if (aux.charAt(j) >= '0' && aux.charAt(j) <= '9')
+                        tmp.append(aux.charAt(j));
+                    if(aux.charAt(j) == ',')
+                        tmp.append(".");
+                }
+                double valorDesp = Double.parseDouble(tmp.toString());
+                
                 Expense e = new Expense((int) this.jTable1.getValueAt(i, 0), codEv, numEd, ss.getCnpjPat(), ss.getCodEv(),
-                        ss.getNumEd(), (String) this.jTable1.getValueAt(i, 4), (double) this.jTable1.getValueAt(i, 5), 
+                        ss.getNumEd(), (String) this.jTable1.getValueAt(i, 4), valorDesp, 
                         (String) this.jTable1.getValueAt(i, 6));
                 
                 // inicia a interface de atualização

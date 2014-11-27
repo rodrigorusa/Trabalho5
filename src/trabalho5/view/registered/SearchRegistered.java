@@ -186,9 +186,13 @@ public class SearchRegistered extends javax.swing.JFrame {
                 int indice_people = this.jTable1.getSelectedRow();
                 int idApr = this.ids.get(indice_people);
                 
+                char type_presenter = 'N';
+                if (this.jTable1.getValueAt(i, 4).equals("Sim"))
+                    type_presenter = 'S';
+                
                 // pega o objeto a ser removido
                 Registered r = new Registered(ev.getCodEv(), (int) this.jTable1.getValueAt(i, 1), idApr, 
-                    (String) this.jTable1.getValueAt(i, 3), (char) this.jTable1.getValueAt(i, 4));
+                    (String) this.jTable1.getValueAt(i, 3), type_presenter);
                 // inicia a interface de remoção
                 RemoveRegistered removeRegistered = new RemoveRegistered(r);
                 removeRegistered.setVisible(true);

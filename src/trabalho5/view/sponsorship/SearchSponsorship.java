@@ -161,9 +161,30 @@ public class SearchSponsorship extends javax.swing.JFrame {
                 // fecha o cursor
                 MainFrame.db.close();
 
+                String aux;
+                StringBuffer tmp = new StringBuffer();
+                
+                aux = (String) this.jTable1.getValueAt(i, 3);
+                for(int j = 0; j < aux.length(); j++) {
+                    if (aux.charAt(j) >= '0' && aux.charAt(j) <= '9')
+                        tmp.append(aux.charAt(j));
+                    if(aux.charAt(j) == ',')
+                        tmp.append(".");
+                }
+                double valorPat = Double.parseDouble(tmp.toString());
+                
+                tmp = new StringBuffer();
+                aux = (String) this.jTable1.getValueAt(i, 4);
+                for(int j = 0; j < aux.length(); j++) {
+                    if (aux.charAt(j) >= '0' && aux.charAt(j) <= '9')
+                        tmp.append(aux.charAt(j));
+                    if(aux.charAt(j) == ',')
+                        tmp.append(".");
+                }
+                double saldoPat = Double.parseDouble(tmp.toString());
+                
                 Sponsorship ss = new Sponsorship(this.cnpjs.get(i), ev.getCodEv(), (int) this.jTable1.getValueAt(i, 2), 
-                    (double) this.jTable1.getValueAt(i, 3), (double) this.jTable1.getValueAt(i, 4), 
-                    (String) this.jTable1.getValueAt(i, 5));
+                    valorPat, saldoPat, (String) this.jTable1.getValueAt(i, 5));
                 
                 // inicia a interface de atualização
                 if (this.type == CRUDType.UPDATE) {
