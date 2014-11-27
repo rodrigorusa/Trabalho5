@@ -31,6 +31,7 @@ DROP TABLE patrocinador CASCADE CONSTRAINTS;
 DROP TABLE patrocinio CASCADE CONSTRAINTS;
 DROP TABLE despesa CASCADE CONSTRAINTS;
 DROP TABLE auxilio CASCADE CONSTRAINTS;
+DROP TABLE relatorio;
 /
 -- Drop nas sequências
 DROP SEQUENCE seq_evento;
@@ -306,6 +307,32 @@ CREATE TABLE auxilio (
 );
 /
 /
+/**
+ * Tabela Relatorio
+ * @codEv						código do evento
+ * @nomeEv						nome do evento
+ * @numEd						número da edição do evento
+ * @inscritos					número de inscritos na edição do evento
+ * @artigosApresentados			número de artigos apresentados na edição do evento
+ * @qtdPatrocinadores			número de patrocínios da edição
+ * @valorTotalGanho				valor total ganho (patrocínio + inscrições) na edição
+ * @valorTotalGasto				valor total gasto (despesas + auxílios) na edição
+ * @saldo						saldo da edição (valor ganho - valor gasto)
+ */
+ 
+CREATE TABLE relatorio(
+	codEv NUMBER,
+	nomeEv VARCHAR2(100),
+	numEd NUMBER,
+	inscritos NUMBER,
+	artigosApresentados NUMBER,
+	qtdPatrocinadores NUMBER,
+	valorTotalGanho NUMBER(10, 2),
+	valorTotalGasto NUMBER(10, 2),
+	saldo NUMBER(10, 2)
+);
+/
+/
 -- Cria sequência para codEv da tabela Evento
 CREATE SEQUENCE seq_evento
 START WITH 1
@@ -429,6 +456,19 @@ FROM patrocinador p JOIN patrocinio pat ON (p.cnpjPat = pat.cnpjPat)
 	 JOIN edicao ed ON (pat.codEv = ed.codEv AND pat.numEd = ed.numEd)
 	 JOIN evento ev ON (ed.codEv = ev.codEv)
 ORDER BY ev.nomeEv, p.razaoSocialPat;
+/
+-- View que imprime o relatório geral
+SELECT codEv, 
+	   numEd,
+	   nomeEv,
+       inscritos,
+	   artigosApresentados,
+	   qtdPatrocinadores,
+	   to_char(valorTotalGanho, 'FM999G999G999D90') AS "valorTotalGanho",
+	   to_char(valorTotalGasto, 'FM999G999G999D90') AS "valorTotalGasto",
+	   to_char(saldo, 'FM999G999G999D90') AS "saldo"
+FROM relatorio
+ORDER BY nomeEv, numEd;
 /
 /
 /**
@@ -805,6 +845,183 @@ COMPOUND TRIGGER
 	END AFTER STATEMENT;
 	
 END;
+/
+/
+/**
+ *
+ * PROCEDIMENTOS
+ *
+ */
+/
+CREATE OR REPLACE PROCEDURE relatorio_eventos
+IS
+	-- Variáveis
+	inscritos relatorio.inscritos%TYPE;
+	artigosApresentados relatorio.artigosApresentados%TYPE;
+	qtdPatrocinadores relatorio.qtdPatrocinadores%TYPE;
+	valorTotalGanho relatorio.valorTotalGanho%TYPE;
+	valorTotalGasto relatorio.valorTotalGasto%TYPE;
+	
+	-- Variáveis auxiliares
+	valorPat NUMBER(10, 2);
+	despesas NUMBER(10, 2);
+	auxilios NUMBER(10, 2);
+	
+	-- Cursor para os eventos
+	CURSOR cursor_eventos IS
+		SELECT ev.codEv, ev.nomeEv
+		FROM evento ev;
+	
+	-- Cursor para as edições
+	CURSOR cursor_edicoes (in_codEv NUMBER) IS
+		SELECT ed.numEd, ed.taxaEd
+		FROM edicao ed
+		WHERE ed.codEv = in_codEv;
+	
+	-- Cursores
+	var_cursor_eventos cursor_eventos%ROWTYPE;
+	var_cursor_edicoes cursor_edicoes%ROWTYPE;
+	
+	-- Exceptions
+	cursor_eventos_exception EXCEPTION;
+	cursor_edicoes_exception EXCEPTION;
+	evento_not_found EXCEPTION;
+	edicao_not_found EXCEPTION;
+BEGIN
+	
+	-- Remove os dados inseridos no relatório
+	DELETE FROM relatorio;
+
+	-- Cursor dos eventos
+	IF cursor_eventos%ISOPEN THEN 
+		RAISE cursor_eventos_exception; -- cursor já aberto
+	ELSE	
+		OPEN cursor_eventos;
+	END IF;
+
+	-- Busca os eventos
+	LOOP
+	
+		FETCH cursor_eventos INTO var_cursor_eventos;
+		
+		-- Nenhum evento encontrado
+		IF(var_cursor_eventos.codEv IS NULL) THEN
+			RAISE evento_not_found;
+		END IF;
+		
+		EXIT WHEN cursor_eventos%NOTFOUND;
+		
+		-- Cursor das edições
+		IF cursor_edicoes%ISOPEN THEN 
+			RAISE cursor_edicoes_exception; -- cursor já aberto
+		ELSE
+			OPEN cursor_edicoes(var_cursor_eventos.codEv);
+		END IF;
+
+			-- Busca as edições do evento
+			LOOP
+
+				FETCH cursor_edicoes INTO var_cursor_edicoes;
+				
+				-- Nenhuma edição encontrada
+				IF(var_cursor_edicoes.numEd IS NULL) THEN
+					RAISE edicao_not_found;
+				END IF;
+				
+				EXIT WHEN cursor_edicoes%NOTFOUND;
+				
+				-- Conta o número de inscritos na edição do evento
+				SELECT COUNT(i.idPart)
+					INTO inscritos
+					FROM inscrito i
+					WHERE i.codEv = var_cursor_eventos.codEv 
+						AND i.numEd = var_cursor_edicoes.numEd;
+				
+				-- Conta o número de artigos apresentados na edição do evento		
+				SELECT COUNT(art.idArt)
+					INTO artigosApresentados
+					FROM artigo art 
+						JOIN inscrito i ON (art.codEv = i.codEv AND art.numEd = i.numEd AND art.idApr = i.idPart)
+					WHERE art.codEv = var_cursor_eventos.codEv 
+						AND art.numEd = var_cursor_edicoes.numEd;
+						
+				-- Conta o número de patrocinadores e seus valores da edição do evento
+				SELECT COUNT(pat.cnpjPat), SUM(pat.valorPat)
+					INTO qtdPatrocinadores, valorPat
+					FROM patrocinio pat 
+					WHERE pat.codEv = var_cursor_eventos.codEv 
+						AND pat.numEd = var_cursor_edicoes.numEd;
+				
+				-- Calcula o valor total ganho (valor ganho com os patrocínios + valor ganho com as inscrições)
+				valorTotalGanho := valorPat + (inscritos * var_cursor_edicoes.taxaEd);
+				
+				-- Conta o valor gasto com despesas na edição do evento
+				SELECT SUM(d.valorDesp)
+					INTO despesas
+					FROM despesa d
+					WHERE d.codEv = var_cursor_eventos.codEv 
+						AND d.numEd = var_cursor_edicoes.numEd;
+						
+				-- Conta o valor gasto com auxílios na edição do evento
+				SELECT SUM(aux.valorAux)
+					INTO auxilios
+					FROM auxilio aux
+						JOIN patrocinio pat ON (aux.cnpjPat = pat.cnpjPat AND aux.codEvPat = pat.codEv AND aux.numEdPat = pat.numEd)
+					WHERE aux.codEvPat = var_cursor_eventos.codEv 
+						AND aux.numEdPat = var_cursor_edicoes.numEd;
+				
+				-- Calcula o valor total gasto (valor gasto com as despesas + valor gasto com os auxílios)
+				valorTotalGasto := despesas + auxilios;
+						
+				-- Insere na tabela relatorio
+				INSERT INTO relatorio VALUES
+				(
+					var_cursor_eventos.codEv,
+					var_cursor_eventos.nomeEv,
+					var_cursor_edicoes.numEd,
+					inscritos,
+					artigosApresentados,
+					qtdPatrocinadores,
+					valorTotalGanho,
+					valorTotalGasto,
+					valorTotalGanho - valorTotalGasto
+				);
+				
+			END LOOP;
+		
+		CLOSE cursor_edicoes;
+	
+	END LOOP;
+
+	CLOSE cursor_eventos;
+	
+	EXCEPTION
+	
+		-- Exceptions definidas
+		WHEN cursor_eventos_exception
+			THEN DBMS_OUTPUT.PUT_LINE('cursor_eventos já está aberto.');
+		WHEN cursor_edicoes_exception
+			THEN DBMS_OUTPUT.PUT_LINE('cursor_edicoes já está aberto.');
+		WHEN evento_not_found
+			THEN DBMS_OUTPUT.PUT_LINE('Nenhum evento encontrado.');
+		WHEN edicao_not_found
+			THEN DBMS_OUTPUT.PUT_LINE('Nenhuma edição encontrada.');
+		WHEN NO_DATA_FOUND
+			THEN DBMS_OUTPUT.PUT_LINE('SELECT INTO não retornou nenhuma tupla.');
+		WHEN TOO_MANY_ROWS
+			THEN DBMS_OUTPUT.PUT_LINE('SELECT INTO retornou mais de uma tupla.');
+		WHEN INVALID_CURSOR
+			THEN DBMS_OUTPUT.PUT_LINE('Operação inválida com o cursor.');
+		WHEN PROGRAM_ERROR
+			THEN DBMS_OUTPUT.PUT_LINE('Ocorreu erro interno do PL/SQL.');
+		WHEN ROWTYPE_MISMATCH
+			THEN DBMS_OUTPUT.PUT_LINE('Tipo do cursor e da variável incompatíveis.');
+		WHEN STORAGE_ERROR
+			THEN DBMS_OUTPUT.PUT_LINE('Memória insuficiente para a operação.');
+		WHEN OTHERS
+			THEN DBMS_OUTPUT.PUT_LINE('Houve um erro durante a execução.');
+			
+END relatorio_eventos;
 /
 /
 /**
