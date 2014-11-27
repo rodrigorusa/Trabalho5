@@ -6,6 +6,7 @@
 
 package trabalho5.database;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -78,6 +79,20 @@ public class DbConnection implements Config {
         return result;
     }
     
+    /**
+     * 
+     * Executa um procedimento sql
+     *
+     * @param sql
+     * @return
+     * @throws SQLException
+     */
+    public boolean process(String sql) throws SQLException {
+        CallableStatement cs = this.conn.prepareCall(sql);
+        boolean result = cs.execute();
+        return result;
+    }
+     
     /**
      * 
      * Executa uma query sql

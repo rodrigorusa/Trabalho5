@@ -16,6 +16,7 @@ import trabalho5.view.sponsor.*;
 import trabalho5.view.sponsorship.*;
 import trabalho5.view.expense.*;
 import trabalho5.view.support.*;
+import trabalho5.view.report.*;
 
 import trabalho5.database.DbConnection;
 import java.sql.SQLException;
@@ -93,6 +94,8 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuItem31 = new javax.swing.JMenuItem();
         jMenuItem35 = new javax.swing.JMenuItem();
         jMenuItem38 = new javax.swing.JMenuItem();
+        jMenu6 = new javax.swing.JMenu();
+        jMenuItem40 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
 
@@ -432,6 +435,18 @@ public class MainFrame extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu3);
 
+        jMenu6.setText("Relatórios");
+
+        jMenuItem40.setText("Relatório Geral");
+        jMenuItem40.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem40ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem40);
+
+        jMenuBar1.add(jMenu6);
+
         jMenu5.setText("Opções");
 
         jCheckBoxMenuItem1.setSelected(true);
@@ -455,7 +470,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 436, Short.MAX_VALUE)
+            .addGap(0, 438, Short.MAX_VALUE)
         );
 
         pack();
@@ -793,6 +808,14 @@ public class MainFrame extends javax.swing.JFrame {
         searchSupport.setVisible(true);
     }//GEN-LAST:event_jMenuItem39ActionPerformed
 
+    /**
+     * Relatório Geral
+     */
+    private void jMenuItem40ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem40ActionPerformed
+        SearchReport searchReport = new SearchReport();
+        searchReport.setVisible(true);
+    }//GEN-LAST:event_jMenuItem40ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JMenu jMenu1;
@@ -800,6 +823,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
@@ -835,6 +859,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem38;
     private javax.swing.JMenuItem jMenuItem39;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem40;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
