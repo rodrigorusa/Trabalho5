@@ -303,4 +303,22 @@ public class Registered {
         return db.query(sql);
     }
     
+    /**
+     * 
+     * SELECT By evento e edição na view de inscritos
+     * 
+     * @param db
+     * @param codEv
+     * @param numEd
+     * @return 
+     * @throws SQLException 
+     */
+    public static ResultSet findViewByEventAndEdition(DbConnection db, int codEv, int numEd) throws SQLException {
+        String sql = "SELECT * FROM view_inscritos WHERE codEv = "+codEv+" AND numEd = "+numEd;
+        // debugg
+        if(MainFrame.debugg)
+            System.out.println(sql);
+        return db.query(sql);
+    }
+    
 }

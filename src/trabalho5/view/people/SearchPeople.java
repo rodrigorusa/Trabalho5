@@ -25,9 +25,10 @@ public class SearchPeople extends javax.swing.JFrame {
      * Creates new form SearchPeople
      * 
      * @param type
-     * @param name
+     * @param filter
+     * @param value
      */
-    public SearchPeople(int type, String name) {
+    public SearchPeople(int type, int filter, String value) {
         this.type = type;
         initComponents();
         
@@ -35,13 +36,18 @@ public class SearchPeople extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
         try {
             ResultSet rs;
-            // SELECT ALL
-            if (name.isEmpty())
-                rs = People.findAll(MainFrame.db);
-            // SELECT BY Name
-            else 
-                rs = People.findByName(MainFrame.db, name);
+            if (filter == SearchPeopleByName.NAME) {
+                // SELECT ALL
+                if (value.isEmpty())
+                    rs = People.findAll(MainFrame.db);
+                // SELECT BY Name
+                else 
+                    rs = People.findByName(MainFrame.db, value);
+            } else
+                rs = People.findByInstitution(MainFrame.db, value);
+            
             People p = People.next(rs);
+
             while (p != null) {
                 // adiciona uma linha na tabela
                 String type_organizer = "Não";

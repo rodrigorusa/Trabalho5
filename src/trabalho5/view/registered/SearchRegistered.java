@@ -30,9 +30,11 @@ public class SearchRegistered extends javax.swing.JFrame {
      * Creates new form SearchRegistered
      * 
      * @param type
-     * @param name
+     * @param filter
+     * @param value
+     * @param aditional
      */
-    public SearchRegistered(int type, String name) {
+    public SearchRegistered(int type, int filter, String value, String aditional) {
         this.type = type;
         this.ids = new ArrayList();
         initComponents();
@@ -41,12 +43,33 @@ public class SearchRegistered extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
         try {
             ResultSet rs;
-            // SELECT ALL
-            if (name.isEmpty())
-                rs = Registered.findViewAll(MainFrame.db);
-            // SELECT By Name
-            else
-                rs = Registered.findViewByName(MainFrame.db, name);
+            if (filter == SearchRegisteredByPeople.EVENTANDEDITION) {
+                
+                if (value.equals("Todos"))
+                    rs = Registered.findViewAll(MainFrame.db);
+                else {
+                    // pega o codEv
+                    rs = Event.findByName(MainFrame.db, value);
+                    Event ev = Event.next(rs);
+                    int codEv = ev.getCodEv();
+                    // fecha o cursor
+                    MainFrame.db.close();
+
+                    // pega o numEd
+                    String[] parts = aditional.split(" ");
+                    int numEd = Integer.valueOf(parts[0]).intValue();
+
+                    rs = Registered.findViewByEventAndEdition(MainFrame.db, codEv, numEd);
+                }
+            } else {
+                // SELECT ALL
+                if (value.isEmpty())
+                    rs = Registered.findViewAll(MainFrame.db);
+                // SELECT By Name
+                else
+                    rs = Registered.findViewByName(MainFrame.db, value);
+            }
+            
             while(rs.next()) {
                 // armazena o id da pessoa no array
                 this.ids.add(rs.getInt("idPe"));

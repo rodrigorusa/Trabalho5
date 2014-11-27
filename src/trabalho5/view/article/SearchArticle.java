@@ -8,6 +8,7 @@ package trabalho5.view.article;
 
 import trabalho5.database.Article;
 import trabalho5.database.Event;
+import trabalho5.database.Registered;
 import trabalho5.view.*;
 
 import java.sql.ResultSet;
@@ -30,9 +31,11 @@ public class SearchArticle extends javax.swing.JFrame {
      * Creates new form SearchArticle
      * 
      * @param type
-     * @param name
+     * @param filter
+     * @param value
+     * @param aditional
      */
-    public SearchArticle(int type, String name) {
+    public SearchArticle(int type, int filter, String value, String aditional) {
         this.type = type;
         this.presenter_ids = new ArrayList();
         initComponents();
@@ -41,12 +44,32 @@ public class SearchArticle extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
         try {
             ResultSet rs;
-            // SELECT ALL
-            if(name.isEmpty())
-                rs = Article.findViewAll(MainFrame.db);
-            // SELECT By Name
-            else
-                rs = Article.findViewByName(MainFrame.db, name);
+            if (filter == SearchArticleByName.EVENTANDEDITION) {
+                if (value.equals("Todos"))
+                    rs = Article.findViewAll(MainFrame.db);
+                else {
+                    // pega o codEv
+                    rs = Event.findByName(MainFrame.db, value);
+                    Event ev = Event.next(rs);
+                    int codEv = ev.getCodEv();
+                    // fecha o cursor
+                    MainFrame.db.close();
+
+                    // pega o numEd
+                    String[] parts = aditional.split(" ");
+                    int numEd = Integer.valueOf(parts[0]).intValue();
+
+                    rs = Article.findViewByEventAndEdition(MainFrame.db, codEv, numEd);
+                }
+            } else {
+                // SELECT ALL
+                if(value.isEmpty())
+                    rs = Article.findViewAll(MainFrame.db);
+                // SELECT By Name
+                else
+                    rs = Article.findViewByName(MainFrame.db, value);
+            }
+            
             while(rs.next()) {
                 // armazena os ids dos apresentadores no array
                 this.presenter_ids.add(rs.getInt("idPe"));
@@ -110,11 +133,15 @@ public class SearchArticle extends javax.swing.JFrame {
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(0).setMinWidth(30);
             jTable1.getColumnModel().getColumn(0).setMaxWidth(40);
+            jTable1.getColumnModel().getColumn(2).setMinWidth(130);
+            jTable1.getColumnModel().getColumn(2).setMaxWidth(140);
             jTable1.getColumnModel().getColumn(3).setMinWidth(140);
             jTable1.getColumnModel().getColumn(3).setMaxWidth(150);
             jTable1.getColumnModel().getColumn(5).setMinWidth(50);
             jTable1.getColumnModel().getColumn(5).setPreferredWidth(5);
             jTable1.getColumnModel().getColumn(5).setMaxWidth(60);
+            jTable1.getColumnModel().getColumn(6).setMinWidth(120);
+            jTable1.getColumnModel().getColumn(6).setMaxWidth(130);
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

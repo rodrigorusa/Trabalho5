@@ -260,7 +260,8 @@ public class People {
      */
     public static ResultSet findAll(DbConnection db) throws SQLException {
         String sql = "SELECT idPe, nomePe, emailPe, instituicaoPe, telefonePe, nacionalidadePe, enderecoPe, "
-                + "tipoOrganizador, tipoParticipante, tipoAutor FROM pessoa ORDER BY nomePe, instituicaoPe, nacionalidadePe";
+                + "tipoOrganizador, tipoParticipante, tipoAutor FROM pessoa "
+                + "ORDER BY nomePe, instituicaoPe, nacionalidadePe";
         // debugg
         if(MainFrame.debugg)
             System.out.println(sql);
@@ -279,8 +280,9 @@ public class People {
      */
     public static ResultSet findByName(DbConnection db, String name) throws SQLException {
         String sql = "SELECT idPe, nomePe, emailPe, instituicaoPe, telefonePe, nacionalidadePe, enderecoPe, "
-                + "tipoOrganizador, tipoParticipante, tipoAutor FROM pessoa nomePe, instituicaoPe, nacionalidadePe"
-                + "WHERE UPPER(nomePe) LIKE UPPER('%"+name+"%')";
+                + "tipoOrganizador, tipoParticipante, tipoAutor FROM pessoa "
+                + "WHERE UPPER(nomePe) LIKE UPPER('%"+name+"%') "
+                + "ORDER BY nomePe, instituicaoPe, nacionalidadePe";
         // debugg
         if(MainFrame.debugg)
             System.out.println(sql);
@@ -335,6 +337,26 @@ public class People {
         String sql = "SELECT idPe, nomePe, emailPe, instituicaoPe, telefonePe, nacionalidadePe, enderecoPe, "
                 + "tipoOrganizador, tipoParticipante, tipoAutor FROM pessoa WHERE tipoOrganizador = 'S'"
                 + "ORDER BY nomePe";
+        // debugg
+        if(MainFrame.debugg)
+            System.out.println(sql);
+        return db.query(sql);
+    }
+    
+    /**
+     * 
+     * Busca pela instituição
+     * 
+     * @param db
+     * @param name
+     * @return 
+     * @throws SQLException
+     */
+    public static ResultSet findByInstitution(DbConnection db, String name) throws SQLException {
+        String sql = "SELECT idPe, nomePe, emailPe, instituicaoPe, telefonePe, nacionalidadePe, enderecoPe, "
+                + "tipoOrganizador, tipoParticipante, tipoAutor FROM pessoa "
+                + "WHERE UPPER(instituicaoPe) LIKE UPPER('%"+name+"%') "
+                + "ORDER BY nomePe, instituicaoPe, nacionalidadePe";
         // debugg
         if(MainFrame.debugg)
             System.out.println(sql);
