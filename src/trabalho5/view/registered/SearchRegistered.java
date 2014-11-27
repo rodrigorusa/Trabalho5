@@ -55,11 +55,16 @@ public class SearchRegistered extends javax.swing.JFrame {
                     // fecha o cursor
                     MainFrame.db.close();
 
-                    // pega o numEd
-                    String[] parts = aditional.split(" ");
-                    int numEd = Integer.valueOf(parts[0]).intValue();
+                    if (aditional.equals("Todas")) {
+                        rs = Registered.findViewByEvent(MainFrame.db, codEv);
+                    } else {
+                    
+                        // pega o numEd
+                        String[] parts = aditional.split(" ");
+                        int numEd = Integer.valueOf(parts[0]).intValue();
 
-                    rs = Registered.findViewByEventAndEdition(MainFrame.db, codEv, numEd);
+                        rs = Registered.findViewByEventAndEdition(MainFrame.db, codEv, numEd);
+                    }
                 }
             } else {
                 // SELECT ALL

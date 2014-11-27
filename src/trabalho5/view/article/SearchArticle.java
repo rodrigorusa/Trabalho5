@@ -8,7 +8,6 @@ package trabalho5.view.article;
 
 import trabalho5.database.Article;
 import trabalho5.database.Event;
-import trabalho5.database.Registered;
 import trabalho5.view.*;
 
 import java.sql.ResultSet;
@@ -55,11 +54,15 @@ public class SearchArticle extends javax.swing.JFrame {
                     // fecha o cursor
                     MainFrame.db.close();
 
-                    // pega o numEd
-                    String[] parts = aditional.split(" ");
-                    int numEd = Integer.valueOf(parts[0]).intValue();
+                    if (aditional.equals("Todas")) {
+                        rs = Article.findViewByEvent(MainFrame.db, codEv);
+                    } else {
+                        // pega o numEd
+                        String[] parts = aditional.split(" ");
+                        int numEd = Integer.valueOf(parts[0]).intValue();
 
-                    rs = Article.findViewByEventAndEdition(MainFrame.db, codEv, numEd);
+                        rs = Article.findViewByEventAndEdition(MainFrame.db, codEv, numEd);
+                    }
                 }
             } else {
                 // SELECT ALL

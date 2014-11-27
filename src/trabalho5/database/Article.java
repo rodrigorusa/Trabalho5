@@ -302,4 +302,21 @@ public class Article {
         return db.query(sql);
     }
     
+    /**
+     * 
+     * SELECT By evento view de artigos
+     * 
+     * @param db
+     * @param codEv
+     * @return 
+     * @throws SQLException 
+     */
+    public static ResultSet findViewByEvent(DbConnection db, int codEv) throws SQLException {
+        String sql = "SELECT * FROM view_artigos WHERE \"codEv\" = "+codEv;
+        // debugg
+        if(MainFrame.debugg)
+            System.out.println(sql);
+        return db.query(sql);
+    }
+    
 }

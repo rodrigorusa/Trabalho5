@@ -147,6 +147,8 @@ public class SearchReport extends javax.swing.JFrame {
                 this.jComboBox2.addItem(info);
                 ed = Edition.next(rs);
             }  
+            // adiciona a opção de todas as edições
+            this.jComboBox2.addItem("Todas");
             // fecha o cursor
             MainFrame.db.close();
         } catch(SQLException e) {

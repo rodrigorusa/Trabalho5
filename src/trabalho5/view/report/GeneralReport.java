@@ -48,15 +48,19 @@ public class GeneralReport extends javax.swing.JFrame {
                 // fecha o cursor
                 MainFrame.db.close();
                 
-                // pega o numEd
-                String[] parts = edition.split(" ");
-                int numEd = Integer.valueOf(parts[0]).intValue();
-                
-                // SELECT ALL editions
-                if (edition.equals("Todas"))
+                if(edition.equals("Todas"))
                     rs = Report.findViewAllEditions(MainFrame.db, codEv);
-                else
-                    rs = Report.findViewByEventAndEdition(MainFrame.db, codEv, numEd);
+                else {
+                    // pega o numEd
+                    String[] parts = edition.split(" ");
+                    int numEd = Integer.valueOf(parts[0]).intValue();
+                
+                    // SELECT ALL editions
+                    if (edition.equals("Todas"))
+                        rs = Report.findViewAllEditions(MainFrame.db, codEv);
+                    else
+                        rs = Report.findViewByEventAndEdition(MainFrame.db, codEv, numEd);
+                }
             }
             
             NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));

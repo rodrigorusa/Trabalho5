@@ -251,6 +251,8 @@ public class SearchArticleByName extends javax.swing.JFrame {
                 this.jComboBox3.addItem(info);
                 ed = Edition.next(rs);
             }   
+            // adiciona a opção de todas as edições
+            this.jComboBox3.addItem("Todas");
             // fecha o cursor
             MainFrame.db.close();
         } catch(SQLException e) {
