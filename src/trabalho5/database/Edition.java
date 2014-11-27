@@ -159,7 +159,8 @@ public class Edition {
        sql += "dataInicioEd = to_date('"+this.dataInicioEd+"', 'dd/mm/yyyy'), "
                + "dataFimEd = to_date('"+this.dataFimEd+"', 'dd/mm/yyyy'), "
                + "localEd = '"+this.localEd+"', "
-               + "taxaEd = "+this.taxaEd+" "
+               + "taxaEd = "+this.taxaEd+", "
+               + "saldoFinanceiroEd = "+this.saldoFinanceiroEd+" "
                + "WHERE codEv = '"+this.codEv+"' AND numEd = '"+this.numEd+"'";
        // debugg 
        if(MainFrame.debugg)
@@ -296,6 +297,23 @@ public class Edition {
         if(MainFrame.debugg)
             System.out.println(sql);
         return Edition.next(db.query(sql));
+    }
+    
+    /**
+     * 
+     * Busca o número de inscritos na edição do evento
+     * 
+     * @param db
+     * @return 
+     * @throws SQLException
+     */
+    public ResultSet findNumberOfRegistereds(DbConnection db) throws SQLException {
+        String sql = "SELECT COUNT(idPart) AS \"n_inscritos\" FROM inscrito "
+                + "WHERE codEv = "+this.codEv+" AND numEd = "+this.numEd;
+        // debugg
+        if (MainFrame.debugg)
+            System.out.println(sql);
+        return db.query(sql);
     }
     
     /**

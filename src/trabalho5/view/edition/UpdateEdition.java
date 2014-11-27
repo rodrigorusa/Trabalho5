@@ -9,6 +9,7 @@ package trabalho5.view.edition;
 import trabalho5.database.Edition;
 import trabalho5.view.*;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.util.Date;
@@ -216,7 +217,24 @@ public class UpdateEdition extends javax.swing.JFrame {
                 String aux = this.jFormattedTextField3.getText().replace(',', '.');
                 taxaEd = Double.valueOf(aux).doubleValue();
             }
-          
+            
+            // atualiza o saldoFinanceiroEd da edição
+            try {
+                ResultSet rs = this.edition.findNumberOfRegistereds(MainFrame.db);
+                if (rs.next()) {
+                    int n_inscritos = rs.getInt("n_inscritos");
+                    if (n_inscritos > 0) {
+                        double valor_old = n_inscritos * this.edition.getTaxaEd();
+                        double valor_new = n_inscritos * taxaEd;
+                        this.edition.setSaldoFinanceiroEd(this.edition.getSaldoFinanceiroEd() - valor_old + valor_new);
+                    }
+                }
+            } catch(SQLException e) {
+                Message msg = new Message(this, true, e.getMessage());
+                msg.setTitle("Erro");
+                msg.setVisible(true);
+            }
+            
             // validação das datas
             String parts_inicio[] = dataInicioEd.split("/");
             String parts_fim[] = dataFimEd.split("/");
