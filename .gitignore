@@ -1,1 +1,4 @@
 /dist/
+/nbproject/private/
+/build/
+/src/trabalho5/database/Config.java

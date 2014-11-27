@@ -115,7 +115,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trabalho5/view/bd.jpg"))); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Baskerville Old Face", 1, 14)); // NOI18N
-        jLabel3.setText("Desenvolvido por Anderson Caio e Rodrigo Rusa");
+        jLabel3.setText("Desenvolvido por Anderson Silva e Rodrigo Rusa");
 
         jMenu1.setText("Cadastrar");
 
