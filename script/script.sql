@@ -362,7 +362,8 @@ INCREMENT BY 1;
  */
 -- View que imprime inscritos
 CREATE OR REPLACE VIEW view_inscritos AS
-SELECT nomeEv, 
+SELECT codEv,
+       nomeEv, 
 	   numEd,
 	   idPe,
 	   nomePe, 
@@ -377,6 +378,7 @@ SELECT a.idArt AS "idArt",
 	   a.tituloArt AS "tituloArt", 
 	   to_char(a.dataApresArt, 'dd/mm/yyyy') AS "dataApresArt", 
 	   to_char(a.horaApresArt, 'hh24:mi') AS "horaApresArt",
+	   ev.codEv AS "codEv",
 	   ev.nomeEv AS "nomeEv",
 	   ed.numEd AS "numEd",
 	   p.idPe AS "idPe",
@@ -464,9 +466,9 @@ SELECT codEv,
        inscritos,
 	   artigosApresentados,
 	   qtdPatrocinadores,
-	   to_char(valorTotalGanho, 'FM999G999G999D90') AS "valorTotalGanho",
-	   to_char(valorTotalGasto, 'FM999G999G999D90') AS "valorTotalGasto",
-	   to_char(saldo, 'FM999G999G999D90') AS "saldo"
+	   valorTotalGanho,
+	   valorTotalGasto,
+	   saldo
 FROM relatorio
 ORDER BY nomeEv, numEd;
 /
