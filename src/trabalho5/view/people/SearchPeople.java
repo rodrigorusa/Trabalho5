@@ -44,9 +44,17 @@ public class SearchPeople extends javax.swing.JFrame {
             People p = People.next(rs);
             while (p != null) {
                 // adiciona uma linha na tabela
+                String type_organizer = "Não";
+                String type_participant = "Não";
+                String type_author = "Não";
+                if (p.getTipoOrganizador() == 'S')
+                    type_organizer = "Sim";
+                if (p.getTipoParticipante() == 'S')
+                    type_participant = "Sim";
+                if (p.getTipoAutor() == 'S')
+                    type_author = "Sim";
                 model.addRow(new Object[]{p.getIdPe(), p.getNomePe(), p.getEmailPe(), p.getInstituicaoPe(), p.getTelefonePe(),
-                    p.getNacionalidadePe(), p.getEnderecoPe(), p.getTipoOrganizador(), p.getTipoParticipante(), 
-                    p.getTipoAutor()});
+                    p.getNacionalidadePe(), p.getEnderecoPe(), type_organizer, type_participant, type_author});
                 p = People.next(rs);
             }
             // fecha o cursor
@@ -103,13 +111,18 @@ public class SearchPeople extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(5);
+            jTable1.getColumnModel().getColumn(0).setMinWidth(20);
+            jTable1.getColumnModel().getColumn(0).setMaxWidth(30);
             jTable1.getColumnModel().getColumn(3).setPreferredWidth(30);
             jTable1.getColumnModel().getColumn(4).setPreferredWidth(40);
             jTable1.getColumnModel().getColumn(5).setPreferredWidth(30);
+            jTable1.getColumnModel().getColumn(7).setMinWidth(80);
             jTable1.getColumnModel().getColumn(7).setPreferredWidth(25);
-            jTable1.getColumnModel().getColumn(8).setPreferredWidth(25);
-            jTable1.getColumnModel().getColumn(9).setPreferredWidth(5);
+            jTable1.getColumnModel().getColumn(7).setMaxWidth(90);
+            jTable1.getColumnModel().getColumn(8).setMinWidth(80);
+            jTable1.getColumnModel().getColumn(8).setMaxWidth(90);
+            jTable1.getColumnModel().getColumn(9).setMinWidth(70);
+            jTable1.getColumnModel().getColumn(9).setMaxWidth(80);
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

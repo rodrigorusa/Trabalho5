@@ -10,8 +10,10 @@ import trabalho5.view.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.NumberFormat;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -45,6 +47,9 @@ public class SearchSupport extends javax.swing.JFrame {
             // SELECT By Name
             else
                 rs = Support.findViewByName(MainFrame.db, name);
+            
+            NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+            
             while(rs.next()) {
                 // armazena os auxílios no array
                 Support s = new Support(rs.getString("cnpjPat"), rs.getInt("codEvPat"), rs.getInt("numEdPat"), 
@@ -53,7 +58,8 @@ public class SearchSupport extends javax.swing.JFrame {
                 this.supports.add(s);
                 // adiciona uma linha na tabela
                 model.addRow(new Object[] {rs.getString("nomePe"), rs.getString("razaoSocialPat"), rs.getString("nomeEv"), 
-                    rs.getInt("numEdPat"), rs.getString("tipoAux"), rs.getString("dataAux"), rs.getDouble("valorAux")});
+                    rs.getInt("numEdPat"), rs.getString("tipoAux"), rs.getString("dataAux"), 
+                    nf.format(rs.getDouble("valorAux"))});
             }
             // fecha o cursor
             MainFrame.db.close();
@@ -89,7 +95,7 @@ public class SearchSupport extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false

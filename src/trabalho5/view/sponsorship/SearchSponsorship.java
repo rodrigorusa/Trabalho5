@@ -11,8 +11,10 @@ import trabalho5.view.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.NumberFormat;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import javax.swing.table.DefaultTableModel;
 import trabalho5.database.Event;
@@ -47,12 +49,15 @@ public class SearchSponsorship extends javax.swing.JFrame {
             // SELECT By Name
             else
                 rs = Sponsorship.findViewByName(MainFrame.db, name);
+            
+            NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+            
             while(rs.next()) {
                 // armazena os cnpjs dos patrocinadores
                 this.cnpjs.add(rs.getString("cnpjPat"));
                 // adiciona uma linha na tabela
                 model.addRow(new Object[] {rs.getString("razaoSocialPat"), rs.getString("nomeEv"), rs.getInt("numEd"), 
-                    rs.getDouble("valorPat"), rs.getDouble("saldoPat"), rs.getString("dataPat")});
+                    nf.format(rs.getDouble("valorPat")), nf.format(rs.getDouble("saldoPat")), rs.getString("dataPat")});
             }
             // fecha o cursor
             MainFrame.db.close();
@@ -88,7 +93,7 @@ public class SearchSponsorship extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false
@@ -109,8 +114,8 @@ public class SearchSponsorship extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setMinWidth(70);
-            jTable1.getColumnModel().getColumn(0).setMaxWidth(80);
+            jTable1.getColumnModel().getColumn(0).setMinWidth(90);
+            jTable1.getColumnModel().getColumn(0).setMaxWidth(100);
             jTable1.getColumnModel().getColumn(2).setMinWidth(40);
             jTable1.getColumnModel().getColumn(2).setMaxWidth(50);
             jTable1.getColumnModel().getColumn(3).setMinWidth(110);

@@ -11,8 +11,10 @@ import trabalho5.view.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 
 /**
  *
@@ -43,15 +45,22 @@ public class SearchSponsor extends javax.swing.JFrame {
             else
                 rs = Sponsor.findByName(MainFrame.db, name);
             Sponsor s = Sponsor.next(rs);
+            
+            MaskFormatter mask = new MaskFormatter("##.###.###/####-##");
+            mask.setValueContainsLiteralCharacters(false);
+            
             while(s != null) {
                 // adiciona uma linha na tabela
-                model.addRow(new Object[] {s.getCnpjPat(), s.getRazaoSocialPat(), s.getTelefonePat(), s.getEnderecoPat()});
+                String cnpj = s.getCnpjPat();
+                while(cnpj.length() < 14) 
+                    cnpj = "0"+cnpj;
+                model.addRow(new Object[] {mask.valueToString(cnpj), s.getRazaoSocialPat(), s.getTelefonePat(), s.getEnderecoPat()});
                 s = Sponsor.next(rs);
             }
             // fecha o cursor
             MainFrame.db.close();
             
-        } catch(SQLException e) {
+        } catch( SQLException | ParseException e) {
             Message msg = new Message(this, true, e.getMessage());
             msg.setTitle("Erro");
             msg.setVisible(true);

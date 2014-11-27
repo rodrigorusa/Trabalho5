@@ -59,7 +59,7 @@
                 <Column editable="false" title="Edi&#xe7;&#xe3;o" type="java.lang.Object"/>
                 <Column editable="false" title="Tipo do Aux&#xed;lio" type="java.lang.String"/>
                 <Column editable="false" title="Data do Aux&#xed;lio" type="java.lang.String"/>
-                <Column editable="false" title="Valor do Aux&#xed;lio" type="java.lang.Double"/>
+                <Column editable="false" title="Valor do Aux&#xed;lio" type="java.lang.String"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

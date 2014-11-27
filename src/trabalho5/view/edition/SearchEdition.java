@@ -6,13 +6,17 @@
 
 package trabalho5.view.edition;
 
+import trabalho5.database.Event;
 import trabalho5.database.Edition;
 import trabalho5.view.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import java.text.NumberFormat;
+import java.util.Locale;
 import javax.swing.table.DefaultTableModel;
-import trabalho5.database.Event;
+
 
 /**
  *
@@ -49,11 +53,13 @@ public class SearchEdition extends javax.swing.JFrame {
             } else
                 rs = Edition.findByLocal(MainFrame.db, value);
  
+            NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+            
             Edition ed = Edition.next(rs);
             while (ed != null) {
                 // adiciona uma linha na tabela
                 model.addRow(new Object[]{rs.getString("nomeEv"), ed.getNumEd(), ed.getDescricaoEd(), ed.getDataInicioEd(), 
-                    ed.getDataFimEd(), ed.getLocalEd(), ed.getTaxaEd(), ed.getSaldoFinanceiroEd(), 
+                    ed.getDataFimEd(), ed.getLocalEd(), nf.format(ed.getTaxaEd()), nf.format(ed.getSaldoFinanceiroEd()), 
                     ed.getQtdArtigosApresentadosEd()});
                 ed = Edition.next(rs);
             }
@@ -90,7 +96,7 @@ public class SearchEdition extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false, false, false
@@ -119,9 +125,9 @@ public class SearchEdition extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(4).setMinWidth(110);
             jTable1.getColumnModel().getColumn(4).setPreferredWidth(40);
             jTable1.getColumnModel().getColumn(4).setMaxWidth(120);
-            jTable1.getColumnModel().getColumn(6).setMinWidth(50);
+            jTable1.getColumnModel().getColumn(6).setMinWidth(70);
             jTable1.getColumnModel().getColumn(6).setPreferredWidth(15);
-            jTable1.getColumnModel().getColumn(6).setMaxWidth(60);
+            jTable1.getColumnModel().getColumn(6).setMaxWidth(80);
             jTable1.getColumnModel().getColumn(7).setMinWidth(110);
             jTable1.getColumnModel().getColumn(7).setPreferredWidth(25);
             jTable1.getColumnModel().getColumn(7).setMaxWidth(120);

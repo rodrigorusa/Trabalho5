@@ -59,8 +59,8 @@
                 <Column editable="false" title="Data de In&#xed;cio" type="java.lang.String"/>
                 <Column editable="false" title="Data de Fim" type="java.lang.String"/>
                 <Column editable="false" title="Local" type="java.lang.String"/>
-                <Column editable="false" title="Taxa" type="java.lang.Double"/>
-                <Column editable="false" title="Saldo" type="java.lang.Double"/>
+                <Column editable="false" title="Taxa" type="java.lang.String"/>
+                <Column editable="false" title="Saldo" type="java.lang.String"/>
                 <Column editable="false" title="Artigos Apresentados" type="java.lang.Integer"/>
               </Table>
             </Property>
@@ -96,7 +96,7 @@
                   <Editor/>
                   <Renderer/>
                 </Column>
-                <Column maxWidth="60" minWidth="50" prefWidth="15" resizable="true">
+                <Column maxWidth="80" minWidth="70" prefWidth="15" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>

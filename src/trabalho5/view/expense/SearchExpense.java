@@ -11,8 +11,10 @@ import trabalho5.view.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.NumberFormat;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import javax.swing.table.DefaultTableModel;
 import trabalho5.database.Event;
@@ -48,12 +50,15 @@ public class SearchExpense extends javax.swing.JFrame {
             // SELECT By Name
             else
                 rs = Expense.findViewByName(MainFrame.db, name);
+            
+            NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+            
             while(rs.next()) {
                 // armazena os cnpjs dos patrocinadores
                 this.cnpjs.add(rs.getString("cnpjPat"));
                 // adiciona uma linha na tabela
                 model.addRow(new Object[] {rs.getInt("codDesp"), rs.getString("nomeEv"), rs.getInt("numEd"), 
-                    rs.getString("razaoSocialPat"), rs.getString("dataDesp"), rs.getDouble("valorDesp"),
+                    rs.getString("razaoSocialPat"), rs.getString("dataDesp"), nf.format(rs.getDouble("valorDesp")),
                     rs.getString("descricaoDesp")});
             }
             // fecha o cursor
@@ -90,7 +95,7 @@ public class SearchExpense extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false

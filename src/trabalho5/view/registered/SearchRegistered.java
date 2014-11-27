@@ -51,8 +51,11 @@ public class SearchRegistered extends javax.swing.JFrame {
                 // armazena o id da pessoa no array
                 this.ids.add(rs.getInt("idPe"));
                 // adiciona uma linha na tabela
+                String presenter = "Não";
+                if (rs.getString("tipoApresentador").charAt(0) == 'S')
+                    presenter = "Sim";
                 model.addRow(new Object[] {rs.getString("nomeEv"), rs.getInt("numEd"), rs.getString("NomePe"), 
-                    rs.getString("dataInsc"), rs.getString("tipoApresentador").charAt(0)});
+                    rs.getString("dataInsc"), presenter});
             }
             // fecha o cursor
             MainFrame.db.close();

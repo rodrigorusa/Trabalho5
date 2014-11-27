@@ -14,6 +14,8 @@ import javax.swing.table.DefaultTableModel;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 
 /**
@@ -57,11 +59,14 @@ public class GeneralReport extends javax.swing.JFrame {
                     rs = Report.findViewByEventAndEdition(MainFrame.db, codEv, numEd);
             }
             
+            NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+            
             DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
             while(rs.next()) {
                 model.addRow(new Object[] {rs.getInt("codEv"), rs.getInt("numEd"), rs.getString("nomeEv"), 
                     rs.getInt("inscritos"), rs.getInt("artigosApresentados"), rs.getInt("qtdPatrocinadores"), 
-                    rs.getString("valorTotalGanho"), rs.getString("valorTotalGasto"), rs.getString("saldo")});
+                    nf.format(rs.getDouble("valorTotalGanho")), nf.format(rs.getDouble("valorTotalGasto")), 
+                    nf.format(rs.getDouble("saldo"))});
             }
             // fecha o cursor
             MainFrame.db.close();

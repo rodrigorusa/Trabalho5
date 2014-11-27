@@ -56,14 +56,14 @@
                 <Column editable="false" title="Patrocinador" type="java.lang.String"/>
                 <Column editable="false" title="Evento" type="java.lang.String"/>
                 <Column editable="false" title="Edi&#xe7;&#xe3;o" type="java.lang.Integer"/>
-                <Column editable="false" title="Valor do Patroc&#xed;nio" type="java.lang.Double"/>
-                <Column editable="false" title="Saldo do Patroc&#xed;nio" type="java.lang.Double"/>
+                <Column editable="false" title="Valor do Patroc&#xed;nio" type="java.lang.String"/>
+                <Column editable="false" title="Saldo do Patroc&#xed;nio" type="java.lang.String"/>
                 <Column editable="false" title="Data do Patroc&#xed;nio" type="java.lang.String"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
-                <Column maxWidth="80" minWidth="70" prefWidth="-1" resizable="true">
+                <Column maxWidth="100" minWidth="90" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>

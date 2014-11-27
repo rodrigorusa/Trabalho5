@@ -58,7 +58,7 @@
                 <Column editable="false" title="Edi&#xe7;ao" type="java.lang.Integer"/>
                 <Column editable="false" title="Patrocinador" type="java.lang.String"/>
                 <Column editable="false" title="Data da Despesa" type="java.lang.String"/>
-                <Column editable="false" title="Valor da Despesa" type="java.lang.Double"/>
+                <Column editable="false" title="Valor da Despesa" type="java.lang.String"/>
                 <Column editable="false" title="Descri&#xe7;&#xe3;o da Despesa" type="java.lang.Object"/>
               </Table>
             </Property>
